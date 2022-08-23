@@ -1,0 +1,36 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+table {
+    &.table {
+        th {
+            padding: 0.5rem 0.75rem;
+            text-transform: uppercase;
+            color: $gray;
+        }
+        td {
+            padding: 1rem 0.75rem;
+            &.actions {
+                .action-icons {
+                    color: $gray;
+                    &:not(:last-child) {
+                        margin-right: 1.5rem;
+                    }
+                    &.edit {
+                        &:hover {
+                            color: $primary-color;
+                        }
+                    }
+                    &.delete {
+                        &:hover {
+                            color: $danger;
+                        }
+                    }
+                }
+            }
+        }
+        th, td {
+            font-size: $global-font-size - 1;
+        }
+    }
+}

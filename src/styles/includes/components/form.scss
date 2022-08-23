@@ -1,0 +1,28 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+input {
+    &.form-control {
+        min-height: 38px;
+        border-color: $border-color;
+        @include placeholder {
+            color: $gray;
+            font-size: $global-font-size - 1;
+        }
+        &:focus {
+            @include box-shadow(none);
+            border-color: $gray;
+        }
+    }
+}
+
+.selectpicker {
+    div[class*="-control"] {
+        border-color: $border-color;
+        @include box-shadow(none);
+        div[class*="-placeholder"] {
+            color: $gray;
+            font-size: $global-font-size - 1;
+        }
+    }
+}

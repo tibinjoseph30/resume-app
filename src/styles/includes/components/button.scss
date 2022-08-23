@@ -1,0 +1,16 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+button,a {
+    &.btn {
+        padding: 0 1.25rem;
+        min-height: 38px;
+        line-height: 38px;
+        &.btn-primary {
+            background-color: $primary-color;
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+}
