@@ -7,7 +7,6 @@ import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 
 const ExperienceAdd = () => {
-  const [joinDate, setJoinDate] = useState('');
   const [relieveDate, setRelieveDate] = useState('');
   const [selectValue, setSelectValue] = useState('');
   const options = useMemo(()=>countryList().getData(), []);
@@ -16,10 +15,14 @@ const ExperienceAdd = () => {
     setSelectValue(selectValue)
   }
 
+  const [joiningDate, setJoiningDate] = useState('')
+  const [relievingDate, setRelievingDate] = useState('')
+
+
+
   const initialValues = {
     organization: "",
     designation: "",
-    dateOfJoin: "",
     dateOfRelieve: "",
     city: "",
     state: "",
@@ -28,8 +31,17 @@ const ExperienceAdd = () => {
 
   const [formValues, setFormValues] = useState(initialValues)
 
-  const handleChange = (e) => {
-    console.log(e.target)
+  const handleChange = (event) => {
+    setFormValues({
+      ...formValues,
+      [event.target.name]: event.target.value,
+    });
+    console.log(event.target)
+  };
+
+  const handleSubmit= (event) => {
+    event.preventDefault();
+    console.log(formValues);
   }
   
 
@@ -42,7 +54,7 @@ const ExperienceAdd = () => {
             <Topbar/>
             <div className="section-panel">
               <h4 className='section-head'>Add Experience</h4>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                   <Row>
                       <Col lg="4">
                         <FormGroup>
@@ -78,13 +90,15 @@ const ExperienceAdd = () => {
                             Date of Join
                           </Label>
                           <Datepicker 
-                            name='dateOfJoin' 
-                            value={formValues.dateOfJoin}
-                            selected={joinDate} 
+                            selected={joiningDate}
                             placeholderText='Select date' 
                             className='form-control'
-                            // onChange={(date) => setJoinDate(date)}
-                            onChange={handleChange} 
+                            dateFormat="yyyy"
+                            showYearPicker
+                            onChange={(date)=> {
+                              setJoiningDate(date)
+                              setFormValues({...formValues, joinDate: date.getFullYear()})
+                            }}
                           />
                         </FormGroup>
                       </Col>
@@ -93,14 +107,14 @@ const ExperienceAdd = () => {
                           <Label>
                             Date of Relieve
                           </Label>
-                          <Datepicker 
-                            name='dateOfRelieve' 
-                            value={formValues.dateOfRelieve} 
-                            selected={relieveDate} 
+                          <Datepicker
+                            selected={relievingDate} 
                             placeholderText='Select date' 
                             className='form-control'
-                            // onChange={(date) => setRelieveDate(date)} 
-                            onChange={handleChange}
+                            onChange={(date)=> {
+                              setRelievingDate(date)
+                              setFormValues({...formValues, relieveDate: date})
+                            }} 
                           />
                         </FormGroup>
                       </Col>
@@ -140,20 +154,16 @@ const ExperienceAdd = () => {
                           <Select
                             name='country' 
                             options={options} 
-                            value={formValues.country} 
                             menuPlacement="auto"
                             placeholder="Select country"
                             className='selectpicker'
-                            // onChange={changeHandler}
-                            onChange={handleChange}
+                            onChange={changeHandler}
                           />
                         </FormGroup>
                       </Col>
                   </Row>
+                  <Button type='submit' color='primary'>Add Experience</Button>
               </Form>
-              <div className="section-footer">
-                  <Button color='primary'>Add Experience</Button>
-              </div>
             </div>
         </div>
     </div>
