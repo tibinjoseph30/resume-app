@@ -26,3 +26,39 @@ input {
         }
     }
 }
+
+body {
+    .react-datepicker {
+        border-color: $border-color;
+        font-family: 'Roboto', sans-serif !important;
+        color: $body-color;
+        .react-datepicker__triangle {
+            display: none;
+        }
+        .react-datepicker__year--container {
+            .react-datepicker__header {
+                background-color: $white;
+                border: 0;
+            }
+            .react-datepicker__year {
+                .react-datepicker__year-wrapper {
+                    @include justify-content(center);
+                    .react-datepicker__year-text {
+                        padding: 0.25rem;
+                        &:hover {
+                            background-color: transparentize($primary-color, 0.9);
+                        }
+                        &.react-datepicker__year-text--selected {
+                            background-color: $primary-color;
+                        }
+                    }
+                }
+            }
+        }
+        .react-datepicker__navigation-icon {
+            &::before {
+                top: 11px;
+            }
+        }
+    }
+}

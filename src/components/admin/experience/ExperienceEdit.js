@@ -6,9 +6,9 @@ import Select from 'react-select'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
-import { addDoc, collection } from 'firebase/firestore'
+import { collection, updateDoc } from 'firebase/firestore'
 
-const ExperienceAdd = () => {
+const ExperienceEdit = () => {
   const initialValues = {
     organization: "",
     designation: "",
@@ -20,8 +20,6 @@ const ExperienceAdd = () => {
   const [joiningDate, setJoiningDate] = useState('')
   const [relievingDate, setRelievingDate] = useState('')
   const [selectValue, setSelectValue] = useState('')
-  const [status, setStatus] = useState(null);
-  const [alertVisible, setAlertVisible] = useState(false);
  
   const options = useMemo(()=>countryList().getData(), []);
 
@@ -35,22 +33,12 @@ const ExperienceAdd = () => {
 
   const handleSubmit= (event) => {
     event.preventDefault();
-    console.log(formValues);
-    const experienceCollectionRef = collection(db, 'experience');
-    addDoc(experienceCollectionRef, {formValues})
+    const experienceCollectionRef = collection(db, 'experience')
+    updateDoc(experienceCollectionRef, {formValues})
     .then(response => {
-      console.log(response)
-      setStatus({ type: 'success' });
+        console.log(response)
     })
-    .catch(error => {
-      console.log(error.message)
-      setStatus({ type: 'error', error });
-    })
-    setFormValues(initialValues)
-    setAlertVisible(true)
-    setTimeout(() => { 
-        setAlertVisible(false)
-    }, 7000);
+    .catch(error => console.log(error.message))
   }
   
 
@@ -60,7 +48,7 @@ const ExperienceAdd = () => {
         <div className="right-block">
             <Topbar/>
             <div className="section-panel">
-              <h4 className='section-head'>Add Experience</h4>
+              <h4 className='section-head'>Edit Experience</h4>
               <Form onSubmit={handleSubmit}>
                   <Row>
                       <Col xl="4" sm="6">
@@ -74,7 +62,7 @@ const ExperienceAdd = () => {
                             value={formValues.organization}
                             placeholder="Enter the name of organization"
                             onChange={handleChange}
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -89,7 +77,7 @@ const ExperienceAdd = () => {
                             value={formValues.designation}
                             placeholder="Enter your designation"
                             onChange={handleChange}
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -108,7 +96,7 @@ const ExperienceAdd = () => {
                               setJoiningDate(date)
                               setFormValues({...formValues, joinYear: date.getFullYear()})
                             }}
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -127,7 +115,7 @@ const ExperienceAdd = () => {
                               setRelievingDate(date)
                               setFormValues({...formValues, relieveYear: date.getFullYear()})
                             }} 
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -142,7 +130,7 @@ const ExperienceAdd = () => {
                             value={formValues.city}
                             placeholder="Enter your city"
                             onChange={handleChange}
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -157,7 +145,7 @@ const ExperienceAdd = () => {
                             value={formValues.state}
                             placeholder="Enter your state"
                             onChange={handleChange}
-                            required
+                            
                           />
                         </FormGroup>
                       </Col>
@@ -179,18 +167,8 @@ const ExperienceAdd = () => {
                         </FormGroup>
                       </Col>
                   </Row>
-                  {status?.type === 'success' && (
-                    <Alert color='success' isOpen={alertVisible}>
-                      You are successfully added a new experience.
-                    </Alert>
-                  )}
-                  {status?.type === 'error' && (
-                    <Alert color='danger'>
-                      Something goes wrong.
-                    </Alert>
-                  )}
                   <div className='form-action'>
-                    <Button type='submit' color='primary' className=''>Add Experience</Button>
+                    <Button type='submit' color='primary' className=''>Update Experience</Button>
                   </div>
               </Form>
             </div>
@@ -199,4 +177,4 @@ const ExperienceAdd = () => {
   )
 }
 
-export default ExperienceAdd
+export default ExperienceEdit
