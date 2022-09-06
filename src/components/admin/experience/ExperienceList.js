@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Spinner, Table } from 'reactstrap'
+import { Button, Spinner, Table, Alert } from 'reactstrap'
 import { NavLink as Link, NavLink } from 'react-router-dom'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
@@ -11,11 +11,11 @@ const ExperienceList = () => {
 
 const [experience, setExperience] = useState([])
 const [isLoading, setIsLoading] = useState(false);
+const [status, setStatus] = useState(null);
+const [alertVisible, setAlertVisible] = useState(false);
 
-console.log(experience);
 useEffect(()=> {
     getExperience()
-    console.log(experience);
 }, [])
 
 function getExperience() {
@@ -32,12 +32,22 @@ function getExperience() {
     })
     .catch(error => console.log(error.message))
 }
-
 function deleteExperience(id) {
     const experienceDeleteRef = doc(db, 'experience', id)
     deleteDoc(experienceDeleteRef)
-    .then(console.log('document deleted'))
-    .catch(error => console.log(error.message))
+    .then(response => {
+        console.log(response)
+        setStatus({ type: 'success' });
+    })
+    .catch(error => {
+        console.log(error.message)
+        setStatus({ type: 'error' });
+    })
+    getExperience()
+    setAlertVisible(true)
+    setTimeout(() => { 
+        setAlertVisible(false)
+    }, 5000);
 }
 
 
@@ -69,13 +79,13 @@ function deleteExperience(id) {
                             </tr> :
                             experience.map((exp, id) => (
                                 <tr key={exp.id}>     
-                                    <td>{exp.data.formValues.organization}</td>
-                                    <td>{exp.data.formValues.designation}</td>
-                                    <td>{exp.data.formValues.city}</td>
-                                    <td>{exp.data.formValues.state}</td>
-                                    <td>{exp.data.formValues.country}</td>
+                                    <td>{exp.data.organization}</td>
+                                    <td>{exp.data.designation}</td>
+                                    <td>{exp.data.city}</td>
+                                    <td>{exp.data.state}</td>
+                                    <td>{exp.data.country}</td>
                                     <td className='actions'>
-                                        <NavLink to={`/edit-experience/${id}`}>
+                                        <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
                                             <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
                                         </NavLink>
                                         <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
@@ -86,6 +96,16 @@ function deleteExperience(id) {
                         </tbody>
                     </Table>
                 </div>
+                {status?.type === 'success' && (
+                    <Alert color='success' isOpen={alertVisible}>
+                      Experience deleted
+                    </Alert>
+                )}
+                {status?.type === 'error' && (
+                    <Alert color='danger' isOpen={alertVisible}>
+                      Something goes wrong
+                    </Alert>
+                )}
                 <div className="form-action">
                     <Button tag={Link} to="/add-experience" color='primary'>Add New Experience</Button>
                 </div>

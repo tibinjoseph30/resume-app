@@ -37,20 +37,20 @@ const ExperienceAdd = () => {
     event.preventDefault();
     console.log(formValues);
     const experienceCollectionRef = collection(db, 'experience');
-    addDoc(experienceCollectionRef, {formValues})
+    addDoc(experienceCollectionRef, formValues)
     .then(response => {
       console.log(response)
       setStatus({ type: 'success' });
     })
     .catch(error => {
       console.log(error.message)
-      setStatus({ type: 'error', error });
+      setStatus({ type: 'error' });
     })
     setFormValues(initialValues)
     setAlertVisible(true)
     setTimeout(() => { 
         setAlertVisible(false)
-    }, 7000);
+    }, 5000);
   }
   
 

@@ -6,7 +6,8 @@ import Select from 'react-select'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
-import { collection, updateDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
+import { useLocation } from "react-router-dom";
 
 const ExperienceEdit = () => {
   const initialValues = {
@@ -20,12 +21,23 @@ const ExperienceEdit = () => {
   const [joiningDate, setJoiningDate] = useState('')
   const [relievingDate, setRelievingDate] = useState('')
   const [selectValue, setSelectValue] = useState('')
+  const [status, setStatus] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const location = useLocation();
+  const [newFormValues, setNewFormValues] = useState(location.state.state);
+  // console.log(location.state);
+  // const state = location.state.state
+  // console.log(state)
+  console.log(newFormValues)
+  const newId = location.state.id
+  // console.log(newId)
  
   const options = useMemo(()=>countryList().getData(), []);
 
   const handleChange = (event) => {
-    setFormValues({
-      ...formValues,
+    setNewFormValues({
+      ...newFormValues,
       [event.target.name]: event.target.value,
     });
     console.log(event.target)
@@ -33,12 +45,21 @@ const ExperienceEdit = () => {
 
   const handleSubmit= (event) => {
     event.preventDefault();
-    const experienceCollectionRef = collection(db, 'experience')
-    updateDoc(experienceCollectionRef, {formValues})
+    const experienceCollectionRef = doc(db, 'experience', newId)
+    setDoc(experienceCollectionRef, newFormValues)
     .then(response => {
         console.log(response)
+        setStatus({ type: 'success' });
     })
-    .catch(error => console.log(error.message))
+    .catch(error => {
+      console.log(error.message)
+      setStatus({ type: 'error' });
+    })
+    console.log(newFormValues)
+    setAlertVisible(true)
+    setTimeout(() => { 
+      setAlertVisible(false)
+    }, 5000);
   }
   
 
@@ -59,10 +80,10 @@ const ExperienceEdit = () => {
                           <Input
                             type="text"
                             name="organization"
-                            value={formValues.organization}
+                            value={newFormValues.organization}
                             placeholder="Enter the name of organization"
                             onChange={handleChange}
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -74,10 +95,10 @@ const ExperienceEdit = () => {
                           <Input
                             type="text"
                             name="designation"
-                            value={formValues.designation}
+                            value={newFormValues.designation}
                             placeholder="Enter your designation"
                             onChange={handleChange}
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -96,7 +117,7 @@ const ExperienceEdit = () => {
                               setJoiningDate(date)
                               setFormValues({...formValues, joinYear: date.getFullYear()})
                             }}
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -115,7 +136,7 @@ const ExperienceEdit = () => {
                               setRelievingDate(date)
                               setFormValues({...formValues, relieveYear: date.getFullYear()})
                             }} 
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -127,10 +148,10 @@ const ExperienceEdit = () => {
                           <Input
                             type="text"
                             name="city"
-                            value={formValues.city}
+                            value={newFormValues.city}
                             placeholder="Enter your city"
                             onChange={handleChange}
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -142,10 +163,10 @@ const ExperienceEdit = () => {
                           <Input
                             type="text"
                             name="state"
-                            value={formValues.state}
+                            value={newFormValues.state}
                             placeholder="Enter your state"
                             onChange={handleChange}
-                            
+                            required
                           />
                         </FormGroup>
                       </Col>
@@ -161,12 +182,22 @@ const ExperienceEdit = () => {
                             className='selectpicker'
                             onChange={(selectedValue) => {
                               setSelectValue(selectValue)
-                              setFormValues({...formValues, country: selectedValue.label})
+                              setNewFormValues({...newFormValues, country: selectedValue.label})
                             }}
                           />
                         </FormGroup>
                       </Col>
                   </Row>
+                  {status?.type === 'success' && (
+                    <Alert color='success' isOpen={alertVisible}>
+                      You are successfully updated the experience.
+                    </Alert>
+                  )}
+                  {status?.type === 'error' && (
+                    <Alert color='danger'>
+                      Something goes wrong.
+                    </Alert>
+                  )}
                   <div className='form-action'>
                     <Button type='submit' color='primary' className=''>Update Experience</Button>
                   </div>
