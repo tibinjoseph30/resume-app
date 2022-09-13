@@ -18,14 +18,14 @@ const ExperienceEdit = () => {
     country: ""
   }
   const [formValues, setFormValues] = useState(initialValues);
-  const [joiningDate, setJoiningDate] = useState('')
-  const [relievingDate, setRelievingDate] = useState('')
   const [selectValue, setSelectValue] = useState('')
   const [status, setStatus] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
 
   const location = useLocation();
   const [newFormValues, setNewFormValues] = useState(location.state.state);
+  const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinYear)
+  const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveYear)
   // console.log(location.state);
   // const state = location.state.state
   // console.log(state)
@@ -108,14 +108,14 @@ const ExperienceEdit = () => {
                             Year of Join
                           </Label>
                           <Datepicker 
-                            selected={Date.parse(joiningDate)}
+                            selected={Date.parse(newJoiningDate)}
                             placeholderText='Select year' 
                             className='form-control'
                             showYearPicker
                             dateFormat="yyyy"
                             onChange={(date)=> {
-                              setJoiningDate(date)
-                              setFormValues({...formValues, joinYear: date.getFullYear()})
+                              setNewJoiningDate(date)
+                              setNewFormValues({...newFormValues, joinYear: date.getFullYear()})
                             }}
                             required
                           />
@@ -127,14 +127,14 @@ const ExperienceEdit = () => {
                             Year of Relieve
                           </Label>
                           <Datepicker
-                            selected={Date.parse(relievingDate)} 
+                            selected={Date.parse(newRelievingDate)} 
                             placeholderText='Select year' 
                             className='form-control'
                             showYearPicker
                             dateFormat="yyyy"
                             onChange={(date)=> {
-                              setRelievingDate(date)
-                              setFormValues({...formValues, relieveYear: date.getFullYear()})
+                              setNewRelievingDate(date)
+                              setNewFormValues({...newFormValues, relieveYear: date.getFullYear()})
                             }} 
                             required
                           />
@@ -176,6 +176,7 @@ const ExperienceEdit = () => {
                             Country
                           </Label>
                           <Select 
+                            defaultInputValue={newFormValues.country}
                             options={options} 
                             menuPlacement="auto"
                             placeholder="Select country"

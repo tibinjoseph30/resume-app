@@ -11,11 +11,11 @@ table {
         td {
             padding: 1rem 0.75rem;
             &.actions {
+                a {
+                    margin-right: 1.5rem;
+                }
                 .action-icons {
                     color: $gray;
-                    &:not(:last-child) {
-                        margin-right: 1.5rem;
-                    }
                     &.edit {
                         &:hover {
                             color: $primary-color;

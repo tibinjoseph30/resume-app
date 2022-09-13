@@ -77,22 +77,26 @@ function deleteExperience(id) {
                                     <Spinner color='primary'/>
                                 </td>
                             </tr> :
-                            experience.map((exp, id) => (
-                                <tr key={exp.id}>     
-                                    <td>{exp.data.organization}</td>
-                                    <td>{exp.data.designation}</td>
-                                    <td>{exp.data.city}</td>
-                                    <td>{exp.data.state}</td>
-                                    <td>{exp.data.country}</td>
-                                    <td className='actions'>
-                                        <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
-                                            <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
-                                        </NavLink>
-                                        <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
-                                    </td>
-                                </tr>
-                            ))
-                            }
+                            (experience.length === 0 ? 
+                                <tr>
+                                    <td align='center' colSpan={100}>No data available</td>
+                                </tr>:
+                                experience.map((exp, id) => (
+                                    <tr key={exp.id}>     
+                                        <td>{exp.data.organization}</td>
+                                        <td>{exp.data.designation}</td>
+                                        <td>{exp.data.city}</td>
+                                        <td>{exp.data.state}</td>
+                                        <td>{exp.data.country}</td>
+                                        <td className='actions'>
+                                            <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
+                                                <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
+                                            </NavLink>
+                                            <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </Table>
                 </div>
