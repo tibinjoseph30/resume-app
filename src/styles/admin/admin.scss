@@ -39,6 +39,23 @@ body {
         width: 100%;
         margin: 0 auto;
         @include box-shadow(0px 5px 28px -10px rgba(0, 0, 0, 0.1));
+        label {
+            margin-bottom: 0;
+        }
+        .form-control {
+            border:0;
+            border-bottom: 1px solid $borderColor;
+            @include border-radius(0px);
+            padding-left: 0;
+            padding-right: 0;
+            position: relative;
+            color: $primaryColor;
+            font-weight: bold;
+            &:focus {
+                @include box-shadow(none);
+                border-color: $primaryColor;
+            }
+        }
     }
 }
 
@@ -52,7 +69,7 @@ body {
         z-index: 1;
         left: -250px;
         display: grid;
-        background-color: $white;
+        background-color: $secondaryColor;
         box-shadow: 0 0 15px 0 rgba(34, 41, 47, 0.05);
         @include transition(all 0.3s ease);
         @include breakpoint(mn768) {
@@ -64,37 +81,37 @@ body {
                 @include flexbox;
                 @include align-items(center);
                 @include justify-content(center);
-                min-height: 145px;
-                border-bottom: 1px dashed #ddd;
+                // min-height: 145px;
+                border-bottom: 1px solid transparentize($white, 0.9);
                 .logo {
                     margin-bottom: 0;
+                    color: $white;
                 }
             }
             .nav {
-                margin-top: 1rem;
+                margin-top: 30px;
                 .nav-item {
                     .nav-link {
                         padding: 1rem 1.75rem;
                         position: relative;
-                        color: $primary-light;
+                        color: transparentize($primaryLight, 0.1);
                         font-size: 14px;
-                        font-weight: 500;
                         @include flexbox;
                         .db-icon {
                             font-size: 21px;
                             margin-right: 1rem;
                         }
                         &:hover {
-                            color: $primary-color;
+                            color: $primaryColor;
                         }
                         &.active {
-                            color: $primary-color;
-                            background-color: transparentize($primary-color, 0.9);
+                            color: $primaryColor;
+                            font-weight: 500;
                             &::after {
                                 content: '';
-                                width: 2px;
+                                width: 4px;
                                 height: 100%;
-                                background-color: $primary-color;
+                                background-color: $primaryColor;
                                 position: absolute;
                                 top: 0;
                                 right: 0;
@@ -115,15 +132,22 @@ body {
             padding: 20px 20px 20px 30px;
         }
         .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             @include flexbox;
             @include align-items(center);
-            background-color: $primary-color;
-            padding: 1.5rem;
-            margin-bottom: 30px;
+            background-color: $white;
+            padding: 10px 20px;
+            border-bottom: 1px solid #f1f1f1;
             // @include box-shadow(0px 5px 28px -10px rgba(0, 0, 0, 0.1));
-            @include border-radius(10px);
+            @include breakpoint(mn768){
+                left: 250px;
+                width: calc(100% - 250px);
+            }
             .mob-menu {
-                color: transparentize($white, 0.5);
+                color: $bodyColor;
                 margin-right: 1rem;
                 cursor: pointer;
                 @include breakpoint(mn768) {
@@ -132,7 +156,7 @@ body {
             }
             .welcome-block {
                 p {
-                    color: transparentize($white, 0.3);
+                    color: transparentize($black, 0.3);
                 }
             }
             .profile-block {
@@ -155,11 +179,11 @@ body {
                     line-height: 17px;
                     display: none;
                     h6 {
-                        color: $white;
+                        color: $bodyColor;
                     }
                     p {
                         font-size: 13px;
-                        color: transparentize($white, 0.3);
+                        color: transparentize($black, 0.5);
                     }
                     @include breakpoint(mn481) {
                         display: block;
@@ -181,7 +205,8 @@ body {
         }
         .section-panel {
             background-color: $white;
-            padding: 1.5rem;
+            padding: 30px;
+            margin-top: 80px;
             @include border-radius(10px);
             box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
             .section-head {

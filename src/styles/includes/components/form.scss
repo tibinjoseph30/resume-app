@@ -4,21 +4,21 @@
 input {
     &.form-control {
         min-height: 38px;
-        border-color: $border-color;
+        border-color: $borderColor;
         @include placeholder {
             color: $gray;
             font-size: $global-font-size - 1;
         }
         &:focus {
             @include box-shadow(none);
-            border-color: $gray;
+            border-color: $primaryColor;
         }
     }
 }
 
 .selectpicker {
     div[class*="-control"] {
-        border-color: $border-color;
+        border-color: $borderColor;
         @include box-shadow(none);
         div[class*="-placeholder"] {
             color: $gray;
@@ -29,9 +29,9 @@ input {
 
 body {
     .react-datepicker {
-        border-color: $border-color;
+        border-color: $borderColor;
         font-family: 'Roboto', sans-serif !important;
-        color: $body-color;
+        color: $bodyColor;
         .react-datepicker__triangle {
             display: none;
         }
@@ -46,10 +46,10 @@ body {
                     .react-datepicker__year-text {
                         padding: 0.25rem;
                         &:hover {
-                            background-color: transparentize($primary-color, 0.9);
+                            background-color: transparentize($primaryColor, 0.9);
                         }
                         &.react-datepicker__year-text--selected {
-                            background-color: $primary-color;
+                            background-color: $primaryColor;
                         }
                     }
                 }

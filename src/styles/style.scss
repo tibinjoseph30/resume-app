@@ -11,7 +11,7 @@ body,
 html {
   padding: 0;
   margin: 0;
-  color: $body-color !important;
+  color: $secondaryColor !important;
   font-family: 'Roboto', sans-serif !important;
   background-color: #f5f9fd !important;
   font-size: $global-font-size;
@@ -50,9 +50,9 @@ h1, h2, h3, h4, h5, h6 {
         margin-bottom: 30px;
         &::after {
           content: '';
-          width: 50px;
+          width: 40px;
           height: 3px;
-          background-color: $primary-color;
+          background-color: $primaryColor;
           position: absolute;
           bottom: 0;
           left: 0;
@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
         .name {
           font-size: 30px;
           font-weight: 700;
-          color: $primary-color;
+          color: $primaryColor;
         }
       }
       &.profile {
@@ -110,7 +110,7 @@ h1, h2, h3, h4, h5, h6 {
               margin-right: 2px;
             }
             &.checked {
-              color: $primary-color;
+              color: $primaryColor;
             }
           }
         }
@@ -129,7 +129,7 @@ ul {
         width: 5px;
         height: 5px;
         @include border-radius(10px);
-        background-color: $body-color;
+        background-color: $bodyColor;
         position: absolute;
         left: 0;
         top: 8px;
@@ -139,7 +139,7 @@ ul {
 }
 .progress {
   .progress-bar {
-    background-color: $primary-color;
+    background-color: $primaryColor;
   }
 }
 

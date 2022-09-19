@@ -1,19 +1,21 @@
 import React from 'react';
-import {Form, FormGroup, Input, Button} from 'reactstrap';
+import {Form, FormGroup, Input, Button, Label} from 'reactstrap';
 
 const Login = () => {
   return (
     <div className='login-wrapper'>
         <main className='login-container'>
-            <h4 className='mb-4'>Login</h4>
+            <h2 className='mb-4'>Sign in</h2>
             <Form>
                 <FormGroup className='form-group'>
-                    <Input type='text' placeholder='Username' />
+                    <Label for="">Username</Label>
+                    <Input type='text'/>
                 </FormGroup>
                 <FormGroup>
-                    <Input type='password' placeholder='Password' />
+                    <Label for="">Password</Label>
+                    <Input type='password'/>
                 </FormGroup>
-                <Button color="primary" block>Login</Button>
+                <Button color="primary mt-4" block>Sign in</Button>
             </Form>
         </main>
     </div>

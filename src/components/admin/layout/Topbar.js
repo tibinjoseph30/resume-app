@@ -18,10 +18,6 @@ const Topbar = () => {
   return (
     <div className="header">
         <FiMenu size={21} className='mob-menu' onClick={mobMenuClick}/>
-        <div className='welcome-block'>
-            <h4 className='text-light'>Hey, John Doe</h4>
-            <p className='mb-0'>Welcome Back</p>
-        </div>
         <Nav className="profile-block">
             <UncontrolledDropdown>
                 <DropdownToggle nav>
