@@ -5,6 +5,12 @@ import Home from "./components/Home";
 import ExperienceAdd from "./components/admin/experience/ExperienceAdd";
 import ExperienceList from "./components/admin/experience/ExperienceList";
 import ExperienceEdit from "./components/admin/experience/ExperienceEdit";
+import EducationList from "./components/admin/education/EducationList";
+import EducationAdd from "./components/admin/education/EducationAdd";
+import EducationEdit from "./components/admin/education/EducationEdit";
+import SkillsList from "./components/admin/skills/SkillsList";
+import SkillsAdd from "./components/admin/skills/SkillsAdd";
+import SkillsEdit from "./components/admin/skills/SkillsEdit";
 
 function AppRouter() {
     return(
@@ -16,6 +22,12 @@ function AppRouter() {
                 <Route path="/experience" element={<ExperienceList/>} />
                 <Route path="/add-experience" element={<ExperienceAdd/>} />
                 <Route path="/edit-experience/:id" element={<ExperienceEdit/>} />
+                <Route path="/education" element={<EducationList/>} />
+                <Route path="/add-education" element={<EducationAdd/>} />
+                <Route path="/edit-education/:id" element={<EducationEdit/>} />
+                <Route path="/skills" element={<SkillsList/>} />
+                <Route path="/add-skill" element={<SkillsAdd/>} />
+                <Route path="/edit-skill/:id" element={<SkillsEdit/>} />
             </Routes>
         </Router>
     )

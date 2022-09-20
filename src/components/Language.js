@@ -10,7 +10,7 @@ const Language = () => {
             <Col lg="6">English</Col>
             <Col lg="6">
                 <div className="star-rating">
-                    <MdStar className='star checked'/>
+                    <MdStar className='star'/>
                     <MdStar className='star'/>
                     <MdStar className='star'/>
                     <MdStar className='star'/>

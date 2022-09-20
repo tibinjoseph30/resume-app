@@ -94,7 +94,7 @@ body {
                     .nav-link {
                         padding: 1rem 1.75rem;
                         position: relative;
-                        color: transparentize($primaryLight, 0.1);
+                        color: transparentize($white, 0.3);
                         font-size: 14px;
                         @include flexbox;
                         .db-icon {
@@ -211,6 +211,17 @@ body {
             box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
             .section-head {
                 margin-bottom: 30px;
+                padding-bottom: 15px;
+                position: relative;
+                &::after {
+                    content: '';
+                    width: 40px;
+                    height: 3px;
+                    background-color: $primaryColor;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                }
             }
             .form-action {
                 margin-top: 1.5rem;

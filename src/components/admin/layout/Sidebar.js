@@ -36,10 +36,10 @@ const Sidebar = () => {
                         <NavLink tag={Link} to='/experience' activeclassname="active" onClick={outsideClick}><FiBriefcase className='db-icon'/>Experience</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href=''><FiAward className='db-icon'/>Education</NavLink>
+                        <NavLink tag={Link} to='/education' activeclassname="active" onClick={outsideClick}><FiAward className='db-icon'/>Education</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href=''><FiStar className='db-icon'/>Skills</NavLink>
+                        <NavLink tag={Link} to='/skills' activeclassname="active" onClick={outsideClick}><FiStar className='db-icon'/>Skills</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink href=''><FiUser className='db-icon'/>Personal Info</NavLink>
