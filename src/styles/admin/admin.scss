@@ -140,8 +140,8 @@ body {
             @include align-items(center);
             background-color: $white;
             padding: 10px 20px;
-            border-bottom: 1px solid #f1f1f1;
-            // @include box-shadow(0px 5px 28px -10px rgba(0, 0, 0, 0.1));
+            // border-bottom: 1px solid #f1f1f1;
+            @include box-shadow(0px 10px 30px 0px rgba(82, 63, 105, 0.05));
             @include breakpoint(mn768){
                 left: 250px;
                 width: calc(100% - 250px);
@@ -165,7 +165,7 @@ body {
                     width: 35px;
                     height: 35px;
                     overflow: hidden;
-                    @include border-radius(50px);
+                    @include border-radius(5px);
                     @include flexbox;
                     @include align-items(center);
                     @include justify-content(center);
@@ -205,22 +205,40 @@ body {
         }
         .section-panel {
             background-color: $white;
-            padding: 30px;
             margin-top: 80px;
             @include border-radius(10px);
-            box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-            .section-head {
-                margin-bottom: 30px;
-                padding-bottom: 15px;
-                position: relative;
-                &::after {
-                    content: '';
-                    width: 40px;
-                    height: 3px;
-                    background-color: $primaryColor;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
+            box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+            .section-header {
+                @include flexbox;
+                @include align-items(center);
+                border-bottom: 1px solid $borderLight;
+                padding: 20px 30px;
+                .section-title {
+                    margin-bottom: 0;
+                }
+            }
+            .section-body {
+                padding: 30px;
+                &.section-table {
+                    padding: 0;
+                    table {
+                        tr {
+                            th, td {
+                                &:first-child {
+                                    padding-left: 30px;
+                                }
+                            }
+                        }
+                        tbody {
+                            tr {
+                                &:last-child {
+                                    td {
+                                        border-bottom: 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .form-action {

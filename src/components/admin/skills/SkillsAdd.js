@@ -61,56 +61,60 @@ const SkillsAdd = () => {
         <div className='right-block'>
             <Topbar/>
             <div className='section-panel'>
-                <h4 className='section-head'>Add Skill</h4>
-                <Form onSubmit={handleSubmit}>
-                    <Row>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                                <Label>
-                                    Skill
-                                </Label>
-                                <Input
-                                    type="text"
-                                    name="skill"
-                                    value={formValues.skill}
-                                    placeholder="Enter a skill"
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                                <Label>
-                                    Profficiency
-                                </Label>
-                                <Select
-                                    options={options}
-                                    menuPlacement="auto"
-                                    placeholder="Select percentage"
-                                    className='selectpicker'
-                                    onChange={(selectedValue) => {
-                                        setSelectValue(selectValue)
-                                        setFormValues({...formValues, profficiency: selectedValue.label})
-                                    }}
-                                />
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    {status?.type === 'success' && (
-                        <Alert color='success' isOpen={alertVisible}>
-                        You are successfully added a new skill.
-                        </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                        <Alert color='danger'>
-                        Something goes wrong.
-                        </Alert>
-                    )}
-                    <div className='form-action'>
-                        <Button type='submit' color='primary' className=''>Add Skill</Button>
-                    </div>
-                </Form>
+                <div className="section-header">
+                    <h4 className='section-title'>Add Skill</h4>
+                </div>
+                <div className="section-body">
+                    <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        Skill
+                                    </Label>
+                                    <Input
+                                        type="text"
+                                        name="skill"
+                                        value={formValues.skill}
+                                        placeholder="Enter a skill"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        Profficiency
+                                    </Label>
+                                    <Select
+                                        options={options}
+                                        menuPlacement="auto"
+                                        placeholder="Select percentage"
+                                        className='selectpicker'
+                                        onChange={(selectedValue) => {
+                                            setSelectValue(selectValue)
+                                            setFormValues({...formValues, profficiency: selectedValue.label})
+                                        }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        {status?.type === 'success' && (
+                            <Alert color='success' isOpen={alertVisible}>
+                            You are successfully added a new skill.
+                            </Alert>
+                        )}
+                        {status?.type === 'error' && (
+                            <Alert color='danger'>
+                            Something goes wrong.
+                            </Alert>
+                        )}
+                        <div className='form-action'>
+                            <Button type='submit' color='primary' className=''>Add Skill</Button>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     </div>

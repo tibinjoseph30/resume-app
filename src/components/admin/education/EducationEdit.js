@@ -11,14 +11,6 @@ import { useLocation } from "react-router-dom";
 
 const EducationEdit = () => {
 
-    const initialValues = {
-        university: "",
-        course: "",
-        city: "",
-        state: "",
-        country: ""
-    }
-    const [formValues, setFormValues] = useState(initialValues);
     const [selectValue, setSelectValue] = useState('')
     const [status, setStatus] = useState(null);
     const [alertVisible, setAlertVisible] = useState(false);
@@ -69,140 +61,144 @@ const EducationEdit = () => {
         <div className='right-block'>
             <Topbar/>
             <div className='section-panel'>
-                <h4 className='section-head'>Edit Education</h4>
-                <Form onSubmit={handleSubmit}>
-                    <Row>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
+                <div className="section-header">
+                    <h4 className='section-title'>Edit Education</h4>
+                </div>
+                <div className="section-body">
+                    <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        University
+                                    </Label>
+                                    <Input
+                                        type="text"
+                                        name="university"
+                                        value={newFormValues.university}
+                                        placeholder="Enter the name of university"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        Course
+                                    </Label>
+                                    <Input
+                                        type="text"
+                                        name="course"
+                                        value={newFormValues.course}
+                                        placeholder="Enter the name of Course"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="2" lg="3" sm="6">
+                                <FormGroup>
                                 <Label>
-                                    University
+                                    Year of Join
+                                </Label>
+                                <Datepicker 
+                                    selected={Date.parse(newJoiningDate)}
+                                    placeholderText='Select year' 
+                                    className='form-control'
+                                    showYearPicker
+                                    dateFormat="yyyy"
+                                    onChange={(date)=> {
+                                    setNewJoiningDate(date)
+                                    setNewFormValues({...newFormValues, joinYear: date.getFullYear()})
+                                    }}
+                                    required
+                                />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="2" lg="3" sm="6">
+                                <FormGroup>
+                                <Label>
+                                    Year of Relieve
+                                </Label>
+                                <Datepicker
+                                    selected={Date.parse(newRelievingDate)} 
+                                    placeholderText='Select year' 
+                                    className='form-control'
+                                    showYearPicker
+                                    dateFormat="yyyy"
+                                    onChange={(date)=> {
+                                    setNewRelievingDate(date)
+                                    setNewFormValues({...newFormValues, relieveYear: date.getFullYear()})
+                                    }} 
+                                    required
+                                />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                <Label>
+                                    City
                                 </Label>
                                 <Input
                                     type="text"
-                                    name="university"
-                                    value={newFormValues.university}
-                                    placeholder="Enter the name of university"
+                                    name="city"
+                                    value={newFormValues.city}
+                                    placeholder="Enter your city"
                                     onChange={handleChange}
                                     required
                                 />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
                                 <Label>
-                                    Course
+                                    State
                                 </Label>
                                 <Input
                                     type="text"
-                                    name="course"
-                                    value={newFormValues.course}
-                                    placeholder="Enter the name of Course"
+                                    name="state"
+                                    value={newFormValues.state}
+                                    placeholder="Enter your state"
                                     onChange={handleChange}
                                     required
                                 />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="2" lg="3" sm="6">
-                            <FormGroup>
-                            <Label>
-                                Year of Join
-                            </Label>
-                            <Datepicker 
-                                selected={Date.parse(newJoiningDate)}
-                                placeholderText='Select year' 
-                                className='form-control'
-                                showYearPicker
-                                dateFormat="yyyy"
-                                onChange={(date)=> {
-                                setNewJoiningDate(date)
-                                setNewFormValues({...newFormValues, joinYear: date.getFullYear()})
-                                }}
-                                required
-                            />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="2" lg="3" sm="6">
-                            <FormGroup>
-                            <Label>
-                                Year of Relieve
-                            </Label>
-                            <Datepicker
-                                selected={Date.parse(newRelievingDate)} 
-                                placeholderText='Select year' 
-                                className='form-control'
-                                showYearPicker
-                                dateFormat="yyyy"
-                                onChange={(date)=> {
-                                setNewRelievingDate(date)
-                                setNewFormValues({...newFormValues, relieveYear: date.getFullYear()})
-                                }} 
-                                required
-                            />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                            <Label>
-                                City
-                            </Label>
-                            <Input
-                                type="text"
-                                name="city"
-                                value={newFormValues.city}
-                                placeholder="Enter your city"
-                                onChange={handleChange}
-                                required
-                            />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                            <Label>
-                                State
-                            </Label>
-                            <Input
-                                type="text"
-                                name="state"
-                                value={newFormValues.state}
-                                placeholder="Enter your state"
-                                onChange={handleChange}
-                                required
-                            />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                            <Label>
-                                Country
-                            </Label>
-                            <Select 
-                                defaultInputValue={newFormValues.country}
-                                options={options} 
-                                menuPlacement="auto"
-                                placeholder="Select country"
-                                className='selectpicker'
-                                onChange={(selectedValue) => {
-                                setSelectValue(selectValue)
-                                setNewFormValues({...newFormValues, country: selectedValue.label})
-                                }}
-                            />
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    {status?.type === 'success' && (
-                        <Alert color='success' isOpen={alertVisible}>
-                        You are successfully updated the education.
-                        </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                        <Alert color='danger'>
-                        Something goes wrong.
-                        </Alert>
-                    )}
-                    <div className='form-action'>
-                        <Button type='submit' color='primary' className=''>Update Education</Button>
-                    </div>
-            </Form>
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                <Label>
+                                    Country
+                                </Label>
+                                <Select 
+                                    defaultInputValue={newFormValues.country}
+                                    options={options} 
+                                    menuPlacement="auto"
+                                    placeholder="Select country"
+                                    className='selectpicker'
+                                    onChange={(selectedValue) => {
+                                    setSelectValue(selectValue)
+                                    setNewFormValues({...newFormValues, country: selectedValue.label})
+                                    }}
+                                />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        {status?.type === 'success' && (
+                            <Alert color='success' isOpen={alertVisible}>
+                            You are successfully updated the education.
+                            </Alert>
+                        )}
+                        {status?.type === 'error' && (
+                            <Alert color='danger'>
+                            Something goes wrong.
+                            </Alert>
+                        )}
+                        <div className='form-action'>
+                            <Button type='submit' color='primary' className=''>Update Education</Button>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     </div>

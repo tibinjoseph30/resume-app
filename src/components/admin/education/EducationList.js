@@ -56,61 +56,63 @@ const EducationList = () => {
         <div className="right-block">
             <Topbar/>
             <div className="section-panel">
-                <h4 className='section-head'>Education</h4>
-                <div className='table-responsive'>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>University</th>
-                                <th>Course</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Country</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {!isLoading ? 
-                            <tr>
-                                <td align='center' colSpan={100}>
-                                    <Spinner color='primary'/>
-                                </td>
-                            </tr> :
-                            (education.length === 0 ? 
-                                <tr>
-                                    <td align='center' colSpan={100}>No data available</td>
-                                </tr>:
-                                education.map((edu, id) => (
-                                    <tr key={edu.id}>     
-                                        <td>{edu.data.university}</td>
-                                        <td>{edu.data.course}</td>
-                                        <td>{edu.data.city}</td>
-                                        <td>{edu.data.state}</td>
-                                        <td>{edu.data.country}</td>
-                                        <td className='actions'>
-                                            <NavLink to={`/edit-education/${id}`} state={{ state : edu.data, id : edu.id }}>
-                                                <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
-                                            </NavLink>
-                                            <FiTrash2 onClick={()=>deleteEducation(edu.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </Table>
+                <div className="section-header">
+                    <h4 className='section-title'>Education</h4>
+                    <Button tag={Link} to="/add-education" color='primary' className='ms-auto'>Add New Education</Button>
                 </div>
-                {status?.type === 'success' && (
-                    <Alert color='success' isOpen={alertVisible}>
-                      Education deleted
-                    </Alert>
-                )}
-                {status?.type === 'error' && (
-                    <Alert color='danger' isOpen={alertVisible}>
-                      Something goes wrong
-                    </Alert>
-                )}
-                <div className="form-action">
-                    <Button tag={Link} to="/add-education" color='primary'>Add New Education</Button>
+                <div className="section-body section-table">
+                    <div className='table-responsive'>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>Course</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Country</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {!isLoading ? 
+                                <tr>
+                                    <td align='center' colSpan={100}>
+                                        <Spinner color='primary'/>
+                                    </td>
+                                </tr> :
+                                (education.length === 0 ? 
+                                    <tr>
+                                        <td align='center' colSpan={100}>No data available</td>
+                                    </tr>:
+                                    education.map((edu, id) => (
+                                        <tr key={edu.id}>     
+                                            <td>{edu.data.university}</td>
+                                            <td>{edu.data.course}</td>
+                                            <td>{edu.data.city}</td>
+                                            <td>{edu.data.state}</td>
+                                            <td>{edu.data.country}</td>
+                                            <td className='actions'>
+                                                <NavLink to={`/edit-education/${id}`} state={{ state : edu.data, id : edu.id }}>
+                                                    <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
+                                                </NavLink>
+                                                <FiTrash2 onClick={()=>deleteEducation(edu.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </Table>
+                    </div>
+                    {status?.type === 'success' && (
+                        <Alert color='success' isOpen={alertVisible}>
+                        Education deleted
+                        </Alert>
+                    )}
+                    {status?.type === 'error' && (
+                        <Alert color='danger' isOpen={alertVisible}>
+                        Something goes wrong
+                        </Alert>
+                    )}
                 </div>
             </div>
         </div>

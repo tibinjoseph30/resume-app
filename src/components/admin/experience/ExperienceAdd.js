@@ -60,8 +60,11 @@ const ExperienceAdd = () => {
         <div className="right-block">
             <Topbar/>
             <div className="section-panel">
-              <h4 className='section-head'>Add Experience</h4>
-              <Form onSubmit={handleSubmit}>
+              <div className="section-header">
+                <h4 className='section-title'>Add Experience</h4>
+              </div>
+              <div className="section-body">
+                <Form onSubmit={handleSubmit}>
                   <Row>
                       <Col xl="4" sm="6">
                         <FormGroup>
@@ -192,8 +195,9 @@ const ExperienceAdd = () => {
                   <div className='form-action'>
                     <Button type='submit' color='primary' className=''>Add Experience</Button>
                   </div>
-              </Form>
-            </div>
+                </Form>
+              </div>
+          </div>
         </div>
     </div>
   )

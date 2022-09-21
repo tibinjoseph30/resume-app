@@ -57,61 +57,63 @@ function deleteExperience(id) {
         <div className="right-block">
             <Topbar/>
             <div className="section-panel">
-                <h4 className='section-head'>Experience</h4>
-                <div className="table-responsive">
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Organization</th>
-                                <th>Designation</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Country</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {!isLoading ? 
-                            <tr>
-                                <td align='center' colSpan={100}>
-                                    <Spinner color='primary'/>
-                                </td>
-                            </tr> :
-                            (experience.length === 0 ? 
-                                <tr>
-                                    <td align='center' colSpan={100}>No data available</td>
-                                </tr>:
-                                experience.map((exp, id) => (
-                                    <tr key={exp.id}>     
-                                        <td>{exp.data.organization}</td>
-                                        <td>{exp.data.designation}</td>
-                                        <td>{exp.data.city}</td>
-                                        <td>{exp.data.state}</td>
-                                        <td>{exp.data.country}</td>
-                                        <td className='actions'>
-                                            <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
-                                                <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
-                                            </NavLink>
-                                            <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </Table>
+                <div className="section-header">
+                    <h4 className='section-title'>Experience</h4>
+                    <Button tag={Link} to="/add-experience" color='primary' className='ms-auto'>Add New Experience</Button>
                 </div>
-                {status?.type === 'success' && (
-                    <Alert color='success' isOpen={alertVisible}>
-                      Experience deleted
-                    </Alert>
-                )}
-                {status?.type === 'error' && (
-                    <Alert color='danger' isOpen={alertVisible}>
-                      Something goes wrong
-                    </Alert>
-                )}
-                <div className="form-action">
-                    <Button tag={Link} to="/add-experience" color='primary'>Add New Experience</Button>
+                <div className="section-body section-table">
+                    <div className="table-responsive">
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>Organization</th>
+                                    <th>Designation</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Country</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {!isLoading ? 
+                                <tr>
+                                    <td align='center' colSpan={100}>
+                                        <Spinner color='primary'/>
+                                    </td>
+                                </tr> :
+                                (experience.length === 0 ? 
+                                    <tr>
+                                        <td align='center' colSpan={100}>No data available</td>
+                                    </tr>:
+                                    experience.map((exp, id) => (
+                                        <tr key={exp.id}>     
+                                            <td>{exp.data.organization}</td>
+                                            <td>{exp.data.designation}</td>
+                                            <td>{exp.data.city}</td>
+                                            <td>{exp.data.state}</td>
+                                            <td>{exp.data.country}</td>
+                                            <td className='actions'>
+                                                <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
+                                                    <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
+                                                </NavLink>
+                                                <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </Table>
+                    </div>
+                    {status?.type === 'success' && (
+                        <Alert color='success' isOpen={alertVisible}>
+                        Experience deleted
+                        </Alert>
+                    )}
+                    {status?.type === 'error' && (
+                        <Alert color='danger' isOpen={alertVisible}>
+                        Something goes wrong
+                        </Alert>
+                    )}
                 </div>
             </div>
         </div>
