@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import Select from 'react-select'
-import { Form, Row, Col, FormGroup, Label, Input, Button, Alert } from 'reactstrap'
+import { Form, Row, Col, FormGroup, Label, Input, Button, Toast, ToastBody } from 'reactstrap'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
@@ -26,7 +26,7 @@ const SkillsAdd = () => {
     const [formValues, setFormValues] = useState(initialValues);
     const [selectValue, setSelectValue] = useState('')
     const [status, setStatus] = useState(null);
-    const [alertVisible, setAlertVisible] = useState(false);
+    const [show, setShow] = useState(true);
 
     const handleChange = (event) => {
         setFormValues({
@@ -49,9 +49,8 @@ const SkillsAdd = () => {
           setStatus({ type: 'error' });
         })
         setFormValues(initialValues)
-        setAlertVisible(true)
         setTimeout(() => { 
-            setAlertVisible(false)
+            setShow(false)
         }, 5000);
     }
 
@@ -100,19 +99,23 @@ const SkillsAdd = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        {status?.type === 'success' && (
-                            <Alert color='success' isOpen={alertVisible}>
-                            You are successfully added a new skill.
-                            </Alert>
-                        )}
-                        {status?.type === 'error' && (
-                            <Alert color='danger'>
-                            Something goes wrong.
-                            </Alert>
-                        )}
                         <div className='form-action'>
                             <Button type='submit' color='primary' className=''>Add Skill</Button>
                         </div>
+                        {status?.type === 'success' && (
+                            <Toast isOpen={show} className='bg-success text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
+                                <ToastBody>
+                                You are successfully added a new skill.
+                                </ToastBody>
+                            </Toast>
+                        )}
+                        {status?.type === 'error' && (
+                            <Toast isOpen={show} className='bg-danger text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
+                                <ToastBody>
+                                Something goes wrong.
+                                </ToastBody>
+                            </Toast>
+                        )}
                     </Form>
                 </div>
             </div>

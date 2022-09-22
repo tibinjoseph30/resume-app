@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Button, Spinner, Alert } from 'reactstrap'
+import { Table, Button, Spinner } from 'reactstrap'
 import { NavLink as Link, NavLink } from 'react-router-dom'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
@@ -12,7 +12,6 @@ const EducationList = () => {
     const [education, setEducation] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState(null);
-    const [alertVisible, setAlertVisible] = useState(false);
 
     useEffect(()=> {
         getEducation()
@@ -44,10 +43,6 @@ const EducationList = () => {
             setStatus({ type: 'error' });
         })
         getEducation()
-        setAlertVisible(true)
-        setTimeout(() => { 
-            setAlertVisible(false)
-        }, 5000);
     }
 
     return (
@@ -70,7 +65,7 @@ const EducationList = () => {
                                     <th>City</th>
                                     <th>State</th>
                                     <th>Country</th>
-                                    <th></th>
+                                    <th className='actions'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,7 +77,7 @@ const EducationList = () => {
                                 </tr> :
                                 (education.length === 0 ? 
                                     <tr>
-                                        <td align='center' colSpan={100}>No data available</td>
+                                        <td align='center' colSpan={100}>There is no education added yet !!</td>
                                     </tr>:
                                     education.map((edu, id) => (
                                         <tr key={edu.id}>     
@@ -93,9 +88,9 @@ const EducationList = () => {
                                             <td>{edu.data.country}</td>
                                             <td className='actions'>
                                                 <NavLink to={`/edit-education/${id}`} state={{ state : edu.data, id : edu.id }}>
-                                                    <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
+                                                    <FiEdit2 size={18} className='action-btn edit' style={{cursor: 'pointer'}}/>
                                                 </NavLink>
-                                                <FiTrash2 onClick={()=>deleteEducation(edu.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
+                                                <FiTrash2 onClick={()=>deleteEducation(edu.id)} size={18} className='action-btn delete' style={{cursor: 'pointer'}}/>
                                             </td>
                                         </tr>
                                     ))
@@ -103,16 +98,6 @@ const EducationList = () => {
                             </tbody>
                         </Table>
                     </div>
-                    {status?.type === 'success' && (
-                        <Alert color='success' isOpen={alertVisible}>
-                        Education deleted
-                        </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                        <Alert color='danger' isOpen={alertVisible}>
-                        Something goes wrong
-                        </Alert>
-                    )}
                 </div>
             </div>
         </div>

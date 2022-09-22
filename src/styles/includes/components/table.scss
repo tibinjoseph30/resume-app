@@ -6,6 +6,9 @@ table {
         th, td {
             padding: 1rem;
             border-color: $borderLight;
+            &.actions {
+                text-align: right;
+            }
         }
         th {
             text-transform: uppercase;
@@ -13,22 +16,8 @@ table {
         }
         td {
             &.actions {
-                width: 100px;
                 a {
                     margin-right: 1.5rem;
-                }
-                .action-icons {
-                    color: $gray;
-                    &.edit {
-                        &:hover {
-                            color: $primaryColor;
-                        }
-                    }
-                    &.delete {
-                        &:hover {
-                            color: $danger;
-                        }
-                    }
                 }
             }
         }

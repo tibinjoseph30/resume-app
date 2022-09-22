@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
-import { Table, Button, Spinner, Alert } from 'reactstrap'
+import { Button, Spinner, Card, CardBody, Row, Col } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
-import { FiTrash2 } from 'react-icons/fi'
+import { FiArrowDown, FiArrowUp, FiTrash2 } from 'react-icons/fi'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 
@@ -12,12 +12,11 @@ const SkillsList = () => {
     const [skill, setSkill] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState(null);
-    const [alertVisible, setAlertVisible] = useState(false);
 
     useEffect(()=> {
         getSkills()
     }, [])
-    
+
     function getSkills() {
         const skillCollectionRef = collection(db, 'skill')
         getDocs(skillCollectionRef)
@@ -32,7 +31,7 @@ const SkillsList = () => {
         })
         .catch(error => console.log(error.message))
     }
-    function deleteEducation(id) {
+    function deleteSkill(id) {
         const skillDeleteRef = doc(db, 'skill', id)
         deleteDoc(skillDeleteRef)
         .then(response => {
@@ -44,10 +43,6 @@ const SkillsList = () => {
             setStatus({ type: 'error' });
         })
         getSkills()
-        setAlertVisible(true)
-        setTimeout(() => { 
-            setAlertVisible(false)
-        }, 5000);
     }
 
     return (
@@ -60,50 +55,37 @@ const SkillsList = () => {
                     <h4 className='section-title'>Skills</h4>
                     <Button tag={Link} to="/add-skill" color='primary' className='ms-auto'>Add New Skill</Button>
                 </div>
-                <div className="section-body section-table">
-                    <div className='table-responsive'>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>Skill</th>
-                                    <th>Profficiency</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {!isLoading ? 
-                                <tr>
-                                    <td align='center' colSpan={100}>
-                                        <Spinner color='primary'/>
-                                    </td>
-                                </tr> :
-                                (skill.length === 0 ? 
-                                    <tr>
-                                        <td align='center' colSpan={100}>No data available</td>
-                                    </tr>:
-                                    skill.map((ski, id) => (
-                                        <tr key={ski.id}>     
-                                            <td>{ski.data.skill}</td>
-                                            <td>{ski.data.profficiency}</td>
-                                            <td className='actions'>
-                                                <FiTrash2 onClick={()=>deleteEducation(ski.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </Table>
-                    </div>
-                    {status?.type === 'success' && (
-                        <Alert color='success' isOpen={alertVisible}>
-                        Skill deleted
-                        </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                        <Alert color='danger' isOpen={alertVisible}>
-                        Something goes wrong
-                        </Alert>
-                    )}
+                <div className="section-body">
+                    <Row>
+                        {!isLoading ? 
+                        <Col className='text-center'>
+                            <Spinner color='primary'/>
+                        </Col> :
+                        (skill.length === 0 ?
+                            <Col className='text-center'>
+                                There is no skills added yet !!
+                            </Col> :
+                            skill.map((ski, id) => (
+                                <Col xxl="2" xl="3" lg="4" sm="6" className='mb-3' key={ski.id}>
+                                    <Card className='border-dashed border-gray-300'>
+                                        <CardBody>
+                                            <div className="d-flex align-items-center">
+                                                <h3 className='mb-0'>{ski.data.profficiency}</h3>
+                                                {ski.data.profficiency >= '80' ? 
+                                                <FiArrowUp className='ms-2 text-success' size={15}/> :
+                                                ski.data.profficiency >= '50' ? 
+                                                <FiArrowUp className='ms-2 text-warning' size={15}/> : 
+                                                <FiArrowDown className='ms-2 text-danger' size={15}/>}
+
+                                                <FiTrash2 onClick={()=>deleteSkill(ski.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
+                                            </div>
+                                            <p className='mb-0 mt-2'>{ski.data.skill}</p>  
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            ))
+                        )}   
+                    </Row>
                 </div>
             </div>
         </div>

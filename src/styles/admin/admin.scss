@@ -66,7 +66,7 @@ body {
         min-height: 100vh;
         position: fixed;
         top: 0;
-        z-index: 1;
+        z-index: 10;
         left: -250px;
         display: grid;
         background-color: $secondaryColor;
@@ -140,6 +140,7 @@ body {
             @include align-items(center);
             background-color: $white;
             padding: 10px 20px;
+            z-index: 9;
             // border-bottom: 1px solid #f1f1f1;
             @include box-shadow(0px 10px 30px 0px rgba(82, 63, 105, 0.05));
             @include breakpoint(mn768){
@@ -226,6 +227,9 @@ body {
                             th, td {
                                 &:first-child {
                                     padding-left: 30px;
+                                }
+                                &:last-child {
+                                    padding-right: 30px;
                                 }
                             }
                         }

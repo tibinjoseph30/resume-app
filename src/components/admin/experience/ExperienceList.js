@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Spinner, Table, Alert } from 'reactstrap'
+import { Button, Spinner, Table } from 'reactstrap'
 import { NavLink as Link, NavLink } from 'react-router-dom'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
@@ -12,7 +12,6 @@ const ExperienceList = () => {
 const [experience, setExperience] = useState([])
 const [isLoading, setIsLoading] = useState(false);
 const [status, setStatus] = useState(null);
-const [alertVisible, setAlertVisible] = useState(false);
 
 useEffect(()=> {
     getExperience()
@@ -44,10 +43,6 @@ function deleteExperience(id) {
         setStatus({ type: 'error' });
     })
     getExperience()
-    setAlertVisible(true)
-    setTimeout(() => { 
-        setAlertVisible(false)
-    }, 5000);
 }
 
 
@@ -71,7 +66,7 @@ function deleteExperience(id) {
                                     <th>City</th>
                                     <th>State</th>
                                     <th>Country</th>
-                                    <th></th>
+                                    <th className='actions'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,7 +78,7 @@ function deleteExperience(id) {
                                 </tr> :
                                 (experience.length === 0 ? 
                                     <tr>
-                                        <td align='center' colSpan={100}>No data available</td>
+                                        <td align='center' colSpan={100}>There is no experience added yet !!</td>
                                     </tr>:
                                     experience.map((exp, id) => (
                                         <tr key={exp.id}>     
@@ -94,9 +89,9 @@ function deleteExperience(id) {
                                             <td>{exp.data.country}</td>
                                             <td className='actions'>
                                                 <NavLink to={`/edit-experience/${id}`} state={{ state : exp.data, id : exp.id }}>
-                                                    <FiEdit2 size={18} className='action-icons edit' style={{cursor: 'pointer'}}/>
+                                                    <FiEdit2 size={18} className='action-btn edit' style={{cursor: 'pointer'}}/>
                                                 </NavLink>
-                                                <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-icons delete' style={{cursor: 'pointer'}}/>
+                                                <FiTrash2 onClick={()=>deleteExperience(exp.id)} size={18} className='action-btn delete' style={{cursor: 'pointer'}}/>
                                             </td>
                                         </tr>
                                     ))
@@ -104,16 +99,6 @@ function deleteExperience(id) {
                             </tbody>
                         </Table>
                     </div>
-                    {status?.type === 'success' && (
-                        <Alert color='success' isOpen={alertVisible}>
-                        Experience deleted
-                        </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                        <Alert color='danger' isOpen={alertVisible}>
-                        Something goes wrong
-                        </Alert>
-                    )}
                 </div>
             </div>
         </div>
