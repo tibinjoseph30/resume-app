@@ -67,7 +67,7 @@ const SkillsList = () => {
                             </Col> :
                             skill.map((ski, id) => (
                                 <Col xxl="2" xl="3" lg="4" sm="6" className='mb-3' key={ski.id}>
-                                    <Card className='border-dashed border-gray-300'>
+                                    <Card className='border-dashed'>
                                         <CardBody>
                                             <div className="d-flex align-items-center">
                                                 <h3 className='mb-0'>{ski.data.profficiency}</h3>

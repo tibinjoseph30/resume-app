@@ -10,6 +10,8 @@ import EducationAdd from "./components/admin/education/EducationAdd";
 import EducationEdit from "./components/admin/education/EducationEdit";
 import SkillsList from "./components/admin/skills/SkillsList";
 import SkillsAdd from "./components/admin/skills/SkillsAdd";
+import LanguageList from "./components/admin/language/LanguageList";
+import LanguageAdd from "./components/admin/language/LanguageAdd";
 
 function AppRouter() {
     return(
@@ -26,6 +28,8 @@ function AppRouter() {
                 <Route path="/edit-education/:id" element={<EducationEdit/>} />
                 <Route path="/skills" element={<SkillsList/>} />
                 <Route path="/add-skill" element={<SkillsAdd/>} />
+                <Route path="/language" element={<LanguageList/>} />
+                <Route path="/add-language" element={<LanguageAdd/>} />
             </Routes>
         </Router>
     )

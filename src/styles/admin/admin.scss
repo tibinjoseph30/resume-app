@@ -212,8 +212,8 @@ body {
             .section-header {
                 @include flexbox;
                 @include align-items(center);
-                border-bottom: 1px solid $borderLight;
-                padding: 20px 30px;
+                padding: 30px;
+                padding-bottom: 10px;
                 .section-title {
                     margin-bottom: 0;
                 }
@@ -221,15 +221,14 @@ body {
             .section-body {
                 padding: 30px;
                 &.section-table {
-                    padding: 0;
                     table {
                         tr {
                             th, td {
                                 &:first-child {
-                                    padding-left: 30px;
+                                    padding-left: 0;
                                 }
                                 &:last-child {
-                                    padding-right: 30px;
+                                    padding-right: 0;
                                 }
                             }
                         }

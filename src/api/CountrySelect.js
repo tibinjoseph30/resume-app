@@ -1,12 +1,12 @@
-class CountryList {
+class CountrySelect {
     constructor() {
       this.data = require('./data/country.json')
       this.labelMap = {}
       this.valueMap = {}
   
       this.data.forEach(country => {
-        this.labelMap[country.label.toLowerCase()] = country.value
-        this.valueMap[country.value.toLowerCase()] = country.label
+        this.labelMap[country.label.toLowerCase()] = country.code
+        this.valueMap[country.code.toLowerCase()] = country.label
       })
     }
   
@@ -23,7 +23,7 @@ class CountryList {
     }
   
     getValues() {
-      return this.data.map(country => country.value)
+      return this.data.map(country => country.code)
     }
   
     getLabelList() {
@@ -40,9 +40,9 @@ class CountryList {
   
     setLabel(value, label) {
       this.data.forEach(country => {
-        if (country.value === value) {
+        if (country.code === value) {
           country.label = label
-          this.valueMap[country.value.toLowerCase()] = country.label
+          this.valueMap[country.code.toLowerCase()] = country.label
         }
       })
   
@@ -62,7 +62,7 @@ class CountryList {
   }
   
   const countryList = () => {
-    if (!(this instanceof CountryList)) return new CountryList()
+    if (!(this instanceof CountrySelect)) return new CountrySelect()
   }
   
   module.exports = countryList
