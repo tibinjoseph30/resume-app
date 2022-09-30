@@ -1,5 +1,5 @@
-@import "../variables.scss";
-@import "../mixins.scss";
+@import "../includes/mixins";
+@import "../includes/variables";
 
 input {
     &.form-control {
@@ -26,6 +26,40 @@ input {
         }
     }
 }
+
+input:where([type="checkbox"], [type="radio"]){
+    -webkit-appearance : none;
+    appearance         : none;
+    width              : 22px;
+    height             : 22px;
+    margin             : calc(0.75em - 11px) 0.25rem 0 0;
+    vertical-align     : top;
+    border             : 1px solid $borderColor;
+    border-radius      : 4px;
+    background         : $white no-repeat center center;
+  }
+  
+  input[type="radio"]{
+    border-radius : 50%;
+  }
+  
+  input:where([type="checkbox"], [type="radio"]):where(:active:not(:disabled), :focus){
+    border-color : $primaryColor;
+    outline      : none;
+  }
+  
+  input:where([type="checkbox"], [type="radio"]):disabled{
+    background : #eee;
+  }
+  
+  input[type="checkbox"]:checked{
+    background-image : url('../../../public/images/checkbox.svg');
+    
+  }
+  
+  input[type="radio"]:checked{
+    background-image : url('../../../public/images/radio.svg');
+  }
 
 body {
     .react-datepicker {

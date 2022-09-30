@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
-import { Form, Row, Col, FormGroup, Label, Button, Toast, ToastBody } from 'reactstrap'
+import { Form, Row, Col, FormGroup, Label, Button, Toast, ToastBody, Input } from 'reactstrap'
 import Select from 'react-select'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
@@ -73,6 +73,16 @@ const LanguageAdd = () => {
                                             setFormValues({...formValues, language: selectedValue.label})
                                         }}
                                     />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        Level
+                                    </Label>
+                                    <div className="check">
+                                        <label><input type="checkbox" /> Checked</label>
+                                    </div>
                                 </FormGroup>
                             </Col>
                         </Row>

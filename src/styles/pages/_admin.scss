@@ -1,11 +1,11 @@
-@import "../includes/variables.scss";
-@import "../includes/mixins.scss";
-@import "../includes/common.scss";
+@import "../includes/mixins";
+@import "../includes/variables";
+@import "../includes/common";
 
 // components
-@import "../includes/components/form.scss";
-@import "../includes/components/button.scss";
-@import "../includes/components/table.scss";
+@import "../components/form";
+@import "../components/button";
+@import "../components/table";
 
 body {
     &.mob-menu-open {
