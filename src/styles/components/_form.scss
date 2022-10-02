@@ -27,39 +27,62 @@ input {
     }
 }
 
-input:where([type="checkbox"], [type="radio"]){
-    -webkit-appearance : none;
-    appearance         : none;
-    width              : 22px;
-    height             : 22px;
-    margin             : calc(0.75em - 11px) 0.25rem 0 0;
-    vertical-align     : top;
-    border             : 1px solid $borderColor;
-    border-radius      : 4px;
-    background         : $white no-repeat center center;
-  }
-  
-  input[type="radio"]{
-    border-radius : 50%;
-  }
-  
-  input:where([type="checkbox"], [type="radio"]):where(:active:not(:disabled), :focus){
-    border-color : $primaryColor;
-    outline      : none;
-  }
-  
-  input:where([type="checkbox"], [type="radio"]):disabled{
-    background : #eee;
-  }
-  
-  input[type="checkbox"]:checked{
-    background-image : url('../../../public/images/checkbox.svg');
-    
-  }
-  
-  input[type="radio"]:checked{
-    background-image : url('../../../public/images/radio.svg');
-  }
+.form-radio {
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+        position: absolute;
+        left: -9999px;
+        & + label {
+            position: relative;
+            padding-left: 28px;
+            cursor: pointer;
+            line-height: 20px;
+            display: inline-block;
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 18px;
+                height: 18px;
+                border: 1px solid $borderColor;
+                background: #fff;
+                @include border-radius(100%);
+                @include transition(all 0.2s ease);
+            }
+            &::after {
+                content: '';
+                width: 12px;
+                height: 12px;
+                background: $primaryColor;
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                border-radius: 100%;
+                @include transition(all 0.2s ease);
+            }
+        }
+    }
+    [type="radio"]:checked {
+        & + label {
+            &::before {
+                border-color: $primaryColor;
+            }
+            &::after {
+                opacity: 1;
+                @include transform(scale(1));
+            }
+        }
+    }
+    [type="radio"]:not(:checked) {
+        & + label {
+            &::after {
+                opacity: 0;
+                @include transform(scale(0));
+            }
+        }
+    }
+}
 
 body {
     .react-datepicker {
