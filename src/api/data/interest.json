@@ -1,0 +1,503 @@
+[
+    {
+      "label": "3D printing"
+    },
+    {
+      "label": "amateur radio"
+    },
+    {
+      "label": "Scrapbook"
+    },
+    {
+      "label": "Amateur radio"
+    },
+    {
+      "label": "Acting"
+    },
+    {
+      "label": "Baton twirling"
+    },
+    {
+      "label": "Board games"
+    },
+    {
+      "label": "Book restoration"
+    },
+    {
+      "label": "Cabaret"
+    },
+    {
+      "label": "Calligraphy"
+    },
+    {
+      "label": "Candle making"
+    },
+    {
+      "label": "Computer programming"
+    },
+    {
+      "label": "Coffee roasting"
+    },
+    {
+      "label": "Cooking"
+    },
+    {
+      "label": "Coloring"
+    },
+    {
+      "label": "Cosplaying"
+    },
+    {
+      "label": "Couponing"
+    },
+    {
+      "label": "Creative writing"
+    },
+    {
+      "label": "Crocheting"
+    },
+    {
+      "label": "Cryptography"
+    },
+    {
+      "label": "Dance"
+    },
+    {
+      "label": "Digital arts"
+    },
+    {
+      "label": "Drama"
+    },
+    {
+      "label": "Drawing"
+    },
+    {
+      "label": "Do it yourself"
+    },
+    {
+      "label": "Electronics"
+    },
+    {
+      "label": "Embroidery"
+    },
+    {
+      "label": "Fashion"
+    },
+    {
+      "label": "Flower arranging"
+    },
+    {
+      "label": "Foreign language learning"
+    },
+    {
+      "label": "Gaming"
+    },
+    {
+      "label": "tabletop games"
+    },
+    {
+      "label": "role-playing games"
+    },
+    {
+      "label": "Gambling"
+    },
+    {
+      "label": "Genealogy"
+    },
+    {
+      "label": "Glassblowing"
+    },
+    {
+      "label": "Gunsmithing"
+    },
+    {
+      "label": "Homebrewing"
+    },
+    {
+      "label": "Ice skating"
+    },
+    {
+      "label": "Jewelry making"
+    },
+    {
+      "label": "Jigsaw puzzles"
+    },
+    {
+      "label": "Juggling"
+    },
+    {
+      "label": "Knapping"
+    },
+    {
+      "label": "Knitting"
+    },
+    {
+      "label": "Kabaddi"
+    },
+    {
+      "label": "Knife making"
+    },
+    {
+      "label": "Lacemaking"
+    },
+    {
+      "label": "Lapidary"
+    },
+    {
+      "label": "Leather crafting"
+    },
+    {
+      "label": "Lego building"
+    },
+    {
+      "label": "Lockpicking"
+    },
+    {
+      "label": "Machining"
+    },
+    {
+      "label": "Macrame"
+    },
+    {
+      "label": "Metalworking"
+    },
+    {
+      "label": "Magic"
+    },
+    {
+      "label": "Model building"
+    },
+    {
+      "label": "Listening to music"
+    },
+    {
+      "label": "Origami"
+    },
+    {
+      "label": "Painting"
+    },
+    {
+      "label": "Playing musical instruments"
+    },
+    {
+      "label": "Pet"
+    },
+    {
+      "label": "Poi"
+    },
+    {
+      "label": "Pottery"
+    },
+    {
+      "label": "Puzzles"
+    },
+    {
+      "label": "Quilting"
+    },
+    {
+      "label": "Reading"
+    },
+    {
+      "label": "Scrapbooking"
+    },
+    {
+      "label": "Sculpting"
+    },
+    {
+      "label": "Sewing"
+    },
+    {
+      "label": "Singing"
+    },
+    {
+      "label": "Sketching"
+    },
+    {
+      "label": "Soapmaking"
+    },
+    {
+      "label": "Sports"
+    },
+    {
+      "label": "Stand-up comedy"
+    },
+    {
+      "label": "Sudoku"
+    },
+    {
+      "label": "Table tennis"
+    },
+    {
+      "label": "Taxidermy"
+    },
+    {
+      "label": "Video gaming"
+    },
+    {
+      "label": "Watching movies"
+    },
+    {
+      "label": "Web surfing"
+    },
+    {
+      "label": "Whittling"
+    },
+    {
+      "label": "Wood carving"
+    },
+    {
+      "label": "Woodworking"
+    },
+    {
+      "label": "Worldbuilding"
+    },
+    {
+      "label": "Writing"
+    },
+    {
+      "label": "Yoga"
+    },
+    {
+      "label": "Yo-yoing"
+    },
+    {
+      "label": "Air sports"
+    },
+    {
+      "label": "Archery"
+    },
+    {
+      "label": "Astronomy"
+    },
+    {
+      "label": "Backpacking"
+    },
+    {
+      "label": "BASE jumping"
+    },
+    {
+      "label": "Baseball"
+    },
+    {
+      "label": "Basketball"
+    },
+    {
+      "label": "Beekeeping"
+    },
+    {
+      "label": "Bird watching"
+    },
+    {
+      "label": "Blacksmithing"
+    },
+    {
+      "label": "Board sports"
+    },
+    {
+      "label": "Bodybuilding"
+    },
+    {
+      "label": "Brazilian jiu-jitsu"
+    },
+    {
+      "label": "Community"
+    },
+    {
+      "label": "Cycling"
+    },
+    {
+      "label": "Dowsing"
+    },
+    {
+      "label": "Driving"
+    },
+    {
+      "label": "Fishing"
+    },
+    {
+      "label": "Flag Football"
+    },
+    {
+      "label": "Flying"
+    },
+    {
+      "label": "Flying disc"
+    },
+    {
+      "label": "Foraging"
+    },
+    {
+      "label": "Gardening"
+    },
+    {
+      "label": "Geocaching"
+    },
+    {
+      "label": "Ghost hunting"
+    },
+    {
+      "label": "Graffiti"
+    },
+    {
+      "label": "Handball"
+    },
+    {
+      "label": "Hiking"
+    },
+    {
+      "label": "Hooping"
+    },
+    {
+      "label": "Horseback riding"
+    },
+    {
+      "label": "Hunting"
+    },
+    {
+      "label": "Inline skating"
+    },
+    {
+      "label": "Jogging"
+    },
+    {
+      "label": "Kayaking"
+    },
+    {
+      "label": "Kite flying"
+    },
+    {
+      "label": "Kitesurfing"
+    },
+    {
+      "label": "LARPing"
+    },
+    {
+      "label": "Letterboxing"
+    },
+    {
+      "label": "Metal detecting"
+    },
+    {
+      "label": "Motor sports"
+    },
+    {
+      "label": "Mountain biking"
+    },
+    {
+      "label": "Mountaineering"
+    },
+    {
+      "label": "Mushroom hunting"
+    },
+    {
+      "label": "Mycology"
+    },
+    {
+      "label": "Netball"
+    },
+    {
+      "label": "Nordic skating"
+    },
+    {
+      "label": "Orienteering"
+    },
+    {
+      "label": "Paintball"
+    },
+    {
+      "label": "Parkour"
+    },
+    {
+      "label": "Photography"
+    },
+    {
+      "label": "Polo"
+    },
+    {
+      "label": "Rafting"
+    },
+    {
+      "label": "Rappelling"
+    },
+    {
+      "label": "Rock climbing"
+    },
+    {
+      "label": "Roller skating"
+    },
+    {
+      "label": "Rugby"
+    },
+    {
+      "label": "Running"
+    },
+    {
+      "label": "Sailing"
+    },
+    {
+      "label": "Sand art"
+    },
+    {
+      "label": "Scouting"
+    },
+    {
+      "label": "Scuba diving"
+    },
+    {
+      "label": "Sculling"
+    },
+    {
+      "label": "Rowing"
+    },
+    {
+      "label": "Shooting"
+    },
+    {
+      "label": "Shopping"
+    },
+    {
+      "label": "Skateboarding"
+    },
+    {
+      "label": "Skiing"
+    },
+    {
+      "label": "Skimboarding"
+    },
+    {
+      "label": "Skydiving"
+    },
+    {
+      "label": "Slacklining"
+    },
+    {
+      "label": "Snowboarding"
+    },
+    {
+      "label": "Stone skipping"
+    },
+    {
+      "label": "Surfing"
+    },
+    {
+      "label": "Swimming"
+    },
+    {
+      "label": "Taekwondo"
+    },
+    {
+      "label": "Tai chi"
+    },
+    {
+      "label": "Urban exploration"
+    },
+    {
+      "label": "Vacation"
+    },
+    {
+      "label": "Vehicle restoration"
+    },
+    {
+      "label": "Water sports"
+    }
+  ]

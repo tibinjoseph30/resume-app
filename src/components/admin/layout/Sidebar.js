@@ -48,7 +48,7 @@ const Sidebar = () => {
                         <NavLink tag={Link} to='/language' activeclassname="active" onClick={outsideClick}><FiFlag className='db-icon'/>Language</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href=''><FiClock className='db-icon'/>Interests</NavLink>
+                        <NavLink tag={Link} to='/interest' activeclassname="active" onClick={outsideClick}><FiClock className='db-icon'/>Interests</NavLink>
                     </NavItem>
                 </Nav>
             </div>

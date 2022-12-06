@@ -12,6 +12,8 @@ import SkillsList from "./components/admin/skills/SkillsList";
 import SkillsAdd from "./components/admin/skills/SkillsAdd";
 import LanguageList from "./components/admin/language/LanguageList";
 import LanguageAdd from "./components/admin/language/LanguageAdd";
+import InterestList from "./components/admin/interest/InterestList";
+import InterestAdd from "./components/admin/interest/InterestAdd";
 
 function AppRouter() {
     return(
@@ -30,6 +32,8 @@ function AppRouter() {
                 <Route path="/add-skill" element={<SkillsAdd/>} />
                 <Route path="/language" element={<LanguageList/>} />
                 <Route path="/add-language" element={<LanguageAdd/>} />
+                <Route path="/interest" element={<InterestList/>} />
+                <Route path="/add-interest" element={<InterestAdd/>} />
             </Routes>
         </Router>
     )
