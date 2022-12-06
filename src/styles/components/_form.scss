@@ -27,39 +27,50 @@ input {
     }
 }
 
-input:where([type="checkbox"], [type="radio"]){
-    -webkit-appearance : none;
-    appearance         : none;
-    width              : 22px;
-    height             : 22px;
-    margin             : calc(0.75em - 11px) 0.25rem 0 0;
-    vertical-align     : top;
-    border             : 1px solid $borderColor;
-    border-radius      : 4px;
-    background         : $white no-repeat center center;
-  }
-  
-  input[type="radio"]{
-    border-radius : 50%;
-  }
-  
-  input:where([type="checkbox"], [type="radio"]):where(:active:not(:disabled), :focus){
-    border-color : $primaryColor;
-    outline      : none;
-  }
-  
-  input:where([type="checkbox"], [type="radio"]):disabled{
-    background : #eee;
-  }
-  
-  input[type="checkbox"]:checked{
-    background-image : url('../../../public/images/checkbox.svg');
-    
-  }
-  
-  input[type="radio"]:checked{
-    background-image : url('../../../public/images/radio.svg');
-  }
+.react-checkbox {
+    input[type="checkbox"],
+    input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        & + label {
+            position: relative;
+            cursor: pointer;
+            padding: 0;
+            &::before {
+                content: '';
+                margin-right: 10px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 20px;
+                height: 20px;
+                background: $white;
+                outline: 1px solid;
+                outline-color: $borderColor;
+                @include border-radius(2px);
+            }
+        }
+        &:checked {
+            & + label {
+                &::before {
+                    background-color: $primaryColor;
+                    outline-color: $primaryColor;
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    left: 7px;
+                    width: 6px;
+                    height: 12px;
+                    border: solid $white;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+}
 
 body {
     .react-datepicker {

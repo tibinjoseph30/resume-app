@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
-import { Form, Row, Col, FormGroup, Label, Button, Toast, ToastBody, Input } from 'reactstrap'
+import { Form, Row, Col, FormGroup, Label, Button, Toast, ToastBody } from 'reactstrap'
 import Select from 'react-select'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
@@ -13,6 +13,13 @@ const LanguageAdd = () => {
         language: "",
         level: ""
     }
+    const languageOptions = [
+        { value: 'beginner', label: 'Beginner' },
+        { value: 'elementary', label: 'Elementary' },
+        { value: 'intermediate', label: 'Intermediate' },
+        { value: 'advanced', label: 'Advanced' },
+        { value: 'native', label: 'Native' }
+      ]
     const [formValues, setFormValues] = useState(initialValues)
     const [selectValue, setSelectValue] = useState('')
     const [status, setStatus] = useState(null)
@@ -30,8 +37,8 @@ const LanguageAdd = () => {
     const handleSubmit= (event) => {
         event.preventDefault();
         console.log(formValues);
-        const skillCollectionRef = collection(db, 'skill');
-        addDoc(skillCollectionRef, formValues)
+        const languageCollectionRef = collection(db, 'language');
+        addDoc(languageCollectionRef, formValues)
         .then(response => {
           console.log(response)
           setStatus({ type: 'success' });
@@ -80,9 +87,16 @@ const LanguageAdd = () => {
                                     <Label>
                                         Level
                                     </Label>
-                                    <div className="check">
-                                        <label><input type="checkbox" /> Checked</label>
-                                    </div>
+                                    <Select
+                                        options={languageOptions}
+                                        menuPlacement="auto"
+                                        placeholder="Select language"
+                                        className='selectpicker'
+                                        onChange={(selectedValue) => {
+                                            setSelectValue(selectValue)
+                                            setFormValues({...formValues, language: selectedValue.label})
+                                        }}
+                                    />
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -92,7 +106,7 @@ const LanguageAdd = () => {
                         {status?.type === 'success' && (
                             <Toast isOpen={show} className='bg-success text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
                                 <ToastBody>
-                                You are successfully added a new skill.
+                                You are successfully added a new language.
                                 </ToastBody>
                             </Toast>
                         )}
