@@ -27,13 +27,6 @@ const LanguageAdd = () => {
 
     const options = useMemo(()=>languageList().getData(), [])
     
-    const handleChange = (event) => {
-        setFormValues({
-        ...formValues,
-        [event.target.name]: event.target.value,
-        });
-        console.log(event.target)
-    };
     const handleSubmit= (event) => {
         event.preventDefault();
         console.log(formValues);
@@ -90,11 +83,11 @@ const LanguageAdd = () => {
                                     <Select
                                         options={languageOptions}
                                         menuPlacement="auto"
-                                        placeholder="Select language"
+                                        placeholder="Select level"
                                         className='selectpicker'
                                         onChange={(selectedValue) => {
                                             setSelectValue(selectValue)
-                                            setFormValues({...formValues, language: selectedValue.label})
+                                            setFormValues({...formValues, level: selectedValue.label})
                                         }}
                                     />
                                 </FormGroup>

@@ -97,18 +97,50 @@ h1, h2, h3, h4, h5, h6 {
           }
         }
       }
-      &.language {
-        .star-rating {
-          .star {
-            color: #bbbbbb;
-            &:not(:last-child) {
-              margin-right: 2px;
-            }
-            &.checked {
-              color: $primaryColor;
-            }
-          }
-        }
+    }
+  }
+}
+
+.star-rating {
+  .star {
+    color: #bbbbbb;
+    &:not(:last-child) {
+      margin-right: 2px;
+    }
+  }
+  &.star-5 {
+    .star {
+      color: $primaryColor;
+    }
+  }
+  &.star-4 {
+    .star {
+      &:not(:last-child) {
+        color: $primaryColor;
+      }
+    }
+  }
+  &.star-3 {
+    .star {
+      &:nth-of-type(1),
+      &:nth-of-type(2),
+      &:nth-of-type(3) {
+        color: $primaryColor;
+      }
+    }
+  }
+  &.star-2 {
+    .star {
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        color: $primaryColor;
+      }
+    }
+  }
+  &.star-1 {
+    .star {
+      &:first-child {
+        color: $primaryColor;
       }
     }
   }
