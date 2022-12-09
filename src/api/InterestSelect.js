@@ -44,7 +44,6 @@ class interestSelect {
         this.valueMap[interest.code.toLowerCase()] = interest.label
       }
     })
-
     return this
   }
 

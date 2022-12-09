@@ -11,7 +11,6 @@ const SkillsList = () => {
 
     const [skill, setSkill] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    const [status, setStatus] = useState(null);
 
     useEffect(()=> {
         getSkills()
@@ -36,11 +35,9 @@ const SkillsList = () => {
         deleteDoc(skillDeleteRef)
         .then(response => {
             console.log(response)
-            setStatus({ type: 'success' });
         })
         .catch(error => {
             console.log(error.message)
-            setStatus({ type: 'error' });
         })
         getSkills()
     }

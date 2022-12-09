@@ -1,5 +1,5 @@
 import {useState, useMemo} from 'react'
-import { Col, Form, FormGroup, Label, Row, Input, Alert, Button } from 'reactstrap'
+import { Col, Form, FormGroup, Label, Row, Input, Alert, Button, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
@@ -7,6 +7,7 @@ import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const EducationAdd = () => {
     const initialValues = {
@@ -20,10 +21,10 @@ const EducationAdd = () => {
     const [joiningDate, setJoiningDate] = useState('')
     const [relievingDate, setRelievingDate] = useState('')
     const [selectValue, setSelectValue] = useState('')
-    const [status, setStatus] = useState(null);
-    const [alertVisible, setAlertVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const options = useMemo(()=>countryList().getData(), []);
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         setFormValues({
@@ -38,18 +39,14 @@ const EducationAdd = () => {
         const educationCollectionRef = collection(db, 'education');
         addDoc(educationCollectionRef, formValues)
         .then(response => {
-          console.log(response)
-          setStatus({ type: 'success' });
+          console.log(response);
+          navigate('/education');
         })
         .catch(error => {
           console.log(error.message)
-          setStatus({ type: 'error' });
         })
-        setFormValues(initialValues)
-        setAlertVisible(true)
-        setTimeout(() => { 
-            setAlertVisible(false)
-        }, 5000);
+        setFormValues(initialValues);
+        setIsLoading(true);
       }
 
     return (
@@ -180,18 +177,8 @@ const EducationAdd = () => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  {status?.type === 'success' && (
-                      <Alert color='success' isOpen={alertVisible}>
-                      You are successfully added a new education.
-                      </Alert>
-                  )}
-                  {status?.type === 'error' && (
-                      <Alert color='danger'>
-                      Something goes wrong.
-                      </Alert>
-                  )}
                   <div className='form-action'>
-                      <Button type='submit' color='primary' className=''>Add Education</Button>
+                      <Button type='submit' color='primary'>Add Education {isLoading ? <Spinner size="sm" /> : ''}</Button>
                   </div>
                 </Form>
               </div>

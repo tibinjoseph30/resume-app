@@ -10,8 +10,7 @@ import Topbar from '../layout/Topbar'
 const InterestList = () => {
 
     const [language, setLanguage] = useState([])
-     const [isLoading, setIsLoading] = useState(false);
-    const [status, setStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=> {
         getInterest()
@@ -36,11 +35,9 @@ const InterestList = () => {
         deleteDoc(interestDeleteRef)
         .then(response => {
             console.log(response)
-            setStatus({ type: 'success' });
         })
         .catch(error => {
             console.log(error.message)
-            setStatus({ type: 'error' });
         })
         getInterest()
     }

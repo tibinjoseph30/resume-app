@@ -1,11 +1,12 @@
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useMemo, useState } from 'react'
-import { Button, Col, Form, FormGroup, Label, Row, Toast, ToastBody } from 'reactstrap'
+import { Button, Col, Form, FormGroup, Label, Row, Spinner, Toast, ToastBody } from 'reactstrap'
 import { db } from '../../../config/firebase-config'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import Select from 'react-select'
 import interestList from '../../../api/InterestSelect'
+import { useNavigate } from 'react-router-dom'
 
 const InterestAdd = () => {
     const initialValues = {
@@ -13,10 +14,10 @@ const InterestAdd = () => {
     }
     const [formValues, setFormValues] = useState(initialValues)
     const [selectValue, setSelectValue] = useState('')
-    const [status, setStatus] = useState(null)
-    const [show, setShow] = useState(true)
+    const [isLoading, setIsloading] = useState(false);
 
-    const options = useMemo(()=>interestList().getData(), [])
+    const options = useMemo(()=>interestList().getData(), []);
+    const navigate = useNavigate();
     
     const handleSubmit= (event) => {
         event.preventDefault();
@@ -24,17 +25,14 @@ const InterestAdd = () => {
         const interestCollectionRef = collection(db, 'interest');
         addDoc(interestCollectionRef, formValues)
         .then(response => {
-          console.log(response)
-          setStatus({ type: 'success' });
+          console.log(response);
+          navigate('/interest');
         })
         .catch(error => {
           console.log(error.message)
-          setStatus({ type: 'error' });
         })
+        setIsloading(true);
         setFormValues(initialValues)
-        setTimeout(() => { 
-            setShow(false)
-        }, 5000);
     }
 
     return (
@@ -68,22 +66,8 @@ const InterestAdd = () => {
                                 </Col>
                             </Row>
                             <div className='form-action'>
-                                <Button type='submit' color='primary' className=''>Add Interest</Button>
+                                <Button type='submit' color='primary' className=''>Add Interest {isLoading ? <Spinner size="sm" /> : ''}</Button>
                             </div>
-                            {status?.type === 'success' && (
-                                <Toast isOpen={show} className='bg-success text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                    <ToastBody>
-                                    You are successfully added a new interest.
-                                    </ToastBody>
-                                </Toast>
-                            )}
-                            {status?.type === 'error' && (
-                                <Toast isOpen={show} className='bg-danger text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                    <ToastBody>
-                                    Something goes wrong.
-                                    </ToastBody>
-                                </Toast>
-                            )}
                         </Form>
                     </div>
                 </div>

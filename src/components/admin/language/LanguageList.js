@@ -12,7 +12,6 @@ const LanguageList = () => {
 
   const [language, setLanguage] = useState([])
   const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState(null);
 
   useEffect(()=> {
       getLanguage()
@@ -37,11 +36,9 @@ const LanguageList = () => {
       deleteDoc(languageDeleteRef)
       .then(response => {
           console.log(response)
-          setStatus({ type: 'success' });
       })
       .catch(error => {
           console.log(error.message)
-          setStatus({ type: 'error' });
       })
       getLanguage()
   }

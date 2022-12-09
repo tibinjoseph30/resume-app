@@ -7,8 +7,8 @@ const Language = () => {
     <div className='section language'>
         <h3 className='section-title'>Language</h3>
         <Row>
-            <Col lg="6">English</Col>
-            <Col lg="6">
+            <Col lg="5">English</Col>
+            <Col lg="7">
                 <div className="star-rating">
                     <MdStar className='star'/>
                     <MdStar className='star'/>

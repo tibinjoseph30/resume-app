@@ -220,6 +220,17 @@ body {
             }
             .section-body {
                 padding: 30px;
+                .profile-pic {
+                    width: 180px;
+                    overflow: hidden;
+                    @include flexbox;
+                    @include align-items(center);
+                    @include justify-content(center);
+                    background-color: $gray;
+                    img {
+                      width: 100%
+                    }
+                }
                 &.section-table {
                     table {
                         tr {

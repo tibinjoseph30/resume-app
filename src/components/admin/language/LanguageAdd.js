@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
-import { Form, Row, Col, FormGroup, Label, Button, Toast, ToastBody } from 'reactstrap'
+import { Form, Row, Col, FormGroup, Label, Button, Spinner } from 'reactstrap'
 import Select from 'react-select'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
 import languageList from '../../../api/LanguageSelect.js'
+import { useNavigate } from 'react-router-dom'
 
 const LanguageAdd = () => {
 
@@ -22,10 +23,10 @@ const LanguageAdd = () => {
       ]
     const [formValues, setFormValues] = useState(initialValues)
     const [selectValue, setSelectValue] = useState('')
-    const [status, setStatus] = useState(null)
-    const [show, setShow] = useState(true)
+    const [isLoading, setIsLoading] = useState(false);
 
-    const options = useMemo(()=>languageList().getData(), [])
+    const options = useMemo(()=>languageList().getData(), []);
+    const navigate = useNavigate();
     
     const handleSubmit= (event) => {
         event.preventDefault();
@@ -34,16 +35,13 @@ const LanguageAdd = () => {
         addDoc(languageCollectionRef, formValues)
         .then(response => {
           console.log(response)
-          setStatus({ type: 'success' });
+          navigate('/language');
         })
         .catch(error => {
           console.log(error.message)
-          setStatus({ type: 'error' });
         })
+        setIsLoading(true);
         setFormValues(initialValues)
-        setTimeout(() => { 
-            setShow(false)
-        }, 5000);
     }
 
     return (
@@ -94,22 +92,8 @@ const LanguageAdd = () => {
                             </Col>
                         </Row>
                         <div className='form-action'>
-                            <Button type='submit' color='primary' className=''>Add Skill</Button>
+                            <Button type='submit' color='primary' className=''>Add Skill {isLoading ? <Spinner size="sm" /> : ''}</Button>
                         </div>
-                        {status?.type === 'success' && (
-                            <Toast isOpen={show} className='bg-success text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                <ToastBody>
-                                You are successfully added a new language.
-                                </ToastBody>
-                            </Toast>
-                        )}
-                        {status?.type === 'error' && (
-                            <Toast isOpen={show} className='bg-danger text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                <ToastBody>
-                                Something goes wrong.
-                                </ToastBody>
-                            </Toast>
-                        )}
                     </Form>
                 </div>
             </div>

@@ -14,6 +14,8 @@ import LanguageList from "./components/admin/language/LanguageList";
 import LanguageAdd from "./components/admin/language/LanguageAdd";
 import InterestList from "./components/admin/interest/InterestList";
 import InterestAdd from "./components/admin/interest/InterestAdd";
+import ProfileView from "./components/admin/profile/ProfileView";
+import ProfileEdit from "./components/admin/profile/ProfileEdit";
 
 function AppRouter() {
     return(
@@ -34,6 +36,8 @@ function AppRouter() {
                 <Route path="/add-language" element={<LanguageAdd/>} />
                 <Route path="/interest" element={<InterestList/>} />
                 <Route path="/add-interest" element={<InterestAdd/>} />
+                <Route path="/profile" element={<ProfileView/>} />
+                <Route path="/edit-profile" element={<ProfileEdit/>} />
             </Routes>
         </Router>
     )

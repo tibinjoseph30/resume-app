@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Col, Form, Row, FormGroup, Label, Input, Button, Alert } from 'reactstrap'
+import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
@@ -7,13 +7,12 @@ import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
 import { doc, setDoc } from 'firebase/firestore'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ExperienceEdit = () => {
 
-  const [selectValue, setSelectValue] = useState('')
-  const [status, setStatus] = useState(null);
-  const [alertVisible, setAlertVisible] = useState(false);
+  const [selectValue, setSelectValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
   const [newFormValues, setNewFormValues] = useState(location.state.state);
@@ -27,6 +26,7 @@ const ExperienceEdit = () => {
   // console.log(newId)
  
   const options = useMemo(()=>countryList().getData(), []);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setNewFormValues({
@@ -41,18 +41,14 @@ const ExperienceEdit = () => {
     const experienceCollectionRef = doc(db, 'experience', newId)
     setDoc(experienceCollectionRef, newFormValues)
     .then(response => {
-        console.log(response)
-        setStatus({ type: 'success' });
+        console.log(response);
+        navigate('/experience');
     })
     .catch(error => {
       console.log(error.message)
-      setStatus({ type: 'error' });
     })
     console.log(newFormValues)
-    setAlertVisible(true)
-    setTimeout(() => { 
-      setAlertVisible(false)
-    }, 5000);
+    setIsLoading(true);
   }
   
 
@@ -185,18 +181,8 @@ const ExperienceEdit = () => {
                           </FormGroup>
                         </Col>
                     </Row>
-                    {status?.type === 'success' && (
-                      <Alert color='success' isOpen={alertVisible}>
-                        You are successfully updated the experience.
-                      </Alert>
-                    )}
-                    {status?.type === 'error' && (
-                      <Alert color='danger'>
-                        Something goes wrong.
-                      </Alert>
-                    )}
                     <div className='form-action'>
-                      <Button type='submit' color='primary' className=''>Update Experience</Button>
+                      <Button type='submit' color='primary' className=''>Update Experience {isLoading ? <Spinner sm="sm" /> : ''}</Button>
                     </div>
                 </Form>
               </div>

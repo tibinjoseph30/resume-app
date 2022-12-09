@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Col, Form, Row, FormGroup, Label, Input, Button, Alert } from 'reactstrap'
+import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
@@ -7,6 +7,7 @@ import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const ExperienceAdd = () => {
   const initialValues = {
@@ -20,10 +21,10 @@ const ExperienceAdd = () => {
   const [joiningDate, setJoiningDate] = useState('')
   const [relievingDate, setRelievingDate] = useState('')
   const [selectValue, setSelectValue] = useState('')
-  const [status, setStatus] = useState(null);
-  const [alertVisible, setAlertVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
  
   const options = useMemo(()=>countryList().getData(), []);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setFormValues({
@@ -39,18 +40,14 @@ const ExperienceAdd = () => {
     const experienceCollectionRef = collection(db, 'experience');
     addDoc(experienceCollectionRef, formValues)
     .then(response => {
-      console.log(response)
-      setStatus({ type: 'success' });
+      console.log(response);
+      navigate('/experience');
     })
     .catch(error => {
       console.log(error.message)
-      setStatus({ type: 'error' });
     })
-    setFormValues(initialValues)
-    setAlertVisible(true)
-    setTimeout(() => { 
-        setAlertVisible(false)
-    }, 5000);
+    setFormValues(initialValues);
+    setIsLoading(true);
   }
   
 
@@ -182,18 +179,8 @@ const ExperienceAdd = () => {
                         </FormGroup>
                       </Col>
                   </Row>
-                  {status?.type === 'success' && (
-                    <Alert color='success' isOpen={alertVisible}>
-                      You are successfully added a new experience.
-                    </Alert>
-                  )}
-                  {status?.type === 'error' && (
-                    <Alert color='danger'>
-                      Something goes wrong.
-                    </Alert>
-                  )}
                   <div className='form-action'>
-                    <Button type='submit' color='primary' className=''>Add Experience</Button>
+                    <Button type='submit' color='primary' className=''>Add Experience {isLoading ? <Spinner size="sm" /> : ''}</Button>
                   </div>
                 </Form>
               </div>

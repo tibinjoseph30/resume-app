@@ -1,10 +1,11 @@
 import {useState} from 'react'
 import Select from 'react-select'
-import { Form, Row, Col, FormGroup, Label, Input, Button, Toast, ToastBody } from 'reactstrap'
+import { Form, Row, Col, FormGroup, Label, Input, Button, Toast, ToastBody, Spinner } from 'reactstrap'
 import Sidebar from '../layout/Sidebar'
 import Topbar from '../layout/Topbar'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const SkillsAdd = () => {
     const initialValues = {
@@ -25,8 +26,9 @@ const SkillsAdd = () => {
     ]
     const [formValues, setFormValues] = useState(initialValues);
     const [selectValue, setSelectValue] = useState('')
-    const [status, setStatus] = useState(null);
-    const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         setFormValues({
@@ -41,17 +43,14 @@ const SkillsAdd = () => {
         const skillCollectionRef = collection(db, 'skill');
         addDoc(skillCollectionRef, formValues)
         .then(response => {
-          console.log(response)
-          setStatus({ type: 'success' });
+          console.log(response);
+          navigate('/skills');
         })
         .catch(error => {
           console.log(error.message)
-          setStatus({ type: 'error' });
         })
+        setIsLoading(true);
         setFormValues(initialValues)
-        setTimeout(() => { 
-            setShow(false)
-        }, 5000);
     }
 
     return (
@@ -100,22 +99,8 @@ const SkillsAdd = () => {
                             </Col>
                         </Row>
                         <div className='form-action'>
-                            <Button type='submit' color='primary' className=''>Add Skill</Button>
+                            <Button type='submit' color='primary' className=''>Add Skill {isLoading ? <Spinner size="sm" /> : ''}</Button>
                         </div>
-                        {status?.type === 'success' && (
-                            <Toast isOpen={show} className='bg-success text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                <ToastBody>
-                                You are successfully added a new skill.
-                                </ToastBody>
-                            </Toast>
-                        )}
-                        {status?.type === 'error' && (
-                            <Toast isOpen={show} className='bg-danger text-white position-absolute' style={{bottom: '10px', right: '10px'}}>
-                                <ToastBody>
-                                Something goes wrong.
-                                </ToastBody>
-                            </Toast>
-                        )}
                     </Form>
                 </div>
             </div>

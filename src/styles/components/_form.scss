@@ -1,7 +1,8 @@
 @import "../includes/mixins";
 @import "../includes/variables";
 
-input {
+input,
+textarea {
     &.form-control {
         min-height: 38px;
         border-color: $borderColor;

@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 .profile-wrapper {
   padding: 2rem 0;
   .profile-container {
-    max-width: 1000px;
+    max-width: 900px;
     width: 100%;
     background-color: $white;
     margin: auto;
@@ -28,26 +28,28 @@ h1, h2, h3, h4, h5, h6 {
     @include box-shadow(0px 5px 28px -10px rgba(0, 0, 0, 0.1));
     .profile-block {
       @include flexbox;
-      .left-block {
-        padding-right: 50px;
-        width: 280px;
-      }
-      .right-block {
-        width: calc(100% - 280px);
-      }
+    }
+    .left-block {
+      padding-right: 50px;
+      width: 250px;
+    }
+    .right-block {
+      width: calc(100% - 250px);
     }
     .section {
       padding-bottom: 50px;
       .section-title {
-        font-size: 20px;
+        font-size: 14px;
         position: relative;
-        padding-bottom: 15px;
+        padding-bottom: 10px;
         margin-bottom: 30px;
+        text-transform: uppercase;
+        color: $gray;
         &::after {
           content: '';
           width: 40px;
-          height: 3px;
-          background-color: $primaryColor;
+          height: 1px;
+          background-color: $gray;
           position: absolute;
           bottom: 0;
           left: 0;
@@ -64,33 +66,8 @@ h1, h2, h3, h4, h5, h6 {
         }
       }
       &.profile {
-        .profile-pic {
-          width: 100px;
-          height: 100px;
-          overflow: hidden;
-          @include border-radius(50px);
-          @include flexbox;
-          @include align-items(center);
-          @include justify-content(center);
-          background-color: $gray;
-          img {
-            width: 125px;
-          }
-        }
         .profile-summary {
           position: relative;
-          &::before {
-            content: '';
-            background-image: url(../../../public/images/quote.svg);
-            background-size: 90px;
-            width: 100px;
-            height: 100px;
-            display: inline-block;
-            background-repeat: no-repeat;
-            position: absolute;
-            top: -20px;
-            left: -20px;
-          }
           p {
             position: relative;
             text-align: justify;

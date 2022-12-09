@@ -42,7 +42,7 @@ const Sidebar = () => {
                         <NavLink tag={Link} to='/skills' activeclassname="active" onClick={outsideClick}><FiStar className='db-icon'/>Skills</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href=''><FiUser className='db-icon'/>Personal Info</NavLink>
+                        <NavLink tag={Link} to='/profile' activeclassname="active" onClick={outsideClick}><FiUser className='db-icon'/>Personal Info</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink tag={Link} to='/language' activeclassname="active" onClick={outsideClick}><FiFlag className='db-icon'/>Language</NavLink>
