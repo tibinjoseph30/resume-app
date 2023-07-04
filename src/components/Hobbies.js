@@ -1,12 +1,20 @@
 import React from 'react'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 
 const Hobbies = () => {
   return (
-    <div className='section hobbies'>
-        <h3 className='section-title'>Interests</h3>
-        <ul className='list-unstyled list-default'>
-            <li>Sports</li>
-        </ul>
+    <div className='section section-hobbies'>
+        <Card>
+            <CardHeader>
+                <h6>Hobbies</h6>
+            </CardHeader>
+            <CardBody>
+                <ul className='hobbies-list list-unstyled mb-0'>
+                    <li>Music</li>
+                    <li>Movies</li>
+                </ul>
+            </CardBody>
+        </Card>
     </div>
   )
 }

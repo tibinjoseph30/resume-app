@@ -1,23 +1,40 @@
-import React from 'react';
-import { Row, Col } from "reactstrap";
+import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 
 const Experience = () => {
   return (
-    <div className='section experience'>
-        <h3 className='section-title'>Experience</h3>
-        <Row>
-          <Col lg="3">
-            <h6 className='date'>2018 - 2022</h6>
-            <p></p>
-          </Col>
-          <Col lg="9">
-            <h5 className='section-head'>Ui Developer</h5>
-            <p>Microsoft<span className='mx-3'>|</span>Newyork City, USA</p>
-            <ul className='list-unstyled list-default'>
-              <li>Developed front-end web pages with HTML5, CSS3, and JavaScript.</li>
-            </ul>
-          </Col>
-        </Row>
+    <div className='section section-experience'>
+        <Card>
+            <CardHeader>
+                <h5>All Experiences</h5>
+            </CardHeader>
+            <CardBody>
+                <ul className='experience-list list-unstyled mb-0'>
+                    <li>
+                        <div className='d-flex '>
+                            <div className='brand-box me-3'></div>
+                            <div>
+                                <div className='fw-semibold mb-2'>Trendyol <span className='badge bg-light text-dark fw-normal ms-2'>Full Time</span></div>
+                                <div>UI Developer<span className='small text-muted ms-4'>October 2020 - January 2022</span></div>
+                                <div className='small text-muted mt-3'>1 year 2 Months</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div className='d-flex'>
+                            <div className='brand-box me-3'></div>
+                            <div>
+                                <div className='fw-semibold mb-2'>Pazarama <span className='badge bg-light text-dark fw-normal ms-2'>Full Time</span></div>
+                                <div>Front End Developer<span className='small text-muted ms-4'>October 2020 - January 2022</span></div>
+                                <div className='small text-muted mt-3'>1 year 2 Months</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>  
+            </CardBody>
+        </Card>
     </div>
   )
 }

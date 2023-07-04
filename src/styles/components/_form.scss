@@ -8,7 +8,6 @@ textarea {
         border-color: $borderColor;
         @include placeholder {
             color: $gray;
-            font-size: $global-font-size - 1;
         }
         &:focus {
             @include box-shadow(none);
@@ -23,7 +22,6 @@ textarea {
         @include box-shadow(none);
         div[class*="-placeholder"] {
             color: $gray;
-            font-size: $global-font-size - 1;
         }
     }
 }
@@ -76,7 +74,6 @@ textarea {
 body {
     .react-datepicker {
         border-color: $borderColor;
-        font-family: 'Roboto', sans-serif !important;
         color: $bodyColor;
         .react-datepicker__triangle {
             display: none;

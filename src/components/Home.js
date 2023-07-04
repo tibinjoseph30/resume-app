@@ -1,33 +1,40 @@
 import React from 'react';
-import Contact from "./Contact";
-import Education from "./Education";
-import Experience from "./Experience";
-import Header from "./Header";
-import Hobbies from "./Hobbies";
-import Language from "./Language";
-import Profile from "./Profile";
-import Skills from "./Skills";
+import { Container, Row, Col } from 'reactstrap';
+import Header from './Header';
+import Profile from './Profile';
+import Experience from './Experience';
+import Education from './Education';
+import Skills from './Skills';
+import Language from './Language';
+import Projects from './Projects';
+import CareerStatus from './CareerStatus';
+import IndustryKnowledge from './IndustryKnowledge';
+import Resume from './Resume';
+import Hobbies from './Hobbies';
 
 const Home = () => {
   return (
-    <div className="profile-wrapper">
-        <main className="profile-container">
-            <Header/>
-            <div className="profile-block">
-            <div className="left-block">
-                <Contact/>
-                <Language/>
-                <Hobbies/>
-            </div>
-            <div className="right-block">
-                <Profile/>
-                <Experience/>
-                <Education/>
-                <Skills/>
-            </div>
-            </div>
-        </main>
-    </div>
+    <main>
+        <Container>
+          <Row>
+            <Col lg="8">
+              <Header/>
+              <Profile/>
+              <Experience/>
+              <Education/>
+              <Skills/>
+              <Language/>
+            </Col>
+            <Col lg="4">
+              <Projects/>
+              <CareerStatus/>
+              <IndustryKnowledge/>
+              <Resume/>
+              <Hobbies/>
+            </Col>
+          </Row>
+        </Container>
+      </main>
   )
 }
 

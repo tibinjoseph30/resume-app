@@ -14,6 +14,22 @@ button,a {
                 background-color: darken($primaryColor, 8%);
             }
         }
+        &.btn-primary-light {
+            background-color: lighten($primaryColor, 42%);
+            color: $primaryColor;
+            border: none;
+            &:hover {
+                background-color: $primaryColor;
+                color: $white;
+            }
+        }
+        &.btn-secondary {
+            background-color: $secondaryColor;
+            border-color: $secondaryColor;
+            &:hover {
+                background-color: darken($secondaryColor, 8%);
+            }
+        }
     }
 }
 .action-btn {

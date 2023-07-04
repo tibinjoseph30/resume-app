@@ -6,143 +6,174 @@ body,
 html {
   padding: 0;
   margin: 0;
-  color: $secondaryColor !important;
-  font-family: 'Roboto', sans-serif !important;
-  background-color: #f5f9fd !important;
-  font-size: $global-font-size;
-  font-weight: 400;
-}
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f9fb;
+  font-size: 15px;
+  color: $bodyColor;
 }
 
-.profile-wrapper {
-  padding: 2rem 0;
-  .profile-container {
-    max-width: 900px;
-    width: 100%;
-    background-color: $white;
-    margin: auto;
-    padding: 50px;
-    @include box-shadow(0px 5px 28px -10px rgba(0, 0, 0, 0.1));
-    .profile-block {
-      @include flexbox;
+main {
+  padding: 50px 0;
+}
+
+.section {
+  .card {
+    border: none;
+    margin-bottom: 1.5rem;
+    @include border-radius(15px);
+    .card-header {
+      background-color: $white;
+      border: 0;
+      padding: 1.75rem 2rem 0;
+      background-color: transparent;
     }
-    .left-block {
-      padding-right: 50px;
-      width: 250px;
+    .card-body {
+      padding: 1.75rem 2rem;
     }
-    .right-block {
-      width: calc(100% - 250px);
+  }
+  .form-group {
+    margin-bottom: 2.5rem;
+  }
+}
+.section-header {
+  .avatar {
+    width: 70px;
+    height: 70px;
+    @include border-radius(100px);
+    overflow: hidden;
+    img {
+      width: 100%;
     }
-    .section {
-      padding-bottom: 50px;
-      .section-title {
-        font-size: 14px;
-        position: relative;
-        padding-bottom: 10px;
-        margin-bottom: 30px;
-        text-transform: uppercase;
+  }
+  .social-menu-list {
+    li {
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+      a {
         color: $gray;
-        &::after {
-          content: '';
-          width: 40px;
-          height: 1px;
-          background-color: $gray;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-        }
-      }
-      .section-head {
+        width: 35px;
+        height: 35px;
+        @include inline-flex;
+        @include align-items(center);
+        @include justify-content(center);
+        @include border-radius(50px);
         font-size: 16px;
-      }
-      &.header {
-        .name {
-          font-size: 30px;
-          font-weight: 700;
+        &:hover {
+          background-color: #f7f7f7;
           color: $primaryColor;
         }
       }
-      &.profile {
-        .profile-summary {
-          position: relative;
-          p {
-            position: relative;
-            text-align: justify;
-          }
-        }
-      }
     }
   }
 }
-
-.star-rating {
-  .star {
-    color: #bbbbbb;
-    &:not(:last-child) {
-      margin-right: 2px;
-    }
-  }
-  &.star-5 {
-    .star {
-      color: $primaryColor;
-    }
-  }
-  &.star-4 {
-    .star {
-      &:not(:last-child) {
-        color: $primaryColor;
-      }
-    }
-  }
-  &.star-3 {
-    .star {
-      &:nth-of-type(1),
-      &:nth-of-type(2),
-      &:nth-of-type(3) {
-        color: $primaryColor;
-      }
-    }
-  }
-  &.star-2 {
-    .star {
-      &:nth-of-type(1),
-      &:nth-of-type(2) {
-        color: $primaryColor;
-      }
-    }
-  }
-  &.star-1 {
-    .star {
-      &:first-child {
-        color: $primaryColor;
-      }
+.section-profile {
+  .svg-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f6f6f6;
+    padding: 0.15rem;
+    @include border-radius(8px);
+    @include flexbox;
+    @include align-items(center);
+    @include justify-content(center);
+    svg {
+      width: 20px;
+      color: $gray;
     }
   }
 }
-
-ul {
-  &.list-default {
+.section-experience,
+.section-education,
+.section-project {
+  .brand-box {
+    width: 50px;
+    height: 50px;
+    border: 1px solid $borderLight;
+    @include border-radius(50px);
+  }
+  .experience-list,
+  .education-list,
+  .project-list {
     li {
+      padding: 1.5rem 0;
+      &:first-child {
+        padding-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+      &:not(:last-child) {
+        border-bottom: 1px solid $borderLight;
+      }
+    }
+  }
+}
+.section-skill {
+  table {
+    td {
+      &:first-child {
+        padding-left: 0;
+      }
+      &:last-child {
+        padding-right: 0;
+        text-align: right;
+      }
+    }
+  }
+}
+.section-language {
+  .language-box {
+    padding: 1rem;
+    border: 1px solid $borderLight;
+    @include border-radius(8px);
+    .icon {
+      width: 35px;
+      height: 35px;
+      background-color: $bodyColor;
+      color: $white;
+      @include border-radius(50px);
+      @include flexbox;
+      @include align-items(center);
+      @include justify-content(center);
+    }
+  }
+}
+.section-industry-knowledge {
+  .knowledge-block {
+    span {
+      border: 1px solid $borderLight;
+      padding: 0.25rem 0.75rem;
+      display: inline-block;
+      @include border-radius(6px);
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+.section-hobbies {
+  .hobbies-list {
+    li {
+      padding-inline-start: 25px;
       position: relative;
-      padding-left: 20px;
       &::before {
         content: '';
         width: 5px;
         height: 5px;
-        @include border-radius(10px);
-        background-color: $bodyColor;
+        background-color: #afafaf;
+        display: inline-block;
         position: absolute;
+        top: 0;
+        bottom: 0;
         left: 0;
-        top: 8px;
+        margin: auto;
+        @include border-radius(50px);
+      }
+      &:not(:last-child) {
+        margin-bottom: 0.75rem;
       }
     }
-  }
-}
-.progress {
-  .progress-bar {
-    background-color: $primaryColor;
   }
 }
