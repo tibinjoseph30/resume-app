@@ -1,6 +1,7 @@
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MdStarRate } from "react-icons/md";
 import { Card, CardBody, CardHeader, Table } from 'reactstrap'
 
 const Skills = () => {
@@ -15,17 +16,16 @@ const Skills = () => {
                     <tbody>
                         <tr>
                             <td>Adobe Photoshop</td>
-                            <td width="50">
-                                <FontAwesomeIcon icon={faCircleCheck}/>
+                            <td className='text-muted'>Image Editor</td>
+                            <td width="100">
+                                <div className="rating">
+                                    <MdStarRate/>
+                                    <MdStarRate/>
+                                    <MdStarRate/>
+                                    <MdStarRate/>
+                                    <MdStarRate/>
+                                </div>
                             </td>
-                            <td width="80">5 Year</td>
-                        </tr>
-                        <tr>
-                            <td>Adobe Illustrator</td>
-                            <td width="50">
-                                <FontAwesomeIcon icon={faCircleCheck}/>
-                            </td>
-                            <td width="80">5 Year</td>
                         </tr>
                     </tbody>
                 </Table>

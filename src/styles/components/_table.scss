@@ -6,6 +6,7 @@ table {
         th, td {
             padding: 1rem;
             border-color: $borderLight;
+            font-size: 14px;
             &.actions {
                 text-align: right;
             }
@@ -13,6 +14,7 @@ table {
         th {
             text-transform: uppercase;
             color: $gray;
+            font-weight: 600;
         }
         td {
             &.actions {

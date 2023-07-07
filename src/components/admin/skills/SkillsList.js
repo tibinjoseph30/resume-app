@@ -68,12 +68,6 @@ const SkillsList = () => {
                                         <CardBody>
                                             <div className="d-flex align-items-center">
                                                 <h3 className='mb-0'>{ski.data.profficiency}</h3>
-                                                {ski.data.profficiency >= '80' ? 
-                                                <FiArrowUp className='ms-2 text-success' size={15}/> :
-                                                ski.data.profficiency >= '50' ? 
-                                                <FiArrowUp className='ms-2 text-warning' size={15}/> : 
-                                                <FiArrowDown className='ms-2 text-danger' size={15}/>}
-
                                                 <FiTrash2 onClick={()=>deleteSkill(ski.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
                                             </div>
                                             <p className='mb-0 mt-2'>{ski.data.skill}</p>  

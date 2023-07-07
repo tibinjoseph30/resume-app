@@ -53,26 +53,50 @@ const ProfileView = () => {
                                 <div className='mt-5'>
                                     <Row>
                                         <Col lg="3">
-                                            <p className='text-muted'>Address:</p>
+                                            <div className='text-muted'>Address:</div>
                                         </Col>
                                         <Col lg="9">
-                                            <p>{prof.data.city}, {prof.data.state}, {prof.data.country}</p>
+                                            <div className='mb-3'>{prof.data.city}, {prof.data.state}, {prof.data.country}</div>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col lg="3">
-                                            <p className='text-muted'>Phone:</p>
+                                            <div className='text-muted'>Phone:</div>
                                         </Col>
                                         <Col lg="9">
-                                            <p>{prof.data.phone}</p>
+                                            <div className='mb-3'>{prof.data.phone}</div>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col lg="3">
-                                            <p className='text-muted'>Email:</p>
+                                            <div className='text-muted'>Email:</div>
                                         </Col>
                                         <Col lg="9">
-                                            <p>{prof.data.email}</p>
+                                            <div className='mb-3'>{prof.data.email}</div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col lg="3">
+                                            <div className='text-muted'>Date of Birth:</div>
+                                        </Col>
+                                        <Col lg="9">
+                                            <div className='mb-3'></div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col lg="3">
+                                            <div className='text-muted'>Career Status:</div>
+                                        </Col>
+                                        <Col lg="9">
+                                            <div className='mb-3'></div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col lg="3">
+                                            <div className='text-muted'>Freelance:</div>
+                                        </Col>
+                                        <Col lg="9">
+                                            <div className='mb-3'></div>
                                         </Col>
                                     </Row>
                                     <Button tag={Link} to="/edit-profile" state={{state: prof.data, id: prof.id}} color='primary' className='mt-4'>Edit Profile</Button>

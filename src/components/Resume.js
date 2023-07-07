@@ -1,5 +1,6 @@
-import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
+import { faFileText } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FiArrowDown } from "react-icons/fi";
 import React from 'react'
 import { Card, CardBody, CardHeader } from 'reactstrap'
 
@@ -11,9 +12,12 @@ const Resume = () => {
                 <h6>Resume</h6>
             </CardHeader>
             <CardBody>
-                <div>
-                    <span className='text-muted me-3'><FontAwesomeIcon icon={faFileAlt} /></span>
-                    john-doe-resume.pdf
+                <div className="d-flex align-items-center">
+                    <div>
+                        <span className='text-muted me-3'><FontAwesomeIcon icon={faFileText} /></span>
+                        john-doe-resume.pdf
+                    </div>
+                    <button className='btn btn-primary btn-download ms-auto'><FiArrowDown/></button>
                 </div>
             </CardBody>
         </Card>

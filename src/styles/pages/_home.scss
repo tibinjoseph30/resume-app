@@ -121,6 +121,53 @@ main {
       }
     }
   }
+  .rating {
+    @include flexbox;
+    svg {
+      width: 18px;
+      height: 18px;
+      &:not(:last-child) {
+        margin-right: 0.25rem;
+      }
+      color: $gray;
+      &.checked {
+        color: $primaryColor;
+      }
+    }
+    &.beginner {
+      svg {
+        &:first-child {
+          color: $primaryColor;
+        }
+      }
+    }
+    &.intermediate {
+      svg {
+        &:nth-child(-n+2) {
+          color: $primaryColor;
+        }
+      }
+    }
+    &.advanced {
+      svg {
+        &:nth-child(-n+3) {
+          color: $primaryColor;
+        }
+      }
+    }
+    &.professional {
+      svg {
+        &:not(:last-child) {
+          color: $primaryColor;
+        }
+      }
+    }
+    &.expert {
+      svg {
+        color: $primaryColor;
+      }
+    }
+  }
 }
 .section-language {
   .language-box {
@@ -175,5 +222,17 @@ main {
         margin-bottom: 0.75rem;
       }
     }
+  }
+}
+.section-resume {
+  .btn-download {
+    width: 30px;
+    height: 30px;
+    min-height: unset !important;
+    padding: 0 !important;
+    @include flexbox;
+    @include align-items(center);
+    @include justify-content(center);
+    @include border-radius(50px);
   }
 }

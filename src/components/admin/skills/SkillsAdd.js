@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom'
 const SkillsAdd = () => {
     const initialValues = {
         skill: "",
-        profficiency: ""
+        profficiency: "",
+        skillType: ""
     }
     const options = [
         {value: "100", label: "100%"},
@@ -94,6 +95,21 @@ const SkillsAdd = () => {
                                             setSelectValue(selectValue)
                                             setFormValues({...formValues, profficiency: selectedValue.label})
                                         }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xl="4" sm="6">
+                                <FormGroup>
+                                    <Label>
+                                        Skill Type
+                                    </Label>
+                                    <Input
+                                        type="text"
+                                        name="skilltype"
+                                        value={formValues.skillType}
+                                        placeholder="Enter skill type"
+                                        onChange={handleChange}
+                                        required
                                     />
                                 </FormGroup>
                             </Col>

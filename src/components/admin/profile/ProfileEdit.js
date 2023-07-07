@@ -163,32 +163,6 @@ const ProfileEdit = () => {
                                     />
                                 </FormGroup>
                             </Col>
-                            {/* <Col xl="4" sm="6">
-                                <FormGroup>
-                                    <Label>Profile Picture</Label>
-                                    <Input
-                                        type="file"
-                                        name="profilePic"
-                                        value={formValues.profilePic}
-                                        placeholder="Select picture"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col sm="12">
-                                <FormGroup>
-                                    <Label>Summary</Label>
-                                    <Input
-                                        type="textarea"
-                                        name="summary"
-                                        value={formValues.summary}
-                                        placeholder="Enter summary"
-                                        onChange={handleChange}
-                                        // required
-                                    />
-                                </FormGroup>
-                            </Col> */}
                         </Row>
                         <div className='form-action'>
                             <Button type='submit' color='primary' className=''>Update profile {isLoading ? <Spinner size="sm" /> : ''}</Button>

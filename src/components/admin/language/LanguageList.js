@@ -4,7 +4,6 @@ import Topbar from '../layout/Topbar'
 import { Button, Row, Col, Card, CardBody, Spinner } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
 import { FiTrash2 } from 'react-icons/fi'
-import { MdStar } from 'react-icons/md'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 
@@ -71,13 +70,7 @@ const LanguageList = () => {
                                     <p className='mb-0'>{lan.data.language}</p>
                                     <FiTrash2 onClick={()=>deleteLanguage(lan.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
                                 </div>
-                                <div className={'star-rating mt-2 ' + (lan.data.level==='Native' ? 'star-5' : lan.data.level==='Advanced' ? 'star-4' : lan.data.level==="Intermediate" ? 'star-3' : lan.data.level==="Elementary" ? 'star-2' : lan.data.level==="Beginner" ? 'star-1' : '')}>
-                                    <MdStar className='star' fontSize={20}/>
-                                    <MdStar className='star' fontSize={20}/>
-                                    <MdStar className='star' fontSize={20}/>
-                                    <MdStar className='star' fontSize={20}/>
-                                    <MdStar className='star' fontSize={20}/>
-                                </div>  
+                                <div className='text-muted small'>{lan.data.level}</div> 
                             </CardBody>
                         </Card>
                       </Col>

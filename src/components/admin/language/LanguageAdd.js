@@ -16,9 +16,9 @@ const LanguageAdd = () => {
     }
     const languageOptions = [
         { value: 'beginner', label: 'Beginner' },
-        { value: 'elementary', label: 'Elementary' },
         { value: 'intermediate', label: 'Intermediate' },
         { value: 'advanced', label: 'Advanced' },
+        { value: 'professional', label: 'Professional' },
         { value: 'native', label: 'Native' }
       ]
     const [formValues, setFormValues] = useState(initialValues)
