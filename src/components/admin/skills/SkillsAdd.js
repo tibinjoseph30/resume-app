@@ -2,7 +2,7 @@ import {useState} from 'react'
 import Select from 'react-select'
 import { Form, Row, Col, FormGroup, Label, Input, Button, Toast, ToastBody, Spinner } from 'reactstrap'
 import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Topbar'
+import Topbar from '../layout/Header'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
@@ -45,7 +45,7 @@ const SkillsAdd = () => {
         addDoc(skillCollectionRef, formValues)
         .then(response => {
           console.log(response);
-          navigate('/skills');
+          navigate('../skills');
         })
         .catch(error => {
           console.log(error.message)
@@ -55,74 +55,76 @@ const SkillsAdd = () => {
     }
 
     return (
-    <div className='admin-panel'>
-        <Sidebar/>
-        <div className='right-block'>
-            <Topbar/>
-            <div className='section-panel'>
-                <div className="section-header">
-                    <h4 className='section-title'>Add Skill</h4>
-                </div>
-                <div className="section-body">
-                    <Form onSubmit={handleSubmit}>
-                        <Row>
-                            <Col xl="4" sm="6">
-                                <FormGroup>
-                                    <Label>
-                                        Skill
-                                    </Label>
-                                    <Input
-                                        type="text"
-                                        name="skill"
-                                        value={formValues.skill}
-                                        placeholder="Enter a skill"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col xl="4" sm="6">
-                                <FormGroup>
-                                    <Label>
-                                        Profficiency
-                                    </Label>
-                                    <Select
-                                        options={options}
-                                        menuPlacement="auto"
-                                        placeholder="Select percentage"
-                                        className='selectpicker'
-                                        onChange={(selectedValue) => {
-                                            setSelectValue(selectValue)
-                                            setFormValues({...formValues, profficiency: selectedValue.label})
-                                        }}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col xl="4" sm="6">
-                                <FormGroup>
-                                    <Label>
-                                        Skill Type
-                                    </Label>
-                                    <Input
-                                        type="text"
-                                        name="skilltype"
-                                        value={formValues.skillType}
-                                        placeholder="Enter skill type"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <div className='form-action'>
-                            <Button type='submit' color='primary' className=''>Add Skill {isLoading ? <Spinner size="sm" /> : ''}</Button>
-                        </div>
-                    </Form>
-                </div>
+        <div>
+            <div className="section-header">
+                <h4 className='section-title'>Add Skill</h4>
+            </div>
+            <div className="section-body">
+                <Form onSubmit={handleSubmit}>
+                    <Row>
+                        <Col xl="4" sm="6">
+                            <FormGroup>
+                                <Label>
+                                    Skill
+                                </Label>
+                                <Input
+                                    type="text"
+                                    name="skill"
+                                    value={formValues.skill}
+                                    placeholder="Enter a skill"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xl="4" sm="6">
+                            <FormGroup>
+                                <Label>
+                                    Profficiency
+                                </Label>
+                                <Select
+                                    options={options}
+                                    menuPlacement="auto"
+                                    placeholder="Select percentage"
+                                    className='selectpicker'
+                                    onChange={(selectedValue) => {
+                                        setSelectValue(selectValue)
+                                        setFormValues({...formValues, profficiency: selectedValue.label})
+                                    }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xl="4" sm="6">
+                            <FormGroup>
+                                <Label>
+                                    Skill Type
+                                </Label>
+                                <Input
+                                    type="text"
+                                    name="skilltype"
+                                    value={formValues.skillType}
+                                    placeholder="Enter skill type"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <div className='form-action'>
+                        <Button type='submit' color='primary' className='d-flex align-items-center'>Add Skill 
+                            {isLoading ? 
+                            <Spinner size="sm" className='ms-2' 
+                            style={{
+                                height: '20px', 
+                                width:'20px', 
+                                borderWidth: '2px'
+                            }}/> : ''}
+                        </Button>
+                    </div>
+                </Form>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default SkillsAdd

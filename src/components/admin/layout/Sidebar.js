@@ -1,54 +1,39 @@
-import {useRef, useEffect} from 'react'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom';
-import { FiHome, FiBriefcase, FiAward, FiStar, FiUser, FiFlag, FiClock } from 'react-icons/fi' 
+import { FiHome, FiBriefcase, FiAward, FiStar, FiUser, FiFlag, FiHeart, FiBook } from 'react-icons/fi' 
 
-function outsideClick() {
-    document.body.classList.remove('mob-menu-open')
-}
-function useOutsideAlerter(ref) {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-            outsideClick()
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-}
+
 const Sidebar = () => {
-    const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef);
     return (
-        <div className="left-block" ref={wrapperRef}>
+        <div className="left-block">
             <div className="sidebar">
                 <div className="logo-block">
                     <h3 className='logo'>My Admin</h3>
                 </div>
                 <Nav vertical>
                     <NavItem>
-                        <NavLink tag={Link} to='/dashboard' activeclassname="active" onClick={outsideClick}><FiHome className='db-icon'/>Dashboard</NavLink>
+                        <NavLink tag={Link} to='dashboard' activeClassName="active"><FiHome className='db-icon'/>Dashboard</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/experience' activeclassname="active" onClick={outsideClick}><FiBriefcase className='db-icon'/>Experience</NavLink>
+                        <NavLink tag={Link} to='experience' activeClassName="active"><FiBriefcase className='db-icon'/>Experience</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/education' activeclassname="active" onClick={outsideClick}><FiAward className='db-icon'/>Education</NavLink>
+                        <NavLink tag={Link} to='education' activeClassName="active"><FiAward className='db-icon'/>Education</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/skills' activeclassname="active" onClick={outsideClick}><FiStar className='db-icon'/>Skills</NavLink>
+                        <NavLink tag={Link} to='skills' activeClassName="active"><FiStar className='db-icon'/>Skills</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/profile' activeclassname="active" onClick={outsideClick}><FiUser className='db-icon'/>Personal Info</NavLink>
+                        <NavLink tag={Link} to='profile' activeClassName="active"><FiUser className='db-icon'/>Personal Info</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/language' activeclassname="active" onClick={outsideClick}><FiFlag className='db-icon'/>Language</NavLink>
+                        <NavLink tag={Link} to='language' activeClassName="active"><FiFlag className='db-icon'/>Language</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='/interest' activeclassname="active" onClick={outsideClick}><FiClock className='db-icon'/>Interests</NavLink>
+                        <NavLink tag={Link} to='interest' activeClassName="active"><FiHeart className='db-icon'/>Interests</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink tag={Link} to='knowledge' activeClassName="active"><FiBook className='db-icon'/>Knowledge</NavLink>
                     </NavItem>
                 </Nav>
             </div>

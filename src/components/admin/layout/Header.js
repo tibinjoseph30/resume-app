@@ -1,9 +1,6 @@
-import {useState, useEffect} from 'react'
 import { FiMenu } from 'react-icons/fi'
 import { 
     Nav, 
-    NavItem, 
-    NavLink,
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
@@ -14,7 +11,7 @@ function mobMenuClick() {
     document.body.classList.add('mob-menu-open')
 }
 
-const Topbar = () => {
+const Header = () => {
   return (
     <div className="header">
         <FiMenu size={21} className='mob-menu' onClick={mobMenuClick}/>
@@ -41,4 +38,4 @@ const Topbar = () => {
   )
 }
 
-export default Topbar
+export default Header

@@ -16,6 +16,9 @@ import InterestList from "./components/admin/interest/InterestList";
 import InterestAdd from "./components/admin/interest/InterestAdd";
 import ProfileView from "./components/admin/profile/ProfileView";
 import ProfileEdit from "./components/admin/profile/ProfileEdit";
+import AdminLayout from "./components/admin/layout/AdminLayout";
+import KnowledgeAdd from "./components/admin/knowledge/KnowledgeAdd";
+import KnowledgeList from "./components/admin/knowledge/KnowledgeList";
 
 function AppRouter() {
     return(
@@ -23,21 +26,25 @@ function AppRouter() {
             <Routes>
                 <Route exact path="/" element={<Home/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/dashboard" element={<Dashboard/>} />
-                <Route path="/experience" element={<ExperienceList/>} />
-                <Route path="/add-experience" element={<ExperienceAdd/>} />
-                <Route path="/edit-experience/:id" element={<ExperienceEdit/>} />
-                <Route path="/education" element={<EducationList/>} />
-                <Route path="/add-education" element={<EducationAdd/>} />
-                <Route path="/edit-education/:id" element={<EducationEdit/>} />
-                <Route path="/skills" element={<SkillsList/>} />
-                <Route path="/add-skill" element={<SkillsAdd/>} />
-                <Route path="/language" element={<LanguageList/>} />
-                <Route path="/add-language" element={<LanguageAdd/>} />
-                <Route path="/interest" element={<InterestList/>} />
-                <Route path="/add-interest" element={<InterestAdd/>} />
-                <Route path="/profile" element={<ProfileView/>} />
-                <Route path="/edit-profile" element={<ProfileEdit/>} />
+                <Route path="/admin" element={<AdminLayout/>}>
+                    <Route index path="dashboard" element={<Dashboard/>} />
+                    <Route path="experience" element={<ExperienceList/>} />
+                    <Route path="add-experience" element={<ExperienceAdd/>} />
+                    <Route path="edit-experience/:id" element={<ExperienceEdit/>} />
+                    <Route path="education" element={<EducationList/>} />
+                    <Route path="add-education" element={<EducationAdd/>} />
+                    <Route path="edit-education/:id" element={<EducationEdit/>} />
+                    <Route path="skills" element={<SkillsList/>} />
+                    <Route path="add-skill" element={<SkillsAdd/>} />
+                    <Route path="language" element={<LanguageList/>} />
+                    <Route path="add-language" element={<LanguageAdd/>} />
+                    <Route path="interest" element={<InterestList/>} />
+                    <Route path="add-interest" element={<InterestAdd/>} />
+                    <Route path="profile" element={<ProfileView/>} />
+                    <Route path="edit-profile" element={<ProfileEdit/>} />
+                    <Route path="knowledge" element={<KnowledgeList/>} />
+                    <Route path="add-knowledge" element={<KnowledgeAdd/>} />
+                </Route>
             </Routes>
         </Router>
     )
