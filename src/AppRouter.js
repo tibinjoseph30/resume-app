@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/admin/dashboard/Dashboard";
-import Login from "./components/admin/auth/Login";
+import Login from "./components/auth/Login";
 import Home from "./components/Home";
 import ExperienceAdd from "./components/admin/experience/ExperienceAdd";
 import ExperienceList from "./components/admin/experience/ExperienceList";
@@ -19,6 +19,9 @@ import ProfileEdit from "./components/admin/profile/ProfileEdit";
 import AdminLayout from "./components/admin/layout/AdminLayout";
 import KnowledgeAdd from "./components/admin/knowledge/KnowledgeAdd";
 import KnowledgeList from "./components/admin/knowledge/KnowledgeList";
+import ProjectList from "./components/admin/project/ProjectList";
+import ProjectAdd from "./components/admin/project/ProjectAdd";
+import ProjectEdit from "./components/admin/project/ProjectEdit";
 
 function AppRouter() {
     return(
@@ -34,6 +37,9 @@ function AppRouter() {
                     <Route path="education" element={<EducationList/>} />
                     <Route path="add-education" element={<EducationAdd/>} />
                     <Route path="edit-education/:id" element={<EducationEdit/>} />
+                    <Route path="project" element={<ProjectList/>} />
+                    <Route path="add-project" element={<ProjectAdd/>} />
+                    <Route path="edit-project/:id" element={<ProjectEdit/>} />
                     <Route path="skills" element={<SkillsList/>} />
                     <Route path="add-skill" element={<SkillsAdd/>} />
                     <Route path="language" element={<LanguageList/>} />

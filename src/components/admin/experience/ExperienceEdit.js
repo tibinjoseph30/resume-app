@@ -177,7 +177,7 @@ const ExperienceEdit = () => {
             </Row>
             <div className='form-action'>
               <Button type='submit' color='primary' className='d-flex align-items-center'>Update Experience 
-                  {!isLoading ? 
+                  {isLoading ? 
                   <Spinner size="sm" className='ms-2' 
                   style={{
                       height: '20px', 

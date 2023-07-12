@@ -161,7 +161,7 @@ const ProfileEdit = () => {
                             <Label>Email</Label>
                             <Input
                                 type="email"
-                                name="state"
+                                name="email"
                                 value={newFormValues.email}
                                 placeholder="Enter email"
                                 onChange={handleChange}

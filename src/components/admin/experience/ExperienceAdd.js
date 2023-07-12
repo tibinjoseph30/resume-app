@@ -50,7 +50,7 @@ const ExperienceAdd = () => {
   
 
   return (
-    <div className="section-panel">
+    <div>
         <div className="section-header">
           <h4 className='section-title'>Add Experience</h4>
         </div>
