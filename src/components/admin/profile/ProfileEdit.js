@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
-import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Header'
+import Datepicker from "react-datepicker"
 import Select from 'react-select'
 import countryList from '../../../api/CountrySelect'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -15,18 +14,29 @@ const ProfileEdit = () => {
     const navigate = useNavigate();
 
     const [newFormValues, setNewFormValues] = useState(location.state.state);
+    const [newDob, setNewDob] = useState(newFormValues.dob)
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
 
     console.log(newFormValues)
+    console.log(newFormValues.dob)
 
     const options = useMemo(()=>countryList().getData(), [])
+    const careerOptions = [
+        { value: 'working', label: 'Currently Working' },
+        { value: 'job-seeking', label: 'Seeking Job' }
+      ]
+    const freelanceOptions = [
+        { value: 'available', label: 'Available' },
+        { value: 'not-availbale', label: 'Not Available' }
+      ]
 
     const handleChange = (event) => {
         setNewFormValues({
             ...newFormValues,
             [event.target.name]: event.target.value
         })
+        console.log(newFormValues)
     }
 
     const handleSubmit = (event)=> {
@@ -162,10 +172,15 @@ const ProfileEdit = () => {
                     <Col xl="4" sm="6">
                         <FormGroup>
                             <Label>Date of Birth</Label>
-                            <Input
-                                type="text"
-                                name="dob"
-                                placeholder="Enter phone number"
+                            <Datepicker
+                                selected={new Date(newDob)}
+                                placeholderText='Select date' 
+                                className='form-control'
+                                dateFormat="dd-MM-yyyy"
+                                onChange={(date)=> {
+                                    setNewDob(date)
+                                    setNewFormValues({...newFormValues, dob: date.toLocaleDateString()})
+                                }} 
                                 required
                             />
                         </FormGroup>
@@ -173,22 +188,32 @@ const ProfileEdit = () => {
                     <Col xl="4" sm="6">
                         <FormGroup>
                             <Label>Career Status</Label>
-                            <Input
-                                type="text"
-                                name="dob"
-                                placeholder="Enter phone number"
-                                required
+                            <Select
+                                defaultInputValue={newFormValues.careerStatus}
+                                options={careerOptions}
+                                menuPlacement="auto"
+                                placeholder="Select status"
+                                className='selectpicker'
+                                onChange={(selectedValue) => {
+                                    setSelectValue(selectValue)
+                                    setNewFormValues({...newFormValues, careerStatus: selectedValue.label})
+                                }}
                             />
                         </FormGroup>
                     </Col>
                     <Col xl="4" sm="6">
                         <FormGroup>
                             <Label>Freelance</Label>
-                            <Input
-                                type="text"
-                                name="dob"
-                                placeholder="Enter phone number"
-                                required
+                            <Select
+                                defaultInputValue={newFormValues.freelance}
+                                options={freelanceOptions}
+                                menuPlacement="auto"
+                                placeholder="Select one"
+                                className='selectpicker'
+                                onChange={(selectedValue) => {
+                                    setSelectValue(selectValue)
+                                    setNewFormValues({...newFormValues, freelance: selectedValue.label})
+                                }}
                             />
                         </FormGroup>
                     </Col>

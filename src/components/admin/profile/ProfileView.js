@@ -3,6 +3,7 @@ import { Button, Col, Row, Spinner } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
+import ReactDatePicker from 'react-datepicker'
 
 const ProfileView = () => {
 
@@ -10,7 +11,7 @@ const ProfileView = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=> {
-        getProfile()
+        getProfile()      
     }, [])
 
     function getProfile() {
@@ -19,13 +20,14 @@ const ProfileView = () => {
         .then(response => {
             const getProf = response.docs.map((doc)=> ({
                 data: doc.data(),
-                id: doc.id
+                id: doc.id,
             }))
             setProfile(getProf);
             console.log(getProf);
             setIsLoading(true);
         })
     }
+
   return (
     <div>
         <div className="section-body">
@@ -73,7 +75,14 @@ const ProfileView = () => {
                                     <div className='text-muted'>Date of Birth:</div>
                                 </Col>
                                 <Col lg="9">
-                                    <div className='mb-3'>{prof.data.dob}</div>
+                                    <div className='mb-3'>
+                                        <ReactDatePicker
+                                            selected={new Date(prof.data.dob)}
+                                            className='border-0 p-0 bg-white text-body'
+                                            dateFormat="dd-MM-yyyy"
+                                            disabled
+                                        />
+                                    </div>
                                 </Col>
                             </Row>
                             <Row>

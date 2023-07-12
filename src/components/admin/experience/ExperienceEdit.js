@@ -3,8 +3,6 @@ import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
-import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Header'
 import { db } from '../../../config/firebase-config'
 import { doc, setDoc } from 'firebase/firestore'
 import { useLocation, useNavigate } from "react-router-dom";

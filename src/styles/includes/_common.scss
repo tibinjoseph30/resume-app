@@ -7,6 +7,9 @@
 .text-muted {
     color: #a1a1a1 !important;
 }
+.text-body {
+    color: $bodyColor !important;
+}
 .border-dashed {
     border-style: dashed !important;
 }
