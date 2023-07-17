@@ -1,11 +1,13 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import Select from 'react-select'
 import countryList from '../../../api/CountrySelect'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../../../config/firebase-config'
+import { db, storage } from '../../../config/firebase-config'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { FiCamera } from 'react-icons/fi'
 
 const ProfileEdit = () => {
 
@@ -17,9 +19,17 @@ const ProfileEdit = () => {
     const [newDob, setNewDob] = useState(newFormValues.dob)
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
+    const [image, setImage] = useState(null)
+    const [percentage, setPercentage] = useState(null)
 
     console.log(newFormValues)
     console.log(newFormValues.dob)
+
+    useEffect(()=> {
+        setImage(image)
+    }, [image])
+
+    console.log(newFormValues)
 
     const options = useMemo(()=>countryList().getData(), [])
     const careerOptions = [
@@ -52,6 +62,18 @@ const ProfileEdit = () => {
         })
         console.log(newFormValues);
         setIsLoading(true);
+
+        const name = new Date().getTime() + image.name
+        console.log(name)
+        const imageRef = ref(storage, `profile/${+ image.name}`)
+        const uploadFile = uploadBytesResumable(imageRef, image)
+
+        uploadFile.on(
+            (error)=> {
+                console.log(error)
+            }
+        )
+        
     }
 
   return (
@@ -61,8 +83,20 @@ const ProfileEdit = () => {
         </div>
         <div className="section-body">
             <Form onSubmit={handleSubmit}>
-                <Row>
-                    <Col xl="4" sm="6">
+                <div class="profile-pic mb-5">
+                    <img src={image ? URL.createObjectURL(image) : newFormValues.avatar} alt="user" />
+                    <div className="upload">
+                        <FiCamera/>
+                        <Input 
+                            type='file'
+                            id='file'
+                            accept='image/jpeg, image/png'
+                            onChange={(e)=> setImage(e.target.files[0])}
+                        /> 
+                    </div>
+                </div>
+                <Row className='mt-5'>
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>First Name</Label>
                             <Input
@@ -75,7 +109,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Last Name</Label>
                             <Input
@@ -88,7 +122,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Designation</Label>
                             <Input
@@ -101,7 +135,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>City</Label>
                             <Input
@@ -114,7 +148,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>State</Label>
                             <Input
@@ -127,7 +161,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Country</Label>
                             <Select
@@ -143,7 +177,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Phone</Label>
                             <Input
@@ -156,7 +190,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Email</Label>
                             <Input
@@ -169,7 +203,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Date of Birth</Label>
                             <Datepicker
@@ -185,7 +219,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Career Status</Label>
                             <Select
@@ -201,7 +235,7 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xl="4" sm="6">
+                    <Col lg="4" sm="6">
                         <FormGroup>
                             <Label>Freelance</Label>
                             <Select

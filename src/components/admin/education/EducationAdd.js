@@ -172,6 +172,19 @@ const EducationAdd = () => {
                   />
                 </FormGroup>
               </Col>
+              <Col xl="4" sm="6">
+                <FormGroup>
+                  <Label>
+                    Logo
+                  </Label>
+                  <Input
+                    type="file"
+                    name="logo"
+                    accept='image/jpeg, image/png'
+                    onChange={(e)=> e.target.files[0]}
+                  />
+                </FormGroup>
+              </Col>
             </Row>
             <div className='form-action'>
               <Button type='submit' color='primary' className='d-flex align-items-center'>Add Education 
