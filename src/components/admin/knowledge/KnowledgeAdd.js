@@ -29,7 +29,7 @@ const KnowledgeAdd = () => {
         addDoc(knowledgeCollectionRef, formValues)
         .then(response => {
           console.log(response);
-          navigate('../knowledge');
+          navigate(-1);
         })
         .catch(error => {
           console.log(error.message)

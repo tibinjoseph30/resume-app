@@ -39,7 +39,7 @@ const ProfileView = () => {
                 <Row key={prof.id}>
                     <Col lg="3">
                         <div className="profile-pic">
-                            <img src="../../../../images/user.jpg" alt="user" />
+                            <img src={profile ? prof.data.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="user" />
                         </div>
                     </Col>
                     <Col lg="9">

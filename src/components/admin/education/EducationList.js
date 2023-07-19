@@ -48,7 +48,7 @@ const EducationList = () => {
             </div>
             <div className="section-body section-table">
                 <div className='table-responsive'>
-                    <Table>
+                    <Table className='align-middle'>
                         <thead>
                             <tr>
                                 <th>University</th>
@@ -71,8 +71,15 @@ const EducationList = () => {
                                     <td align='center' colSpan={100}>There is nothing added yet !!</td>
                                 </tr>:
                                 education.map((edu, id) => (
-                                    <tr key={edu.id}>     
-                                        <td>{edu.data.university}</td>
+                                    <tr key={edu.id}> 
+                                        <td>
+                                            <div className="d-flex align-items-center">
+                                                <div className='logo-box'>
+                                                    <img src={education ? edu.data.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="" style={{width : '100%'}} />
+                                                </div>
+                                                <div className='ms-3'>{edu.data.university}</div>
+                                            </div>
+                                        </td>
                                         <td>{edu.data.course}</td>
                                         <td>{edu.data.city}</td>
                                         <td>{edu.data.state}</td>

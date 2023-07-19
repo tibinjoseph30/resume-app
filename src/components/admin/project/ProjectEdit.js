@@ -29,7 +29,7 @@ const ProjectEdit = () => {
         setDoc(projectCollectionRef, newFormValues)
         .then(response => {
             console.log(response);
-            navigate('../project');
+            navigate(-1);
         })
         .catch(error => {
         console.log(error.message)

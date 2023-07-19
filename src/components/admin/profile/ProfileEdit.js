@@ -20,16 +20,16 @@ const ProfileEdit = () => {
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState(null)
-    const [percentage, setPercentage] = useState(null)
 
     console.log(newFormValues)
     console.log(newFormValues.dob)
 
-    useEffect(()=> {
-        setImage(image)
-    }, [image])
+    useEffect(() => {
 
-    console.log(newFormValues)
+    }, [image]);
+
+    console.log(newFormValues);
+
 
     const options = useMemo(()=>countryList().getData(), [])
     const careerOptions = [
@@ -55,26 +55,47 @@ const ProfileEdit = () => {
         setDoc(profileCollectionRef, newFormValues)
         .then(response=> {
             console.log(response);
-            navigate('../profile');
+            navigate(-1);
         })
         .catch(error=> {
             console.log(error.message);
         })
         console.log(newFormValues);
-        setIsLoading(true);
+        setIsLoading(true); 
 
-        const name = new Date().getTime() + image.name
-        console.log(name)
-        const imageRef = ref(storage, `profile/${+ image.name}`)
-        const uploadFile = uploadBytesResumable(imageRef, image)
-
-        uploadFile.on(
-            (error)=> {
-                console.log(error)
+        const name = new Date().getTime() + image.name;
+        console.log(name);
+        const storageRef = ref(storage, `profile/${+ image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          //   setPerc(progress);
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+              default:
+                break;
             }
-        )
-        
-    }
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setNewFormValues((prev) => ({ ...prev, avatar: downloadURL }));
+            });
+          }
+        );
+    }   
 
   return (
     <div>
@@ -84,7 +105,7 @@ const ProfileEdit = () => {
         <div className="section-body">
             <Form onSubmit={handleSubmit}>
                 <div class="profile-pic mb-5">
-                    <img src={image ? URL.createObjectURL(image) : newFormValues.avatar} alt="user" />
+                    <img src={image ? URL.createObjectURL(image) : newFormValues ? newFormValues.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="user" />
                     <div className="upload">
                         <FiCamera/>
                         <Input 

@@ -30,7 +30,7 @@ const ProjectAdd = () => {
         addDoc(projectCollectionRef, formValues)
         .then(response => {
             console.log(response);
-            navigate('../project');
+            navigate(-1);
         })
         .catch(error => {
             console.log(error.message)

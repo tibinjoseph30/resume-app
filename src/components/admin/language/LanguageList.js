@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react'
-import { Button, Row, Col, Card, CardBody, Spinner } from 'reactstrap'
+import { Button, Row, Col, Card, CardBody, Spinner, Table } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
-import { FiTrash2 } from 'react-icons/fi'
+import { FiBookOpen, FiCheck, FiEdit2, FiEye, FiHeadphones, FiMic, FiTrash2 } from 'react-icons/fi'
+import { FaPencilAlt, FaRegEye } from 'react-icons/fa'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 
@@ -64,7 +65,33 @@ const LanguageList = () => {
                             <p className='mb-0'>{lan.data.language}</p>
                             <FiTrash2 onClick={()=>deleteLanguage(lan.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
                         </div>
-                        <div className='text-muted small'>{lan.data.level}</div> 
+                        <div className='text-muted small'>{lan.data.level}</div>
+                        <Table className='lan-exp-table mt-3'>
+                            <thead>
+                                <tr>
+                                    <th>R</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>S</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <FiCheck style={lan.data.read === true ? {display: 'block'} : {display: 'none'}}/>
+                                    </td>
+                                    <td>
+                                        <FiCheck style={lan.data.write === true ? {display: 'block'} : {display: 'none'}}/>
+                                    </td>
+                                    <td>
+                                        <FiCheck style={lan.data.listen === true ? {display: 'block'} : {display: 'none'}}/>
+                                    </td>
+                                    <td>
+                                        <FiCheck style={lan.data.speak === true ? {display: 'block'} : {display: 'none'}}/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table> 
                     </CardBody>
                 </Card>
                 </Col>

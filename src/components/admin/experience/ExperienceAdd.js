@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
-import { db } from '../../../config/firebase-config'
+import { db, storage } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
 const ExperienceAdd = () => {
   const initialValues = {
@@ -20,9 +21,49 @@ const ExperienceAdd = () => {
   const [relievingDate, setRelievingDate] = useState('')
   const [selectValue, setSelectValue] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState(null)
+  const [per, setPerc] = useState(null)
  
   const options = useMemo(()=>countryList().getData(), []);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      console.log(name);
+      const storageRef = ref(storage, `experience/${+ file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPerc(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setFormValues((prev) => ({ ...prev, logo: downloadURL }));
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [file]);
 
   const handleChange = (event) => {
     setFormValues({
@@ -39,7 +80,7 @@ const ExperienceAdd = () => {
     addDoc(experienceCollectionRef, formValues)
     .then(response => {
       console.log(response);
-      navigate('../experience');
+      navigate(-1);
     })
     .catch(error => {
       console.log(error.message)
@@ -172,6 +213,21 @@ const ExperienceAdd = () => {
                     />
                   </FormGroup>
                 </Col>
+                <Col xl="4" sm="6">
+                <FormGroup>
+                  <Label>
+                    Logo
+                  </Label>
+                  <div className="file-uploader">
+                    <Input
+                      type="file"
+                      id='file'
+                      accept='image/jpeg, image/png'
+                      onChange={(e)=> setFile(e.target.files[0])}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
             </Row>
             <div className='form-action'>
               <Button type='submit' color='primary' className='d-flex align-items-center'>Add Experience 

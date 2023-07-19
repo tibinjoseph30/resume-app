@@ -1,11 +1,13 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
-import { db } from '../../../config/firebase-config'
+import { db, storage } from '../../../config/firebase-config'
 import { doc, setDoc } from 'firebase/firestore'
 import { useLocation, useNavigate } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { FiCamera } from 'react-icons/fi'
 
 const ExperienceEdit = () => {
 
@@ -16,12 +18,18 @@ const ExperienceEdit = () => {
   const [newFormValues, setNewFormValues] = useState(location.state.state);
   const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinYear)
   const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveYear)
+  const [file, setFile] = useState(null)
+
   // console.log(location.state);
   // const state = location.state.state
   // console.log(state)
   console.log(newFormValues)
   const newId = location.state.id
   // console.log(newId)
+
+  useEffect(() => {
+        
+  }, [file]);
  
   const options = useMemo(()=>countryList().getData(), []);
   const navigate = useNavigate();
@@ -40,13 +48,46 @@ const ExperienceEdit = () => {
     setDoc(experienceCollectionRef, newFormValues)
     .then(response => {
         console.log(response);
-        navigate('../experience');
+        navigate(-1);
     })
     .catch(error => {
       console.log(error.message)
     })
     console.log(newFormValues)
     setIsLoading(true);
+
+    const name = new Date().getTime() + file.name;
+        console.log(name);
+        const storageRef = ref(storage, `experience/${+ file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          //   setPerc(progress);
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+              default:
+                break;
+            }
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setNewFormValues((prev) => ({ ...prev, logo: downloadURL }));
+            });
+          }
+        );
   }
   
 
@@ -172,6 +213,25 @@ const ExperienceEdit = () => {
                         setNewFormValues({...newFormValues, country: selectedValue.label})
                       }}
                     />
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6">
+                  <FormGroup>
+                    <Label>
+                        Logo
+                    </Label>
+                    <div class="file-preview-box">
+                        <img src={file ? URL.createObjectURL(file) : newFormValues ? newFormValues.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
+                        <div className="upload">
+                            <FiCamera/>
+                            <Input
+                                type="file"
+                                name="logo"
+                                accept='image/jpeg, image/png'
+                                onChange={(e)=> setFile(e.target.files[0])}
+                            />
+                        </div>
+                    </div>
                   </FormGroup>
                 </Col>
             </Row>

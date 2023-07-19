@@ -1,13 +1,12 @@
-import {useState, useMemo} from 'react'
-import { Col, Form, FormGroup, Label, Row, Input, Alert, Button, Spinner } from 'reactstrap'
+import {useState, useMemo, useEffect} from 'react'
+import { Col, Form, FormGroup, Label, Row, Input, Button, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
-import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Header'
-import { db } from '../../../config/firebase-config'
+import { db, storage } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
 const EducationAdd = () => {
     const initialValues = {
@@ -22,9 +21,49 @@ const EducationAdd = () => {
     const [relievingDate, setRelievingDate] = useState('')
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
+    const [file, setFile] = useState(null)
+    const [per, setPerc] = useState(null)
 
     const options = useMemo(()=>countryList().getData(), []);
     const navigate = useNavigate();
+
+    useEffect(() => {
+      const uploadFile = () => {
+        const name = new Date().getTime() + file.name;
+        console.log(name);
+        const storageRef = ref(storage, `education/${+ file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            setPerc(progress);
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+              default:
+                break;
+            }
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setFormValues((prev) => ({ ...prev, logo: downloadURL }));
+            });
+          }
+        );
+      };
+      file && uploadFile();
+    }, [file]);
 
     const handleChange = (event) => {
         setFormValues({
@@ -40,7 +79,7 @@ const EducationAdd = () => {
         addDoc(educationCollectionRef, formValues)
         .then(response => {
           console.log(response);
-          navigate('../education');
+          navigate(-1);
         })
         .catch(error => {
           console.log(error.message)
@@ -177,17 +216,19 @@ const EducationAdd = () => {
                   <Label>
                     Logo
                   </Label>
-                  <Input
-                    type="file"
-                    name="logo"
-                    accept='image/jpeg, image/png'
-                    onChange={(e)=> e.target.files[0]}
-                  />
+                  <div className="file-uploader">
+                    <Input
+                      type="file"
+                      id='file'
+                      accept='image/jpeg, image/png'
+                      onChange={(e)=> setFile(e.target.files[0])}
+                    />
+                  </div>
                 </FormGroup>
               </Col>
             </Row>
             <div className='form-action'>
-              <Button type='submit' color='primary' className='d-flex align-items-center'>Add Education 
+              <Button disabled={per !== null && per < 100} type='submit' color='primary' className='d-flex align-items-center'>Add Education 
                   {isLoading ? 
                   <Spinner size="sm" className='ms-2' 
                   style={{

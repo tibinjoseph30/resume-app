@@ -1,8 +1,6 @@
 import {useState} from 'react'
 import Select from 'react-select'
-import { Form, Row, Col, FormGroup, Label, Input, Button, Toast, ToastBody, Spinner } from 'reactstrap'
-import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Header'
+import { Form, Row, Col, FormGroup, Label, Input, Button, Spinner } from 'reactstrap'
 import { db } from '../../../config/firebase-config'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
@@ -45,7 +43,7 @@ const SkillsAdd = () => {
         addDoc(skillCollectionRef, formValues)
         .then(response => {
           console.log(response);
-          navigate('../skills');
+          navigate(-1);
         })
         .catch(error => {
           console.log(error.message)

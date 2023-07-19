@@ -16,6 +16,79 @@ textarea {
     }
 }
 
+.file-uploader {
+    position: relative;
+    min-height: 38px;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid $borderColor;
+    @include border-radius(0.375rem);
+    input {
+        border: 0;
+        min-height: 0;
+        line-height: 6px;
+        &[type=file] {
+            &::file-selector-button {
+                margin-right: 10px;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                padding: 10px;
+                font-size: 13px;
+                @include border-radius(0.375rem);
+            }
+        }
+    }
+}
+
+.form-checkbox {
+    input {
+        padding: 0;
+        height: initial;
+        width: initial;
+        margin-bottom: 0;
+        display: none;
+        cursor: pointer;
+        &:checked {
+            & + label {
+                &::before {
+                    border-color: $primaryColor;
+                    background-color: $primaryColor;
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    left: 8px;
+                    width: 6px;
+                    height: 12px;
+                    border: solid $white;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+    label {
+        position: relative;
+        cursor: pointer;
+        margin: 0;
+        &::before {
+            content:'';
+            background-color: transparent;
+            border: 1px solid $borderColor;
+            padding: 10px;
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            cursor: pointer;
+            margin-right: 10px;
+            @include border-radius(0.375rem);
+        }
+    }
+}
+
 .selectpicker {
     div[class*="-control"] {
         border-color: $borderColor;

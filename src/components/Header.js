@@ -11,7 +11,7 @@ const Header = () => {
             <CardBody>
                 <div className='d-flex align-items-center'>
                     <div className='avatar me-4'>
-                        <img src="images/user.jpg" alt="" />
+                        <img src="images/user.svg" alt="" />
                     </div>
                     <div>
                         <h3>John Doe</h3>

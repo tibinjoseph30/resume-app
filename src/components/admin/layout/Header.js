@@ -21,7 +21,7 @@ const Header = () => {
                 <DropdownToggle nav>
                     <div className='d-flex align-items-center'>
                         <div className="avatar">
-                            <img src="../../../../images/user.jpg" alt="admin profile" />
+                            <img src="https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca" alt="admin profile" />
                         </div>
                         <div className='name-block'>
                             <h6>John Doe</h6>

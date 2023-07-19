@@ -49,7 +49,7 @@ function deleteExperience(id) {
         </div>
         <div className="section-body section-table">
             <div className="table-responsive">
-                <Table>
+                <Table className='align-middle'>
                     <thead>
                         <tr>
                             <th>Organization</th>
@@ -72,8 +72,15 @@ function deleteExperience(id) {
                                 <td align='center' colSpan={100}>There is nothing added yet !!</td>
                             </tr>:
                             experience.map((exp, id) => (
-                                <tr key={exp.id}>     
-                                    <td>{exp.data.organization}</td>
+                                <tr key={exp.id}>  
+                                    <td>
+                                        <div className="d-flex align-items-center">
+                                            <div className='logo-box'>
+                                                <img src={experience ? exp.data.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="" style={{width : '100%'}} />
+                                            </div>
+                                            <div className='ms-3'>{exp.data.organization}</div>
+                                        </div>
+                                    </td>
                                     <td>{exp.data.designation}</td>
                                     <td>{exp.data.city}</td>
                                     <td>{exp.data.state}</td>

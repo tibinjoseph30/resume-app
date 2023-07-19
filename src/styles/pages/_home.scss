@@ -120,6 +120,13 @@ main {
         text-align: right;
       }
     }
+    tr {
+      &:last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
   }
   .rating {
     @include flexbox;
@@ -183,6 +190,35 @@ main {
       @include flexbox;
       @include align-items(center);
       @include justify-content(center);
+    }
+    .lan-experience-list {
+      @include flexbox;
+      li {
+        &:not(:last-child) {
+          margin-right: 0.5rem;
+        }
+        .lan-icon {
+          width: 25px;
+          height: 25px;
+          background-color: #f5f5f5;
+          @include border-radius(100px);
+          @include flexbox;
+          @include align-items(center);
+          @include justify-content(center);
+          svg {
+            font-size: 13px;
+            color: $gray;
+          }
+        }
+        &.active {
+          .lan-icon {
+            background-color: $gray;
+            svg {
+              color: $white;
+            }
+          }
+        }
+      }
     }
   }
 }

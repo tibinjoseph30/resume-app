@@ -1,9 +1,7 @@
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useMemo, useState } from 'react'
-import { Button, Col, Form, FormGroup, Label, Row, Spinner, Toast, ToastBody } from 'reactstrap'
+import { Button, Col, Form, FormGroup, Label, Row, Spinner } from 'reactstrap'
 import { db } from '../../../config/firebase-config'
-import Sidebar from '../layout/Sidebar'
-import Topbar from '../layout/Header'
 import Select from 'react-select'
 import interestList from '../../../api/InterestSelect'
 import { useNavigate } from 'react-router-dom'
@@ -26,7 +24,7 @@ const InterestAdd = () => {
         addDoc(interestCollectionRef, formValues)
         .then(response => {
           console.log(response);
-          navigate('../interest');
+          navigate(-1);
         })
         .catch(error => {
           console.log(error.message)
