@@ -1,7 +1,9 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, Row, Spinner } from 'reactstrap'
+import ReactDatePicker from 'react-datepicker'
 
-const Profile = () => {
+const Profile = ({profile, isLoading}) => {
+  
   return (
     <div className='section section-profile'>
       <Card>
@@ -9,7 +11,16 @@ const Profile = () => {
           <h5>Personal informations</h5>
         </CardHeader>
         <CardBody>
-          <Row>
+          {!isLoading ?
+          <div className='text-center'>
+            <Spinner color='primary'/>
+          </div> :
+          (profile.length === 0 ?
+          <div className='text-center'>
+            There is nothing added yet !!
+          </div> :
+          profile.map((prof, id)=> (
+          <Row key={prof.id}>
             <Col lg="6">
               <div className="d-flex form-group">
                 <div className='svg-icon me-3'>
@@ -18,7 +29,7 @@ const Profile = () => {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>johndoe.91@yopmail.com</div>
+                  <div className='fw-medium'>{prof.data.email}</div>
                   <div className='text-muted small'>Email Address</div>
                 </div>
               </div>
@@ -34,7 +45,7 @@ const Profile = () => {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>+90 (545) 493 00 00</div>
+                  <div className='fw-medium'>{prof.data.phone}</div>
                   <div className='text-muted small'>Office Number</div>
                 </div>
               </div>
@@ -47,8 +58,15 @@ const Profile = () => {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>03 December 1993</div>
-                  <div className='text-muted small'>30 years old</div>
+                  <div className='fw-medium'>
+                    <ReactDatePicker
+                      selected={new Date(prof.data.dob)}
+                      className='border-0 p-0 bg-white text-body fw-medium'
+                      dateFormat="MMMM d, yyyy"
+                      disabled
+                    />
+                  </div>
+                  <div className='text-muted small'>Date of Birth</div>
                 </div>
               </div>
             </Col>
@@ -63,7 +81,7 @@ const Profile = () => {
                   </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>7 years</div>
+                  <div className='fw-medium'>NIL</div>
                   <div className='text-muted small'>Total Experience</div>
                 </div>
               </div>
@@ -77,7 +95,7 @@ const Profile = () => {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>Canada</div>
+                  <div className='fw-medium'>{prof.data.country}</div>
                   <div className='text-muted small'>Location</div>
                 </div>
               </div>
@@ -90,12 +108,14 @@ const Profile = () => {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>Available</div>
+                  <div className='fw-medium'>{prof.data.freelance}</div>
                   <div className='text-muted small'>Freelance</div>
                 </div>
               </div>
             </Col>
           </Row>
+          ))
+          )}
         </CardBody>
       </Card>
     </div>
