@@ -70,6 +70,7 @@ const ProjectList = () => {
                             project.map((pro, id) => (
                                 <tr key={pro.id}>     
                                     <td>{pro.data.project}</td>
+                                    <td>{pro.data.client}</td>
                                     <td>{pro.data.url}</td>
                                     <td className='actions'>
                                         <NavLink to={`../edit-project/${id}`} state={{ state : pro.data, id : pro.id }}>

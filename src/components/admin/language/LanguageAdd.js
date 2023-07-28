@@ -10,19 +10,13 @@ const LanguageAdd = () => {
 
     const initialValues = {
         language: '',
-        level: '',
+        code: '',
         write: false,
         read: false,
         listen: false ,
         speak: false
     }
-    const languageOptions = [
-        { value: 'beginner', label: 'Beginner' },
-        { value: 'intermediate', label: 'Intermediate' },
-        { value: 'advanced', label: 'Advanced' },
-        { value: 'professional', label: 'Professional' },
-        { value: 'native', label: 'Native' }
-      ]
+
     const [formValues, setFormValues] = useState(initialValues)
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
@@ -70,24 +64,7 @@ const LanguageAdd = () => {
                                     className='selectpicker'
                                     onChange={(selectedValue) => {
                                         setSelectValue(selectValue)
-                                        setFormValues({...formValues, language: selectedValue.label})
-                                    }}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                                <Label>
-                                    Proficiency Level
-                                </Label>
-                                <Select
-                                    options={languageOptions}
-                                    menuPlacement="auto"
-                                    placeholder="Select level"
-                                    className='selectpicker'
-                                    onChange={(selectedValue) => {
-                                        setSelectValue(selectValue)
-                                        setFormValues({...formValues, level: selectedValue.label})
+                                        setFormValues({...formValues, language: selectedValue.label, code: selectedValue.code})
                                     }}
                                 />
                             </FormGroup>

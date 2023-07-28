@@ -8,6 +8,7 @@ const ProjectAdd = () => {
 
     const initialValues = {
         project: "",
+        client: "",
         url: ""
     }
     const [formValues, setFormValues] = useState(initialValues);
@@ -57,6 +58,21 @@ const ProjectAdd = () => {
                       name="project"
                       value={formValues.project}
                       placeholder="Enter project name"
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6">
+                  <FormGroup>
+                    <Label>
+                      Client
+                    </Label>
+                    <Input
+                      type="text"
+                      name="client"
+                      value={formValues.client}
+                      placeholder="Enter client name"
                       onChange={handleChange}
                       required
                     />

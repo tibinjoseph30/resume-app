@@ -23,7 +23,7 @@ const SkillsList = () => {
                 id: doc.id
             }))
             setSkill(getSki)
-            // console.log(getExp);
+            console.log(getSki);
             setIsLoading(true)
         })
         .catch(error => console.log(error.message))
@@ -61,7 +61,7 @@ const SkillsList = () => {
                                 <Card className='border-dashed'>
                                     <CardBody>
                                         <div className="d-flex align-items-center">
-                                            <h3 className='mb-0'>{ski.data.profficiency}</h3>
+                                            <h3 className='mb-0'>{ski.data.profficiency}%</h3>
                                             <FiTrash2 onClick={()=>deleteSkill(ski.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
                                         </div>
                                         <p className='mb-0 mt-2'>{ski.data.skill}</p>  

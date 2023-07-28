@@ -12,10 +12,16 @@ const EducationAdd = () => {
     const initialValues = {
         university: "",
         course: "",
+        courseType: "",
         city: "",
         state: "",
         country: ""
     }
+    const courseTypeOptions = [
+      { value: 'regular', label: 'Regular' },
+      { value: 'distance', label: 'Distance' },
+      { value: 'online', label: 'Online' }
+    ]
     const [formValues, setFormValues] = useState(initialValues);
     const [joiningDate, setJoiningDate] = useState('')
     const [relievingDate, setRelievingDate] = useState('')
@@ -126,39 +132,54 @@ const EducationAdd = () => {
                         />
                     </FormGroup>
                 </Col>
-                <Col xl="2" lg="3" sm="6">
+                <Col xl="4" sm="6">
+                  <FormGroup>
+                    <Label>
+                      Course Type
+                    </Label>
+                    <Select 
+                      options={courseTypeOptions} 
+                      menuPlacement="auto"
+                      placeholder="Select course type"
+                      className='selectpicker'
+                      onChange={(selectedValue) => {
+                        setSelectValue(selectValue)
+                        setFormValues({...formValues, courseType: selectedValue.label})
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6">
                 <FormGroup>
                   <Label>
-                    Year of Join
+                    Date of Join
                   </Label>
                   <Datepicker 
                     selected={Date.parse(joiningDate)}
-                    placeholderText='Select year' 
+                    placeholderText='Select date' 
                     className='form-control'
-                    showYearPicker
-                    dateFormat="yyyy"
+                    dateFormat="dd-MM-yyyy"
                     onChange={(date)=> {
                       setJoiningDate(date)
-                      setFormValues({...formValues, joinYear: date.getFullYear()})
+                      setFormValues({...formValues, joinDate: date.toLocaleDateString()})
                     }}
                     required
                   />
                 </FormGroup>
               </Col>
-              <Col xl="2" lg="3" sm="6">
+              <Col xl="4" sm="6">
                 <FormGroup>
                   <Label>
-                    Year of Relieve
+                    Date of Relieve
                   </Label>
                   <Datepicker
                     selected={Date.parse(relievingDate)} 
-                    placeholderText='Select year' 
+                    placeholderText='Select date' 
                     className='form-control'
-                    showYearPicker
-                    dateFormat="yyyy"
+                    dateFormat="dd-MM-yyyy"
                     onChange={(date)=> {
                       setRelievingDate(date)
-                      setFormValues({...formValues, relieveYear: date.getFullYear()})
+                      setFormValues({...formValues, relieveDate: date.toLocaleDateString()})
                     }} 
                     required
                   />

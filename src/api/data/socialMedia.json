@@ -1,0 +1,15 @@
+[
+    { "code": "fb", "label": "Facebook" },
+    { "code": "tw", "label": "Twitter" },
+    { "code": "li", "label": "Linkedin" },
+    { "code": "ig", "label": "Instagram" },
+    { "code": "yt", "label": "Youtube" },
+    { "code": "pi", "label": "Pinterest" },
+    { "code": "gi", "label": "Github" },
+    { "code": "im", "label": "Imo" },
+    { "code": "be", "label": "Behance" },
+    { "code": "dr", "label": "Dribbble" },
+    { "code": "sk", "label": "Skype" },
+    { "code": "vi", "label": "Vimeo" },
+    { "code": "sn", "label": "Snapchat" }
+]

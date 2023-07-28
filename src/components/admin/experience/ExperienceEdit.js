@@ -16,8 +16,8 @@ const ExperienceEdit = () => {
 
   const location = useLocation();
   const [newFormValues, setNewFormValues] = useState(location.state.state);
-  const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinYear)
-  const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveYear)
+  const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinDate)
+  const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveDate)
   const [file, setFile] = useState(null)
 
   // console.log(location.state);
@@ -129,39 +129,37 @@ const ExperienceEdit = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="2" lg="3" sm="6">
+                <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                      Year of Join
+                      Date of Join
                     </Label>
                     <Datepicker 
                       selected={Date.parse(newJoiningDate)}
-                      placeholderText='Select year' 
+                      placeholderText='Select date' 
                       className='form-control'
-                      showYearPicker
-                      dateFormat="yyyy"
+                      dateFormat="dd-MM-yyyy"
                       onChange={(date)=> {
                         setNewJoiningDate(date)
-                        setNewFormValues({...newFormValues, joinYear: date.getFullYear()})
+                        setNewFormValues({...newFormValues, joinDate: date.toLocaleDateString()})
                       }}
                       required
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="2" lg="3" sm="6">
+                <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                      Year of Relieve
+                      Date of Relieve
                     </Label>
                     <Datepicker
                       selected={Date.parse(newRelievingDate)} 
-                      placeholderText='Select year' 
+                      placeholderText='Select date' 
                       className='form-control'
-                      showYearPicker
-                      dateFormat="yyyy"
+                      dateFormat="dd-MM-yyyy"
                       onChange={(date)=> {
                         setNewRelievingDate(date)
-                        setNewFormValues({...newFormValues, relieveYear: date.getFullYear()})
+                        setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
                       }} 
                       required
                     />

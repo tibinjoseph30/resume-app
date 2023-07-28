@@ -128,39 +128,37 @@ const ExperienceAdd = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="2" lg="3" sm="6">
+                <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                      Year of Join
+                      Date of Join
                     </Label>
                     <Datepicker 
                       selected={Date.parse(joiningDate)}
-                      placeholderText='Select year' 
+                      placeholderText='Select date' 
                       className='form-control'
-                      showYearPicker
-                      dateFormat="yyyy"
+                      dateFormat="dd-MM-yyyy"
                       onChange={(date)=> {
                         setJoiningDate(date)
-                        setFormValues({...formValues, joinYear: date.getFullYear()})
+                        setFormValues({...formValues, joinDate: date.toLocaleDateString()})
                       }}
                       required
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="2" lg="3" sm="6">
+                <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                      Year of Relieve
+                      Date of Relieve
                     </Label>
                     <Datepicker
                       selected={Date.parse(relievingDate)} 
-                      placeholderText='Select year' 
+                      placeholderText='Select date' 
                       className='form-control'
-                      showYearPicker
-                      dateFormat="yyyy"
+                      dateFormat="dd-MM-yyyy"
                       onChange={(date)=> {
                         setRelievingDate(date)
-                        setFormValues({...formValues, relieveYear: date.getFullYear()})
+                        setFormValues({...formValues, relieveDate: date.toLocaleDateString()})
                       }} 
                       required
                     />

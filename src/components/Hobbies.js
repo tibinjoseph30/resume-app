@@ -1,7 +1,32 @@
-import React from 'react'
-import { Card, CardBody, CardHeader } from 'reactstrap'
+import { collection, getDocs } from 'firebase/firestore'
+import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardHeader, Spinner } from 'reactstrap'
+import { db } from '../config/firebase-config'
 
 const Hobbies = () => {
+
+    const [hobbies, setHobbies] = useState(null)
+    const [isLoading, setIsLoading] = useState(null)
+    
+    useEffect(()=> {
+        getHobcation()
+    }, [])
+    
+    function getHobcation() {
+        const hobbiesCollectionRef = collection(db, 'interest')
+        getDocs(hobbiesCollectionRef)
+        .then(response => {
+            const getHob = response.docs.map(doc => ({
+                data: doc.data(),
+                id: doc.id,
+            }))
+            setHobbies(getHob)
+            console.log(getHob);
+            setIsLoading(true)
+        })
+        .catch(error => console.log(error.message))
+    }
+
   return (
     <div className='section section-hobbies'>
         <Card>
@@ -9,10 +34,21 @@ const Hobbies = () => {
                 <h6>Hobbies</h6>
             </CardHeader>
             <CardBody>
-                <ul className='hobbies-list list-unstyled mb-0'>
-                    <li>Music</li>
-                    <li>Movies</li>
-                </ul>
+                {!isLoading ?
+                    <div className="text-center">
+                        <Spinner color='primary'/>
+                    </div> :
+                    (hobbies.length === 0 ?
+                        <div className="text-center">
+                            There is nothing added yet !!
+                        </div> :
+                        <ul className='hobbies-list list-unstyled mb-0'>
+                            {hobbies.map((hob, id)=> (
+                                <li key={hob.id}>{hob.data.interest}</li>
+                            ))}
+                        </ul>
+                    )
+                }
             </CardBody>
         </Card>
     </div>

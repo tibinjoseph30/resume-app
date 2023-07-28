@@ -53,9 +53,24 @@ const ProjectEdit = () => {
                     </Label>
                     <Input
                       type="text"
-                      name="organization"
+                      name="project"
                       value={newFormValues.project}
                       placeholder="Enter project name"
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6">
+                  <FormGroup>
+                    <Label>
+                      Client
+                    </Label>
+                    <Input
+                      type="text"
+                      name="client"
+                      value={newFormValues.client}
+                      placeholder="Enter client name"
                       onChange={handleChange}
                       required
                     />

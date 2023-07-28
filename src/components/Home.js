@@ -9,7 +9,6 @@ import Language from './Language';
 import Projects from './Projects';
 import CareerStatus from './CareerStatus';
 import IndustryKnowledge from './IndustryKnowledge';
-import Resume from './Resume';
 import Hobbies from './Hobbies';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
@@ -32,7 +31,7 @@ const Home = () => {
               id: doc.id
           }))
           setProfile(getPro)
-          console.log(getPro);
+          console.log(getPro)
           setIsLoading(true)
       })
       .catch(error => console.log(error.message))
@@ -55,9 +54,11 @@ const Home = () => {
             </Col>
             <Col lg="4">
               <Projects/>
-              <CareerStatus/>
+              <CareerStatus
+                profile={profile} 
+                isLoading={isLoading}
+              />
               <IndustryKnowledge/>
-              <Resume/>
               <Hobbies/>
             </Col>
           </Row>

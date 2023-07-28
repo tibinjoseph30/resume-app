@@ -127,39 +127,37 @@ const EducationEdit = () => {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col xl="2" lg="3" sm="6">
+                        <Col xl="4" sm="6">
                             <FormGroup>
                             <Label>
-                                Year of Join
+                                Date of Join
                             </Label>
                             <Datepicker 
                                 selected={Date.parse(newJoiningDate)}
-                                placeholderText='Select year' 
+                                placeholderText='Select date' 
                                 className='form-control'
-                                showYearPicker
-                                dateFormat="yyyy"
+                                dateFormat="dd-MM-yyyy"
                                 onChange={(date)=> {
                                 setNewJoiningDate(date)
-                                setNewFormValues({...newFormValues, joinYear: date.getFullYear()})
+                                setNewFormValues({...newFormValues, joinDate: date.toLocaleDateString()})
                                 }}
                                 required
                             />
                             </FormGroup>
                         </Col>
-                        <Col xl="2" lg="3" sm="6">
+                        <Col xl="4" sm="6">
                             <FormGroup>
                             <Label>
-                                Year of Relieve
+                                Date of Relieve
                             </Label>
                             <Datepicker
                                 selected={Date.parse(newRelievingDate)} 
-                                placeholderText='Select year' 
+                                placeholderText='Select date' 
                                 className='form-control'
-                                showYearPicker
-                                dateFormat="yyyy"
+                                dateFormat="dd-MM-yyyy"
                                 onChange={(date)=> {
                                 setNewRelievingDate(date)
-                                setNewFormValues({...newFormValues, relieveYear: date.getFullYear()})
+                                setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
                                 }} 
                                 required
                             />
