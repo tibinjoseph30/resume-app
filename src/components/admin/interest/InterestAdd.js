@@ -33,6 +33,10 @@ const InterestAdd = () => {
         setFormValues(initialValues)
     }
 
+    const handleCancel = () => {
+        navigate(-1)
+    }
+
     return (
         <div>
             <div className="section-header">
@@ -60,6 +64,7 @@ const InterestAdd = () => {
                         </Col>
                     </Row>
                     <div className='form-action'>
+                    <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
                         <Button type='submit' color='primary' className='d-flex align-items-center'>Add Interest 
                             {isLoading ? 
                             <Spinner size="sm" className='ms-2' 

@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
-import Select from 'react-select/dist/declarations/src/Select'
+import Select from 'react-select'
 
-const SocialAdd = () => {
+const SocialAccountAdd = () => {
 
     const initialValues = {
         media: "",
@@ -44,10 +44,14 @@ const SocialAdd = () => {
         setFormValues(initialValues)
     }
 
+    const handleCancel = () => {
+        navigate(-1)
+    }
+
   return (
     <div>
         <div className="section-header">
-            <h4 className='section-title'>Add Social Media</h4>
+            <h4 className='section-title'>Add Social Account</h4>
         </div>
         <div className="section-body">
             <Form onSubmit={handleSubmit}>
@@ -55,12 +59,12 @@ const SocialAdd = () => {
                     <Col xl="4" sm="6">
                         <FormGroup>
                             <Label>
-                                Media
+                                Account
                             </Label>
                             <Select
                                 options={socialOptions}
                                 menuPlacement="auto"
-                                placeholder="Select media"
+                                placeholder="Select account"
                                 className='selectpicker'
                                 onChange={(selectedValue) => {
                                     setSelectValue(selectValue)
@@ -86,7 +90,8 @@ const SocialAdd = () => {
                         </Col>
                 </Row>
                 <div className='form-action'>
-                    <Button type='submit' color='primary' className='d-flex align-items-center'>Add Media 
+                    <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
+                    <Button type='submit' color='primary' className='d-flex align-items-center'>Add Account 
                         {isLoading ? 
                         <Spinner size="sm" className='ms-2' 
                         style={{
@@ -102,4 +107,4 @@ const SocialAdd = () => {
   )
 }
 
-export default SocialAdd
+export default SocialAccountAdd

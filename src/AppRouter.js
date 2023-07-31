@@ -22,6 +22,8 @@ import KnowledgeList from "./components/admin/knowledge/KnowledgeList";
 import ProjectList from "./components/admin/project/ProjectList";
 import ProjectAdd from "./components/admin/project/ProjectAdd";
 import ProjectEdit from "./components/admin/project/ProjectEdit";
+import SocialAccountList from "./components/admin/social-accounts/SocialAccountList";
+import SocialAccountAdd from "./components/admin/social-accounts/SocialAccountAdd";
 
 function AppRouter() {
     return(
@@ -50,6 +52,8 @@ function AppRouter() {
                     <Route path="edit-profile" element={<ProfileEdit/>} />
                     <Route path="knowledge" element={<KnowledgeList/>} />
                     <Route path="add-knowledge" element={<KnowledgeAdd/>} />
+                    <Route path="social-accounts" element={<SocialAccountList/>} />
+                    <Route path="add-social-account" element={<SocialAccountAdd/>} />
                 </Route>
             </Routes>
         </Router>

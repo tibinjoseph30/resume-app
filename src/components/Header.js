@@ -1,48 +1,90 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBehance, faDribbble, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons'
-import { Card, CardBody } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { faBehance, faDribbble, faFacebookF, faGithub, faInstagram, faLinkedinIn, faPinterestP, faSkype, faSnapchat, faTwitter, faVimeoV, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { Card, CardBody, NavLink, Spinner } from 'reactstrap'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../config/firebase-config'
 
-const Header = () => {
+const Header = ({profile, isLoading}) => {
+
+    const [social, setSocial] = useState(null)
+    const [onLoading, setOnLoading] = useState(null)
+    
+    useEffect(()=> {
+        getSocial()
+    }, [])
+    
+    function getSocial() {
+        const hobbiesCollectionRef = collection(db, 'social')
+        getDocs(hobbiesCollectionRef)
+        .then(response => {
+            const getHob = response.docs.map(doc => ({
+                data: doc.data(),
+                id: doc.id,
+            }))
+            setSocial(getHob)
+            console.log(getHob);
+            setOnLoading(true)
+        })
+        .catch(error => console.log(error.message))
+    }
+
   return (
     <div className='section section-header'>
         <Card>
             <CardBody>
-                <div className='d-flex align-items-center'>
-                    <div className='avatar me-4'>
-                        <img src="images/user.svg" alt="" />
-                    </div>
+                {!isLoading ?
+                    <div className="text-center">
+                        <Spinner color='primary'/>
+                    </div> :
                     <div>
-                        <h3>John Doe</h3>
-                        <div>UI Developer</div>
+                        <div>
+                            {profile.map((prof, id)=> (
+                                <div className='d-flex align-items-center' key={prof.id}>
+                                    <div className='avatar me-4'>
+                                        <img src={profile ? prof.data.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="" />
+                                    </div>
+                                    <div>
+                                        <h3>{prof.data.firstName} {prof.data.lastName}</h3>
+                                        <div>{prof.data.designation}</div>
+                                    </div>
+                                    <button className='btn btn-primary rounded-pill ms-auto'>View Resume</button>
+                                </div>
+                            ))}
+                        </div> 
+                        <div>
+                            {social.length === 0 ?
+                                '' :
+                                <div className='mt-4'>
+                                    <ul className='social-menu-list list-unstyled mb-0 d-flex align-items-center'>
+                                        {social.map((soc, id)=> (
+                                            <li key={soc.id}>
+                                                <NavLink href={soc.data.url}>
+                                                    <FontAwesomeIcon icon={
+                                                        soc.data.code === 'tw' ? faTwitter :
+                                                        soc.data.code === 'fb' ? faFacebookF :
+                                                        soc.data.code === 'li' ? faLinkedinIn :
+                                                        soc.data.code === 'ig' ? faInstagram :
+                                                        soc.data.code === 'yt' ? faYoutube :
+                                                        soc.data.code === 'pi' ? faPinterestP :
+                                                        soc.data.code === 'gi' ? faGithub :
+                                                        soc.data.code === 'be' ? faBehance :
+                                                        soc.data.code === 'dr' ? faDribbble :
+                                                        soc.data.code === 'sk' ? faSkype :
+                                                        soc.data.code === 'vi' ? faVimeoV :
+                                                        soc.data.code === 'fb' ? faSnapchat :
+                                                        ''
+                                                    } /> 
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <button className='btn btn-primary rounded-pill ms-auto'>See Projects</button>
-                </div>
-                <div className='mt-4'>
-                    <ul className='social-menu-list list-unstyled mb-0 d-flex align-items-center'>
-                        <li>
-                            <Link to="">
-                                <FontAwesomeIcon icon={faTwitter} />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="">
-                                <FontAwesomeIcon icon={faLinkedinIn} />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="">
-                                <FontAwesomeIcon icon={faDribbble} />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="">
-                                <FontAwesomeIcon icon={faBehance} />
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                }
+                
             </CardBody>
         </Card>
     </div>

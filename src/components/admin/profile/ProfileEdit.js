@@ -20,16 +20,6 @@ const ProfileEdit = () => {
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState(null)
-    const [isFacebookChecked, setIsFacebookChecked] = useState(true)
-    const [isTwitterChecked, setIsTwitterChecked] = useState(false)
-    const [isLinkedinChecked, setIsLinkedinChecked] = useState(true)
-    const [isInstagramChecked, setIsInstagramChecked] = useState(true)
-    const [isYoutubeChecked, setIsYoutubeChecked] = useState(true)
-    const [isDribbleChecked, setIsDribbleChecked] = useState(true)
-    const [isBehanceChecked, setIsBehanceChecked] = useState(true)
-    const [isPinterestChecked, setIsPinterestChecked] = useState(true)
-    const [isTelegramChecked, setIsTelegramChecked] = useState(true)
-    const [isGithubChecked, setIsGithubChecked] = useState(true)
 
     console.log(newFormValues)
     console.log(newFormValues.dob)
@@ -105,7 +95,11 @@ const ProfileEdit = () => {
             });
           }
         );
-    }   
+    }  
+    
+    const handleCancel = () => {
+        navigate(-1)
+    }
 
   return (
     <div>
@@ -284,6 +278,7 @@ const ProfileEdit = () => {
                     </Col>
                 </Row>
                 <div className='form-action'>
+                <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
                     <Button type='submit' color='primary' className='d-flex align-items-center'>Update Profile 
                         {isLoading ? 
                         <Spinner size="sm" className='ms-2' 

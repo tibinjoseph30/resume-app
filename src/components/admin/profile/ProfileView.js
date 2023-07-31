@@ -101,6 +101,14 @@ const ProfileView = () => {
                                     <div className='mb-3'>{prof.data.freelance}</div>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col lg="3">
+                                    <div className='text-muted'>Social Media:</div>
+                                </Col>
+                                <Col lg="9">            
+                                    <Link to="../social-accounts" className='p-0'>View Accounts</Link>
+                                </Col>
+                            </Row>
                             <Button tag={Link} to="../edit-profile" state={{state: prof.data, id: prof.id}} color='primary' className='mt-4'>Edit Profile</Button>
                         </div>
                     </Col>

@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Col, Row, Spinner } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
 
-const SocialList = () => {
+const SocialAccountList = () => {
 
     const [social, setSocial] = useState([])
     const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +43,8 @@ const SocialList = () => {
   return (
     <div>
         <div className="section-header">
-        <h4 className='section-title'>Social Media</h4>
-            <Button tag={Link} to="../add-social-media" color='primary' className='ms-auto'>Add New Social Media</Button>
+        <h4 className='section-title'>Social Accounts</h4>
+            <Button tag={Link} to="../add-social-account" color='primary' className='ms-auto'>Add New Account</Button>
         </div>
         <div className="section-body">
         <Row>
@@ -61,7 +61,7 @@ const SocialList = () => {
                 <Card className='border-dashed'>
                     <CardBody>
                         <div className="d-flex align-items-center">
-                            <p className='mb-0'>{soc.data.interest}</p>
+                            <p className='mb-0'>{soc.data.media}</p>
                             <FiTrash2 onClick={()=>deleteLanguage(soc.id)} className='ms-auto action-btn delete' style={{cursor: 'pointer', fontSize: '16px'}}/>
                         </div> 
                     </CardBody>
@@ -75,4 +75,4 @@ const SocialList = () => {
   )
 }
 
-export default SocialList
+export default SocialAccountList

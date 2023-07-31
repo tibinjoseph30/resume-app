@@ -9,10 +9,10 @@ const Hobbies = () => {
     const [isLoading, setIsLoading] = useState(null)
     
     useEffect(()=> {
-        getHobcation()
+        getHobbies()
     }, [])
     
-    function getHobcation() {
+    function getHobbies() {
         const hobbiesCollectionRef = collection(db, 'interest')
         getDocs(hobbiesCollectionRef)
         .then(response => {

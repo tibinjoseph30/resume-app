@@ -42,7 +42,10 @@ const Home = () => {
         <Container>
           <Row>
             <Col lg="8">
-              <Header/>
+              <Header
+                profile={profile} 
+                isLoading={isLoading}
+              />
               <Profile 
                 profile={profile} 
                 isLoading={isLoading}

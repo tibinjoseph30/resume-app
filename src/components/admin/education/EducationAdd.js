@@ -94,6 +94,10 @@ const EducationAdd = () => {
         setIsLoading(true);
       }
 
+      const handleCancel = () => {
+        navigate(-1)
+      }
+
     return (
       <div>
         <div className="section-header">
@@ -249,6 +253,7 @@ const EducationAdd = () => {
               </Col>
             </Row>
             <div className='form-action'>
+            <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
               <Button disabled={per !== null && per < 100} type='submit' color='primary' className='d-flex align-items-center'>Add Education 
                   {isLoading ? 
                   <Spinner size="sm" className='ms-2' 
