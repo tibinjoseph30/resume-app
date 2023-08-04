@@ -22,14 +22,16 @@ import KnowledgeList from "./components/admin/knowledge/KnowledgeList";
 import ProjectList from "./components/admin/project/ProjectList";
 import ProjectAdd from "./components/admin/project/ProjectAdd";
 import ProjectEdit from "./components/admin/project/ProjectEdit";
-import SocialAccountList from "./components/admin/social-accounts/SocialAccountList";
-import SocialAccountAdd from "./components/admin/social-accounts/SocialAccountAdd";
+import SocialAccountList from "./components/admin/social/SocialAccountList";
+import SocialAccountAdd from "./components/admin/social/SocialAccountAdd";
+import AllProjects from "./components/AllProjects";
 
 function AppRouter() {
     return(
         <Router>
             <Routes>
                 <Route exact path="/" element={<Home/>} />
+                <Route path="/all-projects" element={<AllProjects/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/admin" element={<AdminLayout/>}>
                     <Route index path="dashboard" element={<Dashboard/>} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, limit, orderBy, query } from 'firebase/firestore'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { NavLink as Link, NavLink } from 'react-router-dom'
 import { Button, Spinner, Table } from 'reactstrap'
@@ -16,13 +16,16 @@ const ProjectList = () => {
 
     function getProject() {
         const projectCollectionRef = collection(db, 'project')
-        getDocs(projectCollectionRef)
+
+        getDocs(query(projectCollectionRef, orderBy('createdAt', 'desc')))
         .then(response => {
-            const getProj = response.docs.map(doc => ({
+            const getProj = response.docs
+            .map(doc => ({
                 data: doc.data(),
                 id: doc.id
             }))
             setProject(getProj)
+            console.log(getProj)
             setIsLoading(true)
         })
         .catch(error => console.log(error.message))

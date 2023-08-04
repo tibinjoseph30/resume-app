@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, Spinner, Table } from 'reactstrap'
 import { NavLink as Link, NavLink } from 'react-router-dom'
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 
@@ -15,19 +15,23 @@ useEffect(()=> {
 }, [])
 
 function getExperience() {
-    const experienceCollectionRef = collection(db, 'experience')
-    getDocs(experienceCollectionRef)
+    const experienceCollectionRef = collection(db, 'experience');
+    
+    getDocs(query(experienceCollectionRef, orderBy('createdAt', 'desc')))
     .then(response => {
         const getExp = response.docs.map(doc => ({
             data: doc.data(),
             id: doc.id
-        }))
-        setExperience(getExp)
-        // console.log(getExp);
-        setIsLoading(true)
+        }));
+        
+        setExperience(getExp);
+        setIsLoading(true);
+        console.log(getExp)
     })
-    .catch(error => console.log(error.message))
+    .catch(error => console.log(error.message));
 }
+
+
 function deleteExperience(id) {
     const experienceDeleteRef = doc(db, 'experience', id)
     deleteDoc(experienceDeleteRef)
@@ -76,7 +80,19 @@ function deleteExperience(id) {
                                     <td>
                                         <div className="d-flex align-items-center">
                                             <div className='logo-box'>
-                                                <img src={experience ? exp.data.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="" style={{width : '100%'}} />
+                                                {exp.data.logo ? (
+                                                    <img
+                                                        src={exp.data.logo}
+                                                        alt=""
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                    ) : (
+                                                    <img
+                                                        src='https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'
+                                                        alt=""
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                )}
                                             </div>
                                             <div className='ms-3'>{exp.data.organization}</div>
                                         </div>

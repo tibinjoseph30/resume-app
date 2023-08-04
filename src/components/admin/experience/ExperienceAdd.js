@@ -1,12 +1,13 @@
-import { useState, useMemo, useEffect } from 'react'
-import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
+import { useState, useMemo } from 'react'
+import { Col, Form, Row, FormGroup, Label, Input, Button, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
 import { db, storage } from '../../../config/firebase-config'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { v4 as uuidv4 } from 'uuid'
 
 const ExperienceAdd = () => {
   const initialValues = {
@@ -14,7 +15,8 @@ const ExperienceAdd = () => {
     designation: "",
     city: "",
     state: "",
-    country: ""
+    country: "",
+    working: true
   }
   const [formValues, setFormValues] = useState(initialValues);
   const [joiningDate, setJoiningDate] = useState('')
@@ -23,47 +25,16 @@ const ExperienceAdd = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null)
   const [per, setPerc] = useState(null)
+  const [isChecked, setIsChecked] = useState(false)
+  const [experiences, setExperiences] = useState(null)
  
   const options = useMemo(()=>countryList().getData(), []);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
-      console.log(name);
-      const storageRef = ref(storage, `experience/${+ file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPerc(progress);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setFormValues((prev) => ({ ...prev, logo: downloadURL }));
-          });
-        }
-      );
-    };
-    file && uploadFile();
-  }, [file]);
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
 
   const handleChange = (event) => {
     setFormValues({
@@ -71,23 +42,92 @@ const ExperienceAdd = () => {
       [event.target.name]: event.target.value,
     });
     console.log(event.target)
+    console.log(formValues)
   };
 
-  const handleSubmit= (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formValues);
-    const experienceCollectionRef = collection(db, 'experience');
-    addDoc(experienceCollectionRef, formValues)
-    .then(response => {
-      console.log(response);
-      navigate(-1);
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
-    setFormValues(initialValues);
     setIsLoading(true);
-  }
+  
+    try {
+      let downloadURL = null;
+  
+      // Upload the file to Firebase storage if a file is selected
+      if (file) {
+        const fileId = uuidv4();
+        const name = fileId + "_" + file.name;
+        const storageRef = ref(storage, `experience/${name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            setPerc(progress);
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+              default:
+                break;
+            }
+          },
+          (error) => {
+            console.log(error);
+          },
+          async () => {
+            try {
+              const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+              downloadURL = downloadUrl;
+  
+              // After obtaining the download URL, submit the form data to Firestore
+              const experienceCollectionRef = collection(db, 'experience');
+              await addDoc(experienceCollectionRef, { 
+                ...formValues, 
+                logo: downloadUrl,
+                createdAt: serverTimestamp() 
+              });
+              setIsLoading(false);
+              navigate(-1);
+            } catch (error) {
+              console.log(error.message);
+              setIsLoading(false);
+            }
+          }
+        );
+      } else {
+        // If no file is selected, submit the form data without uploading the file
+        const experienceCollectionRef = collection(db, 'experience');
+        const newExperience = { ...formValues, createdAt: serverTimestamp() };
+  
+        // Add the new experience to Firestore
+        await addDoc(experienceCollectionRef, newExperience);
+  
+        // Update the state with the new experience
+        setFormValues(initialValues);
+  
+        // Fetch all experiences from Firestore and update the state with the latest data
+        const experiencesSnapshot = await getDocs(collection(db, 'experience'));
+        const updatedExperiences = experiencesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data()
+        }));
+        setExperiences(updatedExperiences);
+  
+        setIsLoading(false);
+        navigate(-1);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setIsLoading(false);
+    }
+  };
+  
+  
 
   const handleCancel = () => {
     navigate(-1)
@@ -152,6 +192,39 @@ const ExperienceAdd = () => {
                 <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
+                      Currently Working Here?
+                    </Label>
+                    <div className="d-flex">
+                      <div className="form-radio">
+                        <Input 
+                          type='radio' 
+                          id='currntlyWork_Y'
+                          checked={!isChecked}
+                          onChange={() => {
+                              setIsChecked(!isChecked)
+                              setFormValues({...formValues, working: isChecked})
+                          }}
+                        />
+                        <Label htmlFor='currntlyWork_Y'>Yes</Label>
+                      </div>
+                      <div className="form-radio ms-4">
+                        <Input 
+                          type='radio'
+                          id='currntlyWork_N'
+                          checked={isChecked}
+                          onChange={() => {
+                              setIsChecked(!isChecked)
+                              setFormValues({...formValues, working: isChecked})
+                          }}
+                        />
+                        <Label htmlFor='currntlyWork_N'>No</Label>
+                      </div>
+                    </div>
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6" style={!isChecked ? {'display': 'none'}: {'display': 'block'}}>
+                  <FormGroup>
+                    <Label>
                       Date of Relieve
                     </Label>
                     <Datepicker
@@ -162,8 +235,8 @@ const ExperienceAdd = () => {
                       onChange={(date)=> {
                         setRelievingDate(date)
                         setFormValues({...formValues, relieveDate: date.toLocaleDateString()})
-                      }} 
-                      required
+                      }}
+                      required={isChecked}
                     />
                   </FormGroup>
                 </Col>
@@ -224,7 +297,7 @@ const ExperienceAdd = () => {
                       type="file"
                       id='file'
                       accept='image/jpeg, image/png'
-                      onChange={(e)=> setFile(e.target.files[0])}
+                      onChange={handleFileChange}
                     />
                   </div>
                 </FormGroup>

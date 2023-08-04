@@ -4,7 +4,7 @@ import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
 import { db, storage } from '../../../config/firebase-config'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useLocation, useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { FiCamera } from 'react-icons/fi'
@@ -42,32 +42,36 @@ const ExperienceEdit = () => {
     console.log(event.target)
   };
 
-  const handleSubmit= (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const experienceCollectionRef = doc(db, 'experience', newId)
-    setDoc(experienceCollectionRef, newFormValues)
-    .then(response => {
-        console.log(response);
-        navigate(-1);
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
-    console.log(newFormValues)
     setIsLoading(true);
-
-    const name = new Date().getTime() + file.name;
+  
+    try {
+      const experienceCollectionRef = doc(db, 'experience', newId);
+  
+      // Retrieve the existing experience data from Firestore
+      const existingExperience = (await getDoc(experienceCollectionRef)).data();
+  
+      // Update the array field in the fetched document
+      const updatedFormValues = { ...newFormValues };
+      delete updatedFormValues.logo;
+  
+      // Update the document with the new data (excluding the logo field)
+      await setDoc(experienceCollectionRef, updatedFormValues);
+  
+      // Check if a new file was selected before proceeding with file upload
+      if (file) {
+        const name = new Date().getTime() + file.name;
         console.log(name);
-        const storageRef = ref(storage, `experience/${+ file.name}`);
+        const storageRef = ref(storage, `experience/${name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
   
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log("Upload is " + progress + "% done");
-          //   setPerc(progress);
+            //   setPerc(progress);
             switch (snapshot.state) {
               case "paused":
                 console.log("Upload is paused");
@@ -84,11 +88,41 @@ const ExperienceEdit = () => {
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              setNewFormValues((prev) => ({ ...prev, logo: downloadURL }));
+              // Update the 'logo' field in the Firestore document
+              setDoc(experienceCollectionRef, { ...newFormValues, logo: downloadURL, createdAt: existingExperience.createdAt });
+  
+              // Update the state with the updated 'logo' field and original 'createdAt' value
+              setNewFormValues((prev) => ({ ...prev, logo: downloadURL, createdAt: existingExperience.createdAt }));
+  
+              setIsLoading(false);
+              navigate(-1);
             });
           }
         );
-  }
+      } else {
+        // If no new file was selected, preserve the existing logo URL in the document
+        updatedFormValues.logo = newFormValues.logo;
+  
+        // Update the document with the updated data, including the logo field
+        await setDoc(experienceCollectionRef, { ...updatedFormValues, createdAt: existingExperience.createdAt });
+  
+        // Update the state with the updated data, including the logo field and original 'createdAt' value
+        setNewFormValues((prev) => ({ ...prev, createdAt: existingExperience.createdAt }));
+  
+        setIsLoading(false);
+        navigate(-1);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setIsLoading(false);
+      navigate(-1);
+    }
+  };
+  
+  
+  
+  
+  
 
   const handleCancel = () => {
     navigate(-1)
@@ -223,7 +257,7 @@ const ExperienceEdit = () => {
                         Logo
                     </Label>
                     <div class="file-preview-box">
-                        <img src={file ? URL.createObjectURL(file) : newFormValues ? newFormValues.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
+                    <img src={file ? URL.createObjectURL(file) : newFormValues.logo || 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
                         <div className="upload">
                             <FiCamera/>
                             <Input

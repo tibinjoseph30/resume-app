@@ -1,9 +1,8 @@
 import {useState, useEffect} from 'react'
 import { Button, Row, Col, Card, CardBody, Spinner, Table } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
-import { FiBookOpen, FiCheck, FiEdit2, FiEye, FiHeadphones, FiMic, FiTrash2 } from 'react-icons/fi'
-import { FaPencilAlt, FaRegEye } from 'react-icons/fa'
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { FiCheck, FiTrash2 } from 'react-icons/fi'
+import { collection, deleteDoc, doc, getDocs, limit, orderBy, query } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 
 const LanguageList = () => {
@@ -17,7 +16,8 @@ const LanguageList = () => {
 
   function getLanguage() {
       const languageCollectionRef = collection(db, 'language')
-      getDocs(languageCollectionRef)
+      const languageQueryRef = query(languageCollectionRef, orderBy("language"));
+      getDocs(languageQueryRef)
       .then(response => {
           const getLan = response.docs.map(doc => ({
               data: doc.data(),

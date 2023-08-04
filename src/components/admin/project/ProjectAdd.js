@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../config/firebase-config';
@@ -24,21 +24,39 @@ const ProjectAdd = () => {
         console.log(event.target)
     };
 
-    const handleSubmit= (event) => {
-        event.preventDefault();
-        console.log(formValues);
+    // const handleSubmit= (event) => {
+    //     event.preventDefault();
+    //     console.log(formValues);
+    //     const projectCollectionRef = collection(db, 'project');
+    //     addDoc(projectCollectionRef, formValues)
+    //     .then(response => {
+    //         console.log(response);
+    //         navigate(-1);
+    //     })
+    //     .catch(error => {
+    //         console.log(error.message)
+    //     })
+    //     setFormValues(initialValues);
+    //     setIsLoading(true);
+    // }
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      setIsLoading(true);
+    
+      try {
         const projectCollectionRef = collection(db, 'project');
-        addDoc(projectCollectionRef, formValues)
-        .then(response => {
-            console.log(response);
-            navigate(-1);
-        })
-        .catch(error => {
-            console.log(error.message)
-        })
-        setFormValues(initialValues);
-        setIsLoading(true);
-    }
+        await addDoc(projectCollectionRef, { 
+          ...formValues, 
+          createdAt: serverTimestamp() 
+        });
+        setIsLoading(false);
+        navigate(-1);
+      } catch (error) {
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    };
 
     const handleCancel = () => {
       navigate(-1)

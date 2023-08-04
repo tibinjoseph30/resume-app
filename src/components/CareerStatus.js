@@ -21,7 +21,7 @@ const CareerStatus = ({profile, isLoading}) => {
                         </div> :
                         <div>
                             {profile.map((pro, id)=> (
-                                <div>
+                                <div key={pro.id}>
                                     <span className='text-muted me-3'><FontAwesomeIcon icon={faBriefcase} /></span>
                                     {pro.data.careerStatus}
                                 </div>

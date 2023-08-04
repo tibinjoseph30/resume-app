@@ -1,7 +1,8 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Card, CardBody, CardHeader, NavLink, Spinner } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Spinner } from 'reactstrap'
 import { db } from '../config/firebase-config'
+import { Link } from 'react-router-dom'
 
 const Projects = () => {
 
@@ -14,9 +15,12 @@ const Projects = () => {
     
     function getProject() {
         const projectCollectionRef = collection(db, 'project')
-        getDocs(projectCollectionRef)
+        const projectQueryRef = query(projectCollectionRef, orderBy("project", "asc"), limit(3));
+        getDocs(projectQueryRef)
         .then(response => {
-            const getProj = response.docs.map(doc => ({
+            const getProj = response.docs
+            .sort((a, b) => (a.id < b.id ? 1 : -1))
+            .map(doc => ({
                 data: doc.data(),
                 id: doc.id,
             }))
@@ -57,7 +61,7 @@ const Projects = () => {
                         </ul>
                     )
                 }
-                <button className='btn btn-primary rounded-pill w-100 mt-4'>Show All</button>
+                <Button tag={Link} to="/all-projects" color='primary' className='rounded-pill w-100 mt-4'>Show All</Button>
             </CardBody>
         </Card>
     </div>

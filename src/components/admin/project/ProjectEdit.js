@@ -1,4 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
@@ -23,20 +23,43 @@ const ProjectEdit = () => {
         console.log(event.target)
     };
 
-    const handleSubmit= (event) => {
-        event.preventDefault();
-        const projectCollectionRef = doc(db, 'project', newId)
-        setDoc(projectCollectionRef, newFormValues)
-        .then(response => {
-            console.log(response);
-            navigate(-1);
-        })
-        .catch(error => {
-        console.log(error.message)
-        })
-        console.log(newFormValues)
-        setIsLoading(true);
-    }
+    // const handleSubmit= (event) => {
+    //     event.preventDefault();
+    //     const projectCollectionRef = doc(db, 'project', newId)
+    //     setDoc(projectCollectionRef, newFormValues)
+    //     .then(response => {
+    //         console.log(response);
+    //         navigate(-1);
+    //     })
+    //     .catch(error => {
+    //     console.log(error.message)
+    //     })
+    //     console.log(newFormValues)
+    //     setIsLoading(true);
+    // }
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      setIsLoading(true);
+    
+      try {
+        const projectCollectionRef = doc(db, 'project', newId);
+        await setDoc(projectCollectionRef, newFormValues);
+        console.log(newFormValues);
+    
+        // Wait for the document update to complete, then fetch the updated data
+        const updatedResponse = await getDoc(projectCollectionRef);
+        const updatedData = updatedResponse.data();
+    
+        // Update the state with the updated data, including the updated 'experience' array
+        setNewFormValues(updatedData);
+        navigate(-1);
+
+      } catch (error) {
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    };
 
     const handleCancel = () => {
       navigate(-1)

@@ -89,57 +89,51 @@ textarea {
     }
 }
 
+.form-radio {
+    input {
+        padding: 0;
+        height: initial;
+        width: initial;
+        margin-bottom: 0;
+        display: none;
+        cursor: pointer;
+    }
+    &[type="radio"],
+    &[type="radio"]:not(:checked) {
+        position: absolute;
+        left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label {
+        position: relative;
+        cursor: pointer;
+        margin: 0;
+        &::before {
+            content: '';
+            position: relative;
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            border-radius: 100%;
+            background: #fff;
+            margin-right: 10px;
+        }
+    }
+    [type="radio"]:checked + label {
+        &::before {
+            border: 7px solid $primaryColor;
+        }
+    }
+}
+
 .selectpicker {
     div[class*="-control"] {
         border-color: $borderColor;
         @include box-shadow(none);
         div[class*="-placeholder"] {
             color: $gray;
-        }
-    }
-}
-
-.react-checkbox {
-    input[type="checkbox"],
-    input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        & + label {
-            position: relative;
-            cursor: pointer;
-            padding: 0;
-            &::before {
-                content: '';
-                margin-right: 10px;
-                display: inline-block;
-                vertical-align: text-top;
-                width: 20px;
-                height: 20px;
-                background: $white;
-                outline: 1px solid;
-                outline-color: $borderColor;
-                @include border-radius(2px);
-            }
-        }
-        &:checked {
-            & + label {
-                &::before {
-                    background-color: $primaryColor;
-                    outline-color: $primaryColor;
-                }
-                &::after {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    top: 4px;
-                    left: 7px;
-                    width: 6px;
-                    height: 12px;
-                    border: solid $white;
-                    border-width: 0 2px 2px 0;
-                    transform: rotate(45deg);
-                }
-            }
         }
     }
 }
