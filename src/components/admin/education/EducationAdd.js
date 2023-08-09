@@ -4,9 +4,10 @@ import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
 import { db, storage } from '../../../config/firebase-config'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { v4 as uuidv4 } from 'uuid'
 
 const EducationAdd = () => {
     const initialValues = {
@@ -29,47 +30,15 @@ const EducationAdd = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [file, setFile] = useState(null)
     const [per, setPerc] = useState(null)
+    const [experiences, setExperiences] = useState(null)
 
     const options = useMemo(()=>countryList().getData(), []);
     const navigate = useNavigate();
 
-    useEffect(() => {
-      const uploadFile = () => {
-        const name = new Date().getTime() + file.name;
-        console.log(name);
-        const storageRef = ref(storage, `education/${+ file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-  
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-            setPerc(progress);
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
-                break;
-              case "running":
-                console.log("Upload is running");
-                break;
-              default:
-                break;
-            }
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              setFormValues((prev) => ({ ...prev, logo: downloadURL }));
-            });
-          }
-        );
-      };
-      file && uploadFile();
-    }, [file]);
+    const handleFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+    };
 
     const handleChange = (event) => {
         setFormValues({
@@ -78,21 +47,88 @@ const EducationAdd = () => {
         });
         console.log(event.target)
     };
-    const handleSubmit= (event) => {
-        event.preventDefault();
-        console.log(formValues);
-        const educationCollectionRef = collection(db, 'education');
-        addDoc(educationCollectionRef, formValues)
-        .then(response => {
-          console.log(response);
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      setIsLoading(true);
+    
+      try {
+        let downloadURL = null;
+    
+        // Upload the file to Firebase storage if a file is selected
+        if (file) {
+          const fileId = uuidv4();
+          const name = fileId + "_" + file.name;
+          const storageRef = ref(storage, `education/${name}`);
+          const uploadTask = uploadBytesResumable(storageRef, file);
+    
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              setPerc(progress);
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+                default:
+                  break;
+              }
+            },
+            (error) => {
+              console.log(error);
+            },
+            async () => {
+              try {
+                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                downloadURL = downloadUrl;
+    
+                // After obtaining the download URL, submit the form data to Firestore
+                const educationCollectionRef = collection(db, 'education');
+                await addDoc(educationCollectionRef, { 
+                  ...formValues, 
+                  logo: downloadUrl,
+                  createdAt: serverTimestamp() 
+                });
+                setIsLoading(false);
+                navigate(-1);
+              } catch (error) {
+                console.log(error.message);
+                setIsLoading(false);
+              }
+            }
+          );
+        } else {
+          // If no file is selected, submit the form data without uploading the file
+          const educationCollectionRef = collection(db, 'education');
+          const newExperience = { ...formValues, createdAt: serverTimestamp() };
+    
+          // Add the new experience to Firestore
+          await addDoc(educationCollectionRef, newExperience);
+    
+          // Update the state with the new experience
+          setFormValues(initialValues);
+    
+          // Fetch all experiences from Firestore and update the state with the latest data
+          const educationsSnapshot = await getDocs(collection(db, 'education'));
+          const updatedEducation = educationsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data()
+          }));
+          setExperiences(updatedEducation);
+    
+          setIsLoading(false);
           navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
-        setFormValues(initialValues);
-        setIsLoading(true);
+        }
+      } catch (error) {
+        console.log(error.message);
+        setIsLoading(false);
       }
+    };
 
       const handleCancel = () => {
         navigate(-1)
@@ -246,7 +282,7 @@ const EducationAdd = () => {
                       type="file"
                       id='file'
                       accept='image/jpeg, image/png'
-                      onChange={(e)=> setFile(e.target.files[0])}
+                      onChange={handleFileChange}
                     />
                   </div>
                 </FormGroup>
@@ -254,7 +290,7 @@ const EducationAdd = () => {
             </Row>
             <div className='form-action'>
             <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
-              <Button disabled={per !== null && per < 100} type='submit' color='primary' className='d-flex align-items-center'>Add Education 
+              <Button type='submit' color='primary' className='d-flex align-items-center'>Add Education 
                   {isLoading ? 
                   <Spinner size="sm" className='ms-2' 
                   style={{

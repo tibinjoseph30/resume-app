@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -16,7 +16,8 @@ const InterestList = () => {
 
     function getInterest() {
         const interestCollectionRef = collection(db, 'interest')
-        getDocs(interestCollectionRef)
+        
+        getDocs(query(interestCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getInt = response.docs.map(doc => ({
                 data: doc.data(),

@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { FiBookOpen, FiEdit2, FiHeadphones, FiMic } from 'react-icons/fi'
 import { Card, CardBody, CardHeader, Col, Row, Spinner } from 'reactstrap'
@@ -14,8 +14,9 @@ const Language = () => {
     }, [])
     
     function getLanguage() {
-        const skillsCollectionRef = collection(db, 'language')
-        getDocs(skillsCollectionRef)
+        const languageCollectionRef = collection(db, 'language')
+
+        getDocs(query(languageCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getLan = response.docs.map(doc => ({
                 data: doc.data(),

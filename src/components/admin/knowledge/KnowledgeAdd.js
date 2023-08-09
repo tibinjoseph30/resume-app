@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
@@ -22,21 +22,23 @@ const KnowledgeAdd = () => {
         console.log(event.target)
     };
     
-    const handleSubmit= (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formValues);
-        const knowledgeCollectionRef = collection(db, 'knowledge');
-        addDoc(knowledgeCollectionRef, formValues)
-        .then(response => {
-          console.log(response);
-          navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
         setIsloading(true);
-        setFormValues(initialValues)
-    }
+      
+        try {
+          const skillCollectionRef = collection(db, 'knowledge');
+          await addDoc(skillCollectionRef, { 
+            ...formValues, 
+            createdAt: serverTimestamp() 
+          });
+          setIsloading(false);
+          navigate(-1);
+        } catch (error) {
+          console.log(error.message);
+          setIsloading(false);
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1)

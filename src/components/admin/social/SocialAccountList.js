@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { db } from '../../../config/firebase-config';
 import { Button, Card, CardBody, Col, Row, Spinner } from 'reactstrap';
@@ -16,7 +16,8 @@ const SocialAccountList = () => {
 
     function getSocial() {
         const socialCollectionRef = collection(db, 'social')
-        getDocs(socialCollectionRef)
+
+        getDocs(query(socialCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getSoc = response.docs.map(doc => ({
                 data: doc.data(),

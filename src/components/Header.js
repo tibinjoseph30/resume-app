@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBehance, faDribbble, faFacebookF, faGithub, faInstagram, faLinkedinIn, faPinterestP, faSkype, faSnapchat, faTwitter, faVimeoV, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { Card, CardBody, NavLink, Spinner } from 'reactstrap'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../config/firebase-config'
 
 const Header = ({profile, isLoading}) => {
@@ -15,8 +15,8 @@ const Header = ({profile, isLoading}) => {
     }, [])
     
     function getSocial() {
-        const hobbiesCollectionRef = collection(db, 'social')
-        getDocs(hobbiesCollectionRef)
+        const socialCollectionRef = collection(db, 'social')
+        getDocs(query(socialCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getHob = response.docs.map(doc => ({
                 data: doc.data(),

@@ -2,14 +2,13 @@ import {useState} from 'react'
 import Select from 'react-select'
 import { Form, Row, Col, FormGroup, Label, Input, Button, Spinner } from 'reactstrap'
 import { db } from '../../../config/firebase-config'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 
 const SkillsAdd = () => {
     const initialValues = {
         skill: "",
-        profficiency: "",
-        skillType: ""
+        profficiency: ""
     }
     const options = [
         {value: "100", label: "100"},
@@ -36,21 +35,24 @@ const SkillsAdd = () => {
         });
         console.log(event.target)
     };
-    const handleSubmit= (event) => {
+    
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formValues);
-        const skillCollectionRef = collection(db, 'skill');
-        addDoc(skillCollectionRef, formValues)
-        .then(response => {
-          console.log(response);
-          navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
         setIsLoading(true);
-        setFormValues(initialValues)
-    }
+      
+        try {
+          const skillCollectionRef = collection(db, 'skill');
+          await addDoc(skillCollectionRef, { 
+            ...formValues, 
+            createdAt: serverTimestamp() 
+          });
+          setIsLoading(false);
+          navigate(-1);
+        } catch (error) {
+          console.log(error.message);
+          setIsLoading(false);
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1)
@@ -96,24 +98,9 @@ const SkillsAdd = () => {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col xl="4" sm="6">
-                            <FormGroup>
-                                <Label>
-                                    Skill Type
-                                </Label>
-                                <Input
-                                    type="text"
-                                    name="skillType"
-                                    value={formValues.skillType}
-                                    placeholder="Enter skill type"
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </FormGroup>
-                        </Col>
                     </Row>
                     <div className='form-action'>
-                    <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
+                        <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
                         <Button type='submit' color='primary' className='d-flex align-items-center'>Add Skill 
                             {isLoading ? 
                             <Spinner size="sm" className='ms-2' 

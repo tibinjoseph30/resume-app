@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import socialMediaList from '../../../api/SocialMediaSelect'
 import { useNavigate } from 'react-router-dom'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 import { Button, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap'
 import Select from 'react-select'
@@ -28,21 +28,23 @@ const SocialAccountAdd = () => {
         console.log(event.target)
     };
     
-    const handleSubmit= (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formValues);
-        const socialCollectionRef = collection(db, 'social');
-        addDoc(socialCollectionRef, formValues)
-        .then(response => {
-          console.log(response);
-          navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
         setIsloading(true);
-        setFormValues(initialValues)
-    }
+      
+        try {
+          const skillCollectionRef = collection(db, 'social');
+          await addDoc(skillCollectionRef, { 
+            ...formValues, 
+            createdAt: serverTimestamp() 
+          });
+          setIsloading(false);
+          navigate(-1);
+        } catch (error) {
+          console.log(error.message);
+          setIsloading(false);
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1)

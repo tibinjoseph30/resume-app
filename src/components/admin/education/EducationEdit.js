@@ -4,7 +4,7 @@ import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
 import { db, storage } from '../../../config/firebase-config'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useLocation, useNavigate } from "react-router-dom";
 import { FiCamera } from 'react-icons/fi'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -16,15 +16,12 @@ const EducationEdit = () => {
 
     const location = useLocation();
     const [newFormValues, setNewFormValues] = useState(location.state.state);
-    const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinYear)
-    const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveYear)
+    const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinDate)
+  const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveDate)
     const [file, setFile] = useState(null)
-    // console.log(location.state);
-    // const state = location.state.state
-    // console.log(state)
+
     console.log(newFormValues)
     const newId = location.state.id
-    // console.log(newId)
 
     useEffect(() => {
         
@@ -41,53 +38,82 @@ const EducationEdit = () => {
         console.log(event.target)
     };
     
-    const handleSubmit= (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const educationCollectionRef = doc(db, 'education', newId)
-        setDoc(educationCollectionRef, newFormValues)
-        .then(response => {
-            console.log(response);
-            navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
-        console.log(newFormValues);
         setIsLoading(true);
-
-        const name = new Date().getTime() + file.name;
-        console.log(name);
-        const storageRef = ref(storage, `education/${+ file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-  
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-          //   setPerc(progress);
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
-                break;
-              case "running":
-                console.log("Upload is running");
-                break;
-              default:
-                break;
-            }
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              setNewFormValues((prev) => ({ ...prev, logo: downloadURL }));
-            });
+      
+        try {
+          const educationCollectionRef = doc(db, 'education', newId);
+      
+          // Retrieve the existing experience data from Firestore
+          const existingEducation = (await getDoc(educationCollectionRef)).data();
+      
+          // Update the array field in the fetched document
+          const updatedFormValues = { ...newFormValues };
+          delete updatedFormValues.logo;
+      
+          // Update the document with the new data (excluding the logo field)
+          await setDoc(educationCollectionRef, updatedFormValues);
+      
+          // Check if a new file was selected before proceeding with file upload
+          if (file) {
+            const name = new Date().getTime() + file.name;
+            console.log(name);
+            const storageRef = ref(storage, `exducation/${name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+      
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+                //   setPerc(progress);
+                switch (snapshot.state) {
+                  case "paused":
+                    console.log("Upload is paused");
+                    break;
+                  case "running":
+                    console.log("Upload is running");
+                    break;
+                  default:
+                    break;
+                }
+              },
+              (error) => {
+                console.log(error);
+              },
+              () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                  // Update the 'logo' field in the Firestore document
+                  setDoc(educationCollectionRef, { ...newFormValues, logo: downloadURL, createdAt: existingEducation.createdAt });
+      
+                  // Update the state with the updated 'logo' field and original 'createdAt' value
+                  setNewFormValues((prev) => ({ ...prev, logo: downloadURL, createdAt: existingEducation.createdAt }));
+      
+                  setIsLoading(false);
+                  navigate(-1);
+                });
+              }
+            );
+          } else {
+            // If no new file was selected, preserve the existing logo URL in the document
+            updatedFormValues.logo = newFormValues.logo;
+      
+            // Update the document with the updated data, including the logo field
+            await setDoc(educationCollectionRef, { ...updatedFormValues, createdAt: existingEducation.createdAt });
+      
+            // Update the state with the updated data, including the logo field and original 'createdAt' value
+            setNewFormValues((prev) => ({ ...prev, createdAt: existingEducation.createdAt }));
+      
+            setIsLoading(false);
+            navigate(-1);
           }
-        );
-    }
+        } catch (error) {
+          console.log(error.message);
+          setIsLoading(false);
+          navigate(-1);
+        }
+      };
 
     const handleCancel = () => {
         navigate(-1)
@@ -142,8 +168,8 @@ const EducationEdit = () => {
                                 className='form-control'
                                 dateFormat="dd-MM-yyyy"
                                 onChange={(date)=> {
-                                setNewJoiningDate(date)
-                                setNewFormValues({...newFormValues, joinDate: date.toLocaleDateString()})
+                                  setNewJoiningDate(date)
+                                  setNewFormValues({...newFormValues, joinDate: date.toLocaleDateString()})
                                 }}
                                 required
                             />
@@ -160,8 +186,8 @@ const EducationEdit = () => {
                                 className='form-control'
                                 dateFormat="dd-MM-yyyy"
                                 onChange={(date)=> {
-                                setNewRelievingDate(date)
-                                setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
+                                    setNewRelievingDate(date)
+                                    setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
                                 }} 
                                 required
                             />

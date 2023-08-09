@@ -2,6 +2,7 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardHeader, Spinner } from 'reactstrap' 
 import { db } from '../config/firebase-config'
+import { calculateExperience, calculateTotalExperience } from '../utils/experienceUtils'
 
 const Experience = () => {
 
@@ -25,6 +26,9 @@ const Experience = () => {
             setExperience(getExp);
             setIsLoading(true);
             console.log(getExp)
+            
+            const totalExperience = calculateTotalExperience(getExp);
+            console.log('experience:', totalExperience);
         })
         .catch(error => console.log(error.message));
     }
@@ -34,25 +38,6 @@ const Experience = () => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', options);
     }
-
-    function calculateExperience(joinDate, relieveDate) {
-        const join = new Date(joinDate);
-        const relieve = relieveDate ? new Date(relieveDate) : new Date();
-    
-        let totalYears = relieve.getFullYear() - join.getFullYear();
-        let totalMonths = relieve.getMonth() - join.getMonth();
-        
-        if (totalMonths < 0) {
-            totalYears--;
-            totalMonths += 12;
-        }
-    
-        return {
-            years: totalYears,
-            months: totalMonths
-        };
-    }
-    
     
   return (
     <div className='section section-experience'>

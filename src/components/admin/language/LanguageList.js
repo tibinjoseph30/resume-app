@@ -16,8 +16,8 @@ const LanguageList = () => {
 
   function getLanguage() {
       const languageCollectionRef = collection(db, 'language')
-      const languageQueryRef = query(languageCollectionRef, orderBy("language"));
-      getDocs(languageQueryRef)
+      
+      getDocs(query(languageCollectionRef, orderBy('createdAt')))
       .then(response => {
           const getLan = response.docs.map(doc => ({
               data: doc.data(),

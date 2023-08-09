@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
+import 'react-image-crop/dist/ReactCrop.css';
 import "./styles/style.scss";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

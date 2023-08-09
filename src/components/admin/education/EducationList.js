@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Table, Button, Spinner } from 'reactstrap'
 import { NavLink as Link, NavLink } from 'react-router-dom'
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 
@@ -16,14 +16,15 @@ const EducationList = () => {
     
     function getEducation() {
         const educationCollectionRef = collection(db, 'education')
-        getDocs(educationCollectionRef)
+
+        getDocs(query(educationCollectionRef, orderBy('createdAt', 'desc')))
         .then(response => {
             const getEdu = response.docs.map(doc => ({
                 data: doc.data(),
                 id: doc.id
             }))
             setEducation(getEdu)
-            // console.log(getExp);
+            console.log(getEdu);
             setIsLoading(true)
         })
         .catch(error => console.log(error.message))

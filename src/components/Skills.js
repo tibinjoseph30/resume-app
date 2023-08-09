@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { MdStarRate } from "react-icons/md";
 import { Card, CardBody, CardHeader, Spinner, Table } from 'reactstrap'
@@ -15,7 +15,8 @@ const Skills = () => {
     
     function getSkills() {
         const skillsCollectionRef = collection(db, 'skill')
-        getDocs(skillsCollectionRef)
+        
+        getDocs(query(skillsCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getSki = response.docs.map(doc => ({
                 data: doc.data(),
@@ -48,7 +49,6 @@ const Skills = () => {
                                 {skill.map((ski, id)=> (
                                     <tr key={ski.id}>
                                         <td>{ski.data.skill}</td>
-                                        <td className='text-muted small'>{ski.data.skillType}</td>
                                         <td width="100">
                                             <div className={"rating "+ (
                                                 ski.data.profficiency >=90 ? 'expert' :

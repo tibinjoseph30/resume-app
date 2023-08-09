@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import { Button, Spinner, Card, CardBody, Row, Col } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom'
 import { FiTrash2 } from 'react-icons/fi'
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../../config/firebase-config'
 
 const SkillsList = () => {
@@ -16,7 +16,8 @@ const SkillsList = () => {
 
     function getSkills() {
         const skillCollectionRef = collection(db, 'skill')
-        getDocs(skillCollectionRef)
+
+        getDocs(query(skillCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getSki = response.docs.map(doc => ({
                 data: doc.data(),
@@ -28,6 +29,7 @@ const SkillsList = () => {
         })
         .catch(error => console.log(error.message))
     }
+    
     function deleteSkill(id) {
         const skillDeleteRef = doc(db, 'skill', id)
         deleteDoc(skillDeleteRef)

@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import React, { useMemo, useState } from 'react'
 import { Button, Col, Form, FormGroup, Label, Row, Spinner } from 'reactstrap'
 import { db } from '../../../config/firebase-config'
@@ -17,21 +17,23 @@ const InterestAdd = () => {
     const options = useMemo(()=>interestList().getData(), []);
     const navigate = useNavigate();
     
-    const handleSubmit= (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formValues);
-        const interestCollectionRef = collection(db, 'interest');
-        addDoc(interestCollectionRef, formValues)
-        .then(response => {
-          console.log(response);
-          navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
         setIsloading(true);
-        setFormValues(initialValues)
-    }
+      
+        try {
+          const skillCollectionRef = collection(db, 'interest');
+          await addDoc(skillCollectionRef, { 
+            ...formValues, 
+            createdAt: serverTimestamp() 
+          });
+          setIsloading(false);
+          navigate(-1);
+        } catch (error) {
+          console.log(error.message);
+          setIsloading(false);
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1)

@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardHeader, Col, Row, Spinner } from 'reactstrap'
 import ReactDatePicker from 'react-datepicker'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
+import { db } from '../config/firebase-config'
+import { calculateTotalExperience } from '../utils/experienceUtils'
 
-const Profile = ({profile, isLoading}) => {
+const Profile = ({profile, isLoading }) => {
+
+  const [totalExperience, setTotalExperience] = useState(0);
+
+  useEffect(() => {
+    getTotalExperience()
+  }, []);
+
+function getTotalExperience() {
+  const experienceCollectionRef = collection(db, 'experience');
+    
+    getDocs(query(experienceCollectionRef, orderBy('createdAt', 'desc')))
+    .then(response => {
+        const getExp = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id
+        }));
+
+        const calculatedTotalExperience = calculateTotalExperience(getExp);
+        setTotalExperience(calculatedTotalExperience);
+    })
+    .catch(error => console.log(error.message));
+}
+
+
   
   return (
     <div className='section section-profile'>
@@ -81,7 +108,7 @@ const Profile = ({profile, isLoading}) => {
                   </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>NIL</div>
+                  <div className='fw-medium'>{totalExperience.years}+ Years</div>
                   <div className='text-muted small'>Total Experience</div>
                 </div>
               </div>

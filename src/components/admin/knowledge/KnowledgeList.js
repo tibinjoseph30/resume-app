@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Card, CardBody, Col, Row, Spinner } from 'reactstrap'
@@ -15,7 +15,8 @@ const KnowledgeList = () => {
 
     function getKnowledge() {
         const knowledgeCollectionRef = collection(db, 'knowledge')
-        getDocs(knowledgeCollectionRef)
+        
+        getDocs(query(knowledgeCollectionRef, orderBy('createdAt', 'desc')))
         .then(response => {
             const getKno = response.docs.map(doc => ({
                 data: doc.data(),

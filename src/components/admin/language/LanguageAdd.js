@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { Form, Row, Col, FormGroup, Label, Button, Spinner, Input } from 'reactstrap'
 import Select from 'react-select'
 import { db } from '../../../config/firebase-config'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import languageList from '../../../api/LanguageSelect.js'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,21 +28,23 @@ const LanguageAdd = () => {
     const options = useMemo(()=>languageList().getData(), []);
     const navigate = useNavigate();
     
-    const handleSubmit= (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formValues);
-        const languageCollectionRef = collection(db, 'language');
-        addDoc(languageCollectionRef, formValues)
-        .then(response => {
-          console.log(response)
-          navigate(-1);
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
         setIsLoading(true);
-        setFormValues(initialValues)
-    }
+      
+        try {
+          const languageCollectionRef = collection(db, 'language');
+          await addDoc(languageCollectionRef, { 
+            ...formValues, 
+            createdAt: serverTimestamp() 
+          });
+          setIsLoading(false);
+          navigate(-1);
+        } catch (error) {
+          console.log(error.message);
+          setIsLoading(false);
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1)

@@ -15,12 +15,10 @@ const Projects = () => {
     
     function getProject() {
         const projectCollectionRef = collection(db, 'project')
-        const projectQueryRef = query(projectCollectionRef, orderBy("project", "asc"), limit(3));
-        getDocs(projectQueryRef)
+
+        getDocs(query(projectCollectionRef, orderBy('createdAt', 'desc')))
         .then(response => {
-            const getProj = response.docs
-            .sort((a, b) => (a.id < b.id ? 1 : -1))
-            .map(doc => ({
+            const getProj = response.docs.map(doc => ({
                 data: doc.data(),
                 id: doc.id,
             }))

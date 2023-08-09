@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Col, Form, Row, FormGroup, Label, Input, Button, Alert, Spinner } from 'reactstrap'
+import { Col, Form, Row, FormGroup, Label, Input, Button, Spinner } from 'reactstrap'
 import Datepicker from "react-datepicker"
 import countryList from '../../../api/CountrySelect'
 import Select from 'react-select'
@@ -19,13 +19,10 @@ const ExperienceEdit = () => {
   const [newJoiningDate, setNewJoiningDate] = useState(newFormValues.joinDate)
   const [newRelievingDate, setNewRelievingDate] = useState(newFormValues.relieveDate)
   const [file, setFile] = useState(null)
+  const [isChecked, setIsChecked] = useState(newFormValues.working)
 
-  // console.log(location.state);
-  // const state = location.state.state
-  // console.log(state)
   console.log(newFormValues)
   const newId = location.state.id
-  // console.log(newId)
 
   useEffect(() => {
         
@@ -119,11 +116,6 @@ const ExperienceEdit = () => {
     }
   };
   
-  
-  
-  
-  
-
   const handleCancel = () => {
     navigate(-1)
   } 
@@ -185,7 +177,28 @@ const ExperienceEdit = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="4" sm="6">
+                <Col xl="4" sm="6" style={newFormValues.relieveDate ? {'display':'none'} : {'display': 'block'}}>
+                  <FormGroup>
+                    <Label>
+                      Currently Working Here
+                    </Label>
+                    <div className="d-flex">
+                      <div className="form-checkbox">
+                        <Input 
+                          type='checkbox' 
+                          id='currentlyWork'
+                          checked={isChecked}
+                          onChange={() => {
+                              setIsChecked(!isChecked)
+                              setNewFormValues({...newFormValues, working: isChecked})
+                          }}
+                        />
+                        <Label htmlFor='currentlyWork'></Label>
+                      </div>
+                    </div>
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6" style={isChecked ? {'display': 'none'}: {'display': 'block'}}>
                   <FormGroup>
                     <Label>
                       Date of Relieve
@@ -198,8 +211,8 @@ const ExperienceEdit = () => {
                       onChange={(date)=> {
                         setNewRelievingDate(date)
                         setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
-                      }} 
-                      required
+                      }}
+                      required={isChecked}
                     />
                   </FormGroup>
                 </Col>

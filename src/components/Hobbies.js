@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardHeader, Spinner } from 'reactstrap'
 import { db } from '../config/firebase-config'
@@ -14,7 +14,8 @@ const Hobbies = () => {
     
     function getHobbies() {
         const hobbiesCollectionRef = collection(db, 'interest')
-        getDocs(hobbiesCollectionRef)
+        
+        getDocs(query(hobbiesCollectionRef, orderBy('createdAt')))
         .then(response => {
             const getHob = response.docs.map(doc => ({
                 data: doc.data(),

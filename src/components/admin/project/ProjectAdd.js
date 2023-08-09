@@ -24,22 +24,6 @@ const ProjectAdd = () => {
         console.log(event.target)
     };
 
-    // const handleSubmit= (event) => {
-    //     event.preventDefault();
-    //     console.log(formValues);
-    //     const projectCollectionRef = collection(db, 'project');
-    //     addDoc(projectCollectionRef, formValues)
-    //     .then(response => {
-    //         console.log(response);
-    //         navigate(-1);
-    //     })
-    //     .catch(error => {
-    //         console.log(error.message)
-    //     })
-    //     setFormValues(initialValues);
-    //     setIsLoading(true);
-    // }
-
     const handleSubmit = async (event) => {
       event.preventDefault();
       setIsLoading(true);
