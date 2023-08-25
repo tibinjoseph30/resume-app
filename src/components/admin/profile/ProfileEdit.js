@@ -8,8 +8,6 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../config/firebase-config'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { FiCamera } from 'react-icons/fi'
-import ReactCrop from 'react-image-crop';
-import { getCroppedImg } from '../../../utils/imageCropper'
 
 const ProfileEdit = () => {
 
@@ -22,9 +20,6 @@ const ProfileEdit = () => {
     const [selectValue, setSelectValue] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState(null)
-    const [crop, setCrop] = useState({ aspect: 1 / 1 });
-    const [imageRef, setImageRef] = useState(null);
-    const [croppedImage, setCroppedImage] = useState(null);
 
 
     console.log(newFormValues)
@@ -52,103 +47,58 @@ const ProfileEdit = () => {
         })
         console.log(newFormValues)
     }
-
-    // const handleSubmit = (event)=> {
-    //     event.preventDefault();
-    //     const profileCollectionRef = doc(db, 'profile', newId)
-    //     setDoc(profileCollectionRef, newFormValues)
-    //     .then(response=> {
-    //         console.log(response);
-    //         navigate(-1);
-    //     })
-    //     .catch(error=> {
-    //         console.log(error.message);
-    //     })
-    //     console.log(newFormValues);
-    //     setIsLoading(true); 
-
-    //     const name = new Date().getTime() + image.name;
-    //     console.log(name);
-
-    //     const storageRef = ref(storage, `profile/${+ image.name}`);
-    //     const uploadTask = uploadBytesResumable(storageRef, image);
+      
+      
     
-    //     uploadTask.on(
-    //         "state_changed",
-    //         (snapshot) => {
-    //             const progress =
-    //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //             console.log("Upload is " + progress + "% done");
-    //         //   setPerc(progress);
-    //             switch (snapshot.state) {
-    //             case "paused":
-    //                 console.log("Upload is paused");
-    //                 break;
-    //             case "running":
-    //                 console.log("Upload is running");
-    //                 break;
-    //             default:
-    //                 break;
-    //             }
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //         },
-    //         () => {
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //             setNewFormValues((prev) => ({ ...prev, avatar: downloadURL }));
-    //             });
-    //         }
-    //     );
-    // }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event)=> {
         event.preventDefault();
-    
-        try {
-            const profileCollectionRef = doc(db, 'profile', newId);
-            await setDoc(profileCollectionRef, newFormValues);
-    
-            console.log("Profile updated");
+        const profileCollectionRef = doc(db, 'profile', newId)
+        setDoc(profileCollectionRef, newFormValues)
+        .then(response=> {
+            console.log(response);
             navigate(-1);
-    
-            if (croppedImage) {
-                setIsLoading(true);
-    
-                const imageName = new Date().getTime() + image.name;
-                console.log(imageName);
-    
-                const storageRef = ref(storage, `profile/${imageName}`);
-                const uploadTask = uploadBytesResumable(storageRef, croppedImage);
-    
-                uploadTask.on(
-                    "state_changed",
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log("Upload is " + progress + "% done");
-                    },
-                    (error) => {
-                        console.log(error);
-                    },
-                    async () => {
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        setNewFormValues((prev) => ({ ...prev, avatar: downloadURL }));
-                        setIsLoading(false);
-                    }
-                );
-            }
-        } catch (error) {
+        })
+        .catch(error=> {
             console.log(error.message);
-        }
-    };
+        })
+        console.log(newFormValues);
+        setIsLoading(true); 
+
+        const name = new Date().getTime() + image.name;
+        console.log(name);
+
+        const storageRef = ref(storage, `profile/${+ image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
     
-    
-    const handleCropComplete = async (crop) => {
-        if (imageRef && crop.width && crop.height) {
-            const croppedImageUrl = await getCroppedImg(imageRef, crop);
-            setCroppedImage(croppedImageUrl);
-        }
-    };
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+            //   setPerc(progress);
+                switch (snapshot.state) {
+                case "paused":
+                    console.log("Upload is paused");
+                    break;
+                case "running":
+                    console.log("Upload is running");
+                    break;
+                default:
+                    break;
+                }
+            },
+            (error) => {
+                console.log(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                setNewFormValues((prev) => ({ ...prev, avatar: downloadURL }));
+                });
+            }
+        );
+    }
     
     const handleCancel = () => {
         navigate(-1)
@@ -161,30 +111,18 @@ const ProfileEdit = () => {
         </div>
         <div className="section-body">
             <Form onSubmit={handleSubmit}>
-                <div class="profile-pic mb-5">
+                <div className="profile-pic mb-5">
                     <img src={image ? URL.createObjectURL(image) : newFormValues ? newFormValues.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="user" />
                     <div className="upload">
                         <FiCamera/>
                         <Input 
                             type='file'
-                            id='file'
                             accept='image/jpeg, image/png'
                             onChange={(e)=> {
                                 setImage(e.target.files[0])
-                                setCrop({ aspect: 1 / 1 })
                             }}
                         /> 
                     </div>
-                    {image && (
-                        <ReactCrop
-                            src={URL.createObjectURL(image)}
-                            crop={crop}
-                            onImageLoaded={(img) => setImageRef(img)}
-                            onChange={(newCrop) => setCrop(newCrop)}
-                            onCropComplete={handleCropComplete}
-                            keepSelection={true}
-                        />
-                    )}
                 </div>
                 <Row className='mt-5'>
                     <Col lg="4" sm="6">

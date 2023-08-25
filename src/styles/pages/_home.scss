@@ -277,4 +277,13 @@ main {
     @include justify-content(center);
     @include border-radius(50px);
   }
+  table {
+    &.table {
+      width: auto;
+      margin: 0;
+      td, th {
+        padding: 0;
+      }
+    }
+  }
 }

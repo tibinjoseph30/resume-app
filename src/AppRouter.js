@@ -25,6 +25,7 @@ import ProjectEdit from "./components/admin/project/ProjectEdit";
 import SocialAccountList from "./components/admin/social/SocialAccountList";
 import SocialAccountAdd from "./components/admin/social/SocialAccountAdd";
 import AllProjects from "./components/AllProjects";
+import Resume from "./components/Resume";
 
 function AppRouter() {
     return(
@@ -32,6 +33,7 @@ function AppRouter() {
             <Routes>
                 <Route exact path="/" element={<Home/>} />
                 <Route path="/all-projects" element={<AllProjects/>} />
+                <Route path="/resume" element={<Resume/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/admin" element={<AdminLayout/>}>
                     <Route index path="dashboard" element={<Dashboard/>} />

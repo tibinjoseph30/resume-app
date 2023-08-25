@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBehance, faDribbble, faFacebookF, faGithub, faInstagram, faLinkedinIn, faPinterestP, faSkype, faSnapchat, faTwitter, faVimeoV, faYoutube } from '@fortawesome/free-brands-svg-icons'
-import { Card, CardBody, NavLink, Spinner } from 'reactstrap'
+import { Button, Card, CardBody, NavLink, Spinner } from 'reactstrap'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../config/firebase-config'
+import { Link } from 'react-router-dom'
 
 const Header = ({profile, isLoading}) => {
 
@@ -48,7 +49,7 @@ const Header = ({profile, isLoading}) => {
                                         <h3>{prof.data.firstName} {prof.data.lastName}</h3>
                                         <div>{prof.data.designation}</div>
                                     </div>
-                                    <button className='btn btn-primary rounded-pill ms-auto'>View Resume</button>
+                                    <Button tag={Link} to="/resume" color='primary' className='rounded-pill ms-auto'>View Resume</Button>
                                 </div>
                             ))}
                         </div> 
