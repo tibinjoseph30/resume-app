@@ -36,6 +36,28 @@ const ExperienceAdd = () => {
     setFile(selectedFile);
   };
 
+  const [textareaCount, setTextareaCount] = useState(1);
+  const [textareaContents, setTextareaContents] = useState({ 1: '' });
+
+  const handleAddTextarea = () => {
+    const newCount = textareaCount + 1;
+    setTextareaCount(newCount);
+    setTextareaContents({ ...textareaContents, [newCount]: '' });
+  };
+
+  const handleRemoveTextarea = (id) => {
+    const updatedContents = { ...textareaContents };
+    delete updatedContents[id];
+    setTextareaContents(updatedContents);
+    setTextareaCount(textareaCount - 1);
+  };
+
+  const handleTextareaChange = (event, id) => {
+    const updatedContents = { ...textareaContents };
+    updatedContents[id] = event.target.value;
+    setTextareaContents(updatedContents);
+  };
+
   const handleChange = (event) => {
     setFormValues({
       ...formValues,
@@ -301,6 +323,37 @@ const ExperienceAdd = () => {
                     />
                   </div>
                 </FormGroup>
+              </Col>
+            </Row>
+            <h6 className='mt-4'>Key Roles</h6>
+            <Row>
+              <Col lg="8">
+                <FormGroup>
+                  <div className='d-flex align-items-center'>
+                    <Input
+                      name={`textarea-1`}
+                      value={textareaContents[1]}
+                      placeholder="Enter a role"
+                      onChange={(e) => handleTextareaChange(e, 1)}
+                      required
+                    />
+                    <Button color='primary' className='btn-sm ms-3' style={{width: '30px', height: '30px'}} onClick={handleAddTextarea}>+</Button>
+                  </div>
+                </FormGroup>
+                {Array.from({ length: textareaCount - 1 }).map((_, index) => (
+                <FormGroup>
+                  <div className='d-flex align-items-center' key={index + 1}>
+                    <Input
+                     name={`textarea-${index + 2}`}
+                     value={textareaContents[index + 2]}
+                      placeholder="Enter a role"
+                      onChange={(e) => handleTextareaChange(e, index + 2)}
+                      required
+                    />
+                    <Button color='danger' className='ms-3 btn-sm' style={{width: '30px', height: '30px'}} onClick={() => handleRemoveTextarea(index + 2)}>-</Button>
+                  </div>
+                </FormGroup>
+                ))}
               </Col>
             </Row>
             <div className='form-action'>
