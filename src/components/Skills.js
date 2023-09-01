@@ -48,7 +48,7 @@ const Skills = () => {
                             <tbody>
                                 {skill.map((ski, id)=> (
                                     <tr key={ski.id}>
-                                        <td>{ski.data.skill}</td>
+                                        <td className='text-capitalize'>{ski.data.skill}</td>
                                         <td width="100">
                                             <div className={"rating "+ (
                                                 ski.data.profficiency >=90 ? 'expert' :

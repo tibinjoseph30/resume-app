@@ -49,8 +49,8 @@ const Projects = () => {
                                 <li key={proj.id}>
                                     <div className="d-flex align-items-center">
                                         <div>
-                                            <div className='fw-semibold mb-2'>{proj.data.project}</div>
-                                            <div>{proj.data.client}</div>
+                                            <div className='fw-semibold text-capitalize mb-2'>{proj.data.project}</div>
+                                            <div className='text-capitalize'>{proj.data.client}</div>
                                         </div>
                                         <a href={proj.data.url} target='_' className='btn btn-primary-light btn-sm ms-auto rounded-pill px-3'>View</a>
                                     </div>

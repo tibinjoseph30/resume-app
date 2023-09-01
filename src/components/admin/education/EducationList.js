@@ -76,7 +76,19 @@ const EducationList = () => {
                                         <td>
                                             <div className="d-flex align-items-center">
                                                 <div className='logo-box'>
-                                                    <img src={education ? edu.data.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="" style={{width : '100%'}} />
+                                                {edu.data.logo ? (
+                                                    <img
+                                                        src={edu.data.logo}
+                                                        alt=""
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                    ) : (
+                                                    <img
+                                                        src='https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'
+                                                        alt=""
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                )}
                                                 </div>
                                                 <div className='ms-3'>{edu.data.university}</div>
                                             </div>

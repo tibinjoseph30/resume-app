@@ -46,8 +46,8 @@ const Header = ({profile, isLoading}) => {
                                         <img src={profile ? prof.data.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="" />
                                     </div>
                                     <div>
-                                        <h3>{prof.data.firstName} {prof.data.lastName}</h3>
-                                        <div>{prof.data.designation}</div>
+                                        <h3 className='text-capitalize'>{prof.data.firstName} {prof.data.lastName}</h3>
+                                        <div className='text-capitalize'>{prof.data.designation}</div>
                                     </div>
                                     <Button tag={Link} to="/resume" color='primary' className='rounded-pill ms-auto'>View Resume</Button>
                                 </div>

@@ -72,18 +72,18 @@ const Education = () => {
                                         </div>
                                         <div className='flex-fill'>
                                             <div className="d-flex align-items-center">
-                                                <div className='fw-semibold'>{edu.data.university}</div>
+                                                <div className='fw-semibold text-capitalize'>{edu.data.university}</div>
                                                 <div className='ms-auto'>
                                                     <span className="badge bg-light text-dark fw-normal">{edu.data.courseType}</span>
                                                 </div>
                                             </div>
-                                            <div className='mt-2'>{edu.data.course}</div>
+                                            <div className='mt-2 text-capitalize'>{edu.data.course}</div>
                                             <div className="d-flex align-items-center mt-1">
                                                 <div className='small text-muted'>
                                                     {joinMonth} {joinYear} <span className='mx-1'>-</span> {relieveMonth} {relieveYear}                                                  
                                                 </div>
                                             </div>
-                                            <div className='small mt-3'>{edu.data.city}, {edu.data.state}, {edu.data.country}</div>
+                                            <div className='small text-capitalize mt-3'>{edu.data.city}, {edu.data.state}, {edu.data.country}</div>
                                         </div>
                                     </div>
                                 </li>

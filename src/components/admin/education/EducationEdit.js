@@ -241,13 +241,15 @@ const EducationEdit = () => {
                             />
                             </FormGroup>
                         </Col>
+                    </Row>
+                    <Row className='mt-4'>
                         <Col xl="4" sm="6">
                             <FormGroup>
                             <Label>
                                 Logo
                             </Label>
                             <div class="file-preview-box">
-                                <img src={file ? URL.createObjectURL(file) : newFormValues ? newFormValues.logo : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
+                            <img src={file ? URL.createObjectURL(file) : newFormValues.logo || 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
                                 <div className="upload">
                                     <FiCamera/>
                                     <Input

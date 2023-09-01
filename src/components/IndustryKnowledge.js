@@ -45,7 +45,7 @@ const IndustryKnowledge = () => {
                         There is nothing added yet !!
                     </div> : 
                     knowledge.map((kno, id)=> (
-                        <span key={kno.id}>{kno.data.knowledge}</span>
+                        <span className='text-capitalize' key={kno.id}>{kno.data.knowledge}</span>
                     )))}
                     
                 </div>

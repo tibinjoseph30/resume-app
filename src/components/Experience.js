@@ -75,7 +75,7 @@ const Experience = () => {
                                     </div>
                                     <div className='flex-fill'>
                                         <div className="d-flex align-items-center">
-                                            <div className='fw-semibold'>{exp.data.organization}</div>
+                                            <div className='fw-semibold text-capitalize'>{exp.data.organization}</div>
                                             <div className='small text-muted ms-auto'>
                                                 {calculateExperience(exp.data.joinDate, exp.data.relieveDate).years > 0 ? (
                                                     <span>{calculateExperience(exp.data.joinDate, exp.data.relieveDate).years} Years, {calculateExperience(exp.data.joinDate, exp.data.relieveDate).months} Months</span>
@@ -84,13 +84,13 @@ const Experience = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className='mt-2'>{exp.data.designation}</div>
+                                        <div className='mt-2 text-capitalize'>{exp.data.designation}</div>
                                         <div className="d-flex align-items-center mt-1">
                                             <div className='small text-muted'>
                                                 {getFormattedDate(exp.data.joinDate)} <span className='mx-1'>-</span> {exp.data.relieveDate ? getFormattedDate(exp.data.relieveDate) : 'Present'} 
                                             </div>
                                         </div>
-                                        <div className='small mt-3'>{exp.data.city}, {exp.data.state}</div>
+                                        <div className='small text-capitalize mt-3'>{exp.data.city}, {exp.data.state}</div>
                                     </div>
                                 </div>
                             </li>

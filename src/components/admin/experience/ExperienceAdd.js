@@ -25,7 +25,7 @@ const ExperienceAdd = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null)
   const [per, setPerc] = useState(null)
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(true)
   const [experiences, setExperiences] = useState(null)
  
   const options = useMemo(()=>countryList().getData(), []);
@@ -45,12 +45,14 @@ const ExperienceAdd = () => {
     setTextareaContents({ ...textareaContents, [newCount]: '' });
   };
 
-  const handleRemoveTextarea = (id) => {
-    const updatedContents = { ...textareaContents };
-    delete updatedContents[id];
-    setTextareaContents(updatedContents);
-    setTextareaCount(textareaCount - 1);
-  };
+  const handleRemoveTextarea = () => {
+    if (textareaCount > 1) {
+      const updatedContents = { ...textareaContents };
+      delete updatedContents[textareaCount];
+      setTextareaContents(updatedContents);
+      setTextareaCount(textareaCount - 1);
+    }
+  };   
 
   const handleTextareaChange = (event, id) => {
     const updatedContents = { ...textareaContents };
@@ -70,10 +72,13 @@ const ExperienceAdd = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+
+    if(isChecked) {
+      delete formValues.relieveDate
+    }
   
     try {
       let downloadURL = null;
-  
       // Upload the file to Firebase storage if a file is selected
       if (file) {
         const fileId = uuidv4();
@@ -105,13 +110,14 @@ const ExperienceAdd = () => {
             try {
               const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
               downloadURL = downloadUrl;
-  
+
               // After obtaining the download URL, submit the form data to Firestore
               const experienceCollectionRef = collection(db, 'experience');
               await addDoc(experienceCollectionRef, { 
                 ...formValues, 
                 logo: downloadUrl,
-                createdAt: serverTimestamp() 
+                roles: Object.values(textareaContents),
+                createdAt: serverTimestamp()
               });
               setIsLoading(false);
               navigate(-1);
@@ -124,7 +130,11 @@ const ExperienceAdd = () => {
       } else {
         // If no file is selected, submit the form data without uploading the file
         const experienceCollectionRef = collection(db, 'experience');
-        const newExperience = { ...formValues, createdAt: serverTimestamp() };
+        const newExperience = { 
+          ...formValues,
+          roles: Object.values(textareaContents), 
+          createdAt: serverTimestamp()
+         };
   
         // Add the new experience to Firestore
         await addDoc(experienceCollectionRef, newExperience);
@@ -214,57 +224,6 @@ const ExperienceAdd = () => {
                 <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                      Currently Working Here?
-                    </Label>
-                    <div className="d-flex">
-                      <div className="form-radio">
-                        <Input 
-                          type='radio' 
-                          id='currntlyWork_Y'
-                          checked={!isChecked}
-                          onChange={() => {
-                              setIsChecked(!isChecked)
-                              setFormValues({...formValues, working: isChecked})
-                          }}
-                        />
-                        <Label htmlFor='currntlyWork_Y'>Yes</Label>
-                      </div>
-                      <div className="form-radio ms-4">
-                        <Input 
-                          type='radio'
-                          id='currntlyWork_N'
-                          checked={isChecked}
-                          onChange={() => {
-                              setIsChecked(!isChecked)
-                              setFormValues({...formValues, working: isChecked})
-                          }}
-                        />
-                        <Label htmlFor='currntlyWork_N'>No</Label>
-                      </div>
-                    </div>
-                  </FormGroup>
-                </Col>
-                <Col xl="4" sm="6" style={!isChecked ? {'display': 'none'}: {'display': 'block'}}>
-                  <FormGroup>
-                    <Label>
-                      Date of Relieve
-                    </Label>
-                    <Datepicker
-                      selected={Date.parse(relievingDate)} 
-                      placeholderText='Select date' 
-                      className='form-control'
-                      dateFormat="dd-MM-yyyy"
-                      onChange={(date)=> {
-                        setRelievingDate(date)
-                        setFormValues({...formValues, relieveDate: date.toLocaleDateString()})
-                      }}
-                      required={isChecked}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col xl="4" sm="6">
-                  <FormGroup>
-                    <Label>
                       City
                     </Label>
                     <Input
@@ -310,65 +269,128 @@ const ExperienceAdd = () => {
                   </FormGroup>
                 </Col>
                 <Col xl="4" sm="6">
-                <FormGroup>
-                  <Label>
-                    Logo
-                  </Label>
-                  <div className="file-uploader">
-                    <Input
-                      type="file"
-                      id='file'
-                      accept='image/jpeg, image/png'
-                      onChange={handleFileChange}
+                  <FormGroup>
+                    <Label>
+                      Currently Working Here
+                    </Label>
+                    <div className="d-flex">
+                      <div className="form-checkbox">
+                        <Input 
+                          type='checkbox' 
+                          id='currentlyWork'
+                          checked={isChecked}
+                          onChange={() => {
+                              setIsChecked(!isChecked)
+                              setFormValues({...formValues, working: !isChecked})
+                          }}
+                        />
+                        <Label htmlFor='currentlyWork'></Label>
+                      </div>
+                    </div>
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6" style={isChecked ? {'display': 'none'}: {'display': 'block'}}>
+                  <FormGroup>
+                    <Label>
+                      Date of Relieve
+                    </Label>
+                    <Datepicker
+                      selected={Date.parse(relievingDate)} 
+                      placeholderText='Select date' 
+                      className='form-control'
+                      dateFormat="dd-MM-yyyy"
+                      onChange={(date)=> {
+                        setRelievingDate(date)
+                        setFormValues({
+                          ...formValues,
+                          relieveDate: date.toLocaleDateString() 
+                        })
+                      }}
+                      required={!isChecked}
                     />
-                  </div>
-                </FormGroup>
-              </Col>
-            </Row>
-            <h6 className='mt-4'>Key Roles</h6>
-            <Row>
-              <Col lg="8">
-                <FormGroup>
-                  <div className='d-flex align-items-center'>
-                    <Input
-                      name={`textarea-1`}
-                      value={textareaContents[1]}
-                      placeholder="Enter a role"
-                      onChange={(e) => handleTextareaChange(e, 1)}
-                      required
-                    />
-                    <Button color='primary' className='btn-sm ms-3' style={{width: '30px', height: '30px'}} onClick={handleAddTextarea}>+</Button>
-                  </div>
-                </FormGroup>
-                {Array.from({ length: textareaCount - 1 }).map((_, index) => (
-                <FormGroup>
-                  <div className='d-flex align-items-center' key={index + 1}>
-                    <Input
-                     name={`textarea-${index + 2}`}
-                     value={textareaContents[index + 2]}
-                      placeholder="Enter a role"
-                      onChange={(e) => handleTextareaChange(e, index + 2)}
-                      required
-                    />
-                    <Button color='danger' className='ms-3 btn-sm' style={{width: '30px', height: '30px'}} onClick={() => handleRemoveTextarea(index + 2)}>-</Button>
-                  </div>
-                </FormGroup>
-                ))}
-              </Col>
-            </Row>
-            <div className='form-action'>
-            <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
-              <Button type='submit' color='primary' className='d-flex align-items-center'>Add Experience 
-                  {isLoading ? 
-                  <Spinner size="sm" className='ms-2' 
-                  style={{
-                      height: '20px', 
-                      width:'20px', 
-                      borderWidth: '2px'
-                  }}/> : ''}
-              </Button>
-            </div>
-          </Form>
+                  </FormGroup>
+                </Col>
+                <Col xl="4" sm="6">
+                  <FormGroup>
+                    <Label>
+                      Logo
+                    </Label>
+                    <div className="file-uploader">
+                      <Input
+                        type="file"
+                        id='file'
+                        accept='image/jpeg, image/png'
+                        onChange={handleFileChange}
+                      />
+                    </div>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Label className='mt-4'>Key Roles</Label>
+              <Row>
+                <Col lg="8">
+                  <FormGroup>
+                    <div className='d-flex align-items-center'>
+                      <Input
+                        type='textarea'
+                        name={`textarea-1`}
+                        value={textareaContents[1]}
+                        placeholder="Enter a role"
+                        onChange={(e) => handleTextareaChange(e, 1)}
+                        required
+                      />
+                    </div>
+                  </FormGroup>
+                  {Array.from({ length: textareaCount - 1 }).map((_, index) => (
+                  <FormGroup>
+                    <div className='d-flex align-items-center' key={index + 1}>
+                      <Input
+                        type='textarea'
+                        name={`textarea-${index + 2}`}
+                        value={textareaContents[index + 2]}
+                        placeholder="Enter a role"
+                        onChange={(e) => handleTextareaChange(e, index + 2)}
+                        required
+                      />
+                    </div>
+                  </FormGroup>
+                  ))}
+                  <Button 
+                    color='primary' 
+                    className='btn-sm' 
+                    style={{width: '30px', height: '30px'}} 
+                    onClick={handleAddTextarea}>
+                      +
+                  </Button>
+                  <Button
+                    color='danger'
+                    className='ms-3 btn-sm'
+                    style={textareaCount > 1 ? {
+                      display: 'inline-block', 
+                      width: '30px', 
+                      height: '30px'
+                    } : {
+                      display: 'none'
+                    }}
+                    onClick={handleRemoveTextarea}
+                  >
+                    -
+                  </Button>
+                </Col>
+              </Row>
+              <div className='form-action'>
+                <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
+                  <Button type='submit' color='primary' className='d-flex align-items-center'>Add Experience 
+                      {isLoading ? 
+                      <Spinner size="sm" className='ms-2' 
+                      style={{
+                          height: '20px', 
+                          width:'20px', 
+                          borderWidth: '2px'
+                      }}/> : ''}
+                  </Button>
+              </div>
+            </Form>
         </div>
     </div>
   )

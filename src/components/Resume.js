@@ -4,6 +4,7 @@ import { Document, Page, Text, View, StyleSheet, pdf, Font } from '@react-pdf/re
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
 import { calculateTotalExperience } from '../utils/experienceUtils';
+import Skills from './Skills';
 
 // Register font
 Font.register({ family: 'Poppins', src: '../../fonts/Poppins-Regular.ttf' });
@@ -14,10 +15,11 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
     backgroundColor: '#ffffff',
-    padding: '50px 50px 50px 100px',
+    padding: '50px 100px 50px 100px',
     fontSize: '10px',
     color: '#323336',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins'
+    
   },
   brand: {
     borderColor: '#3b6bda',
@@ -70,10 +72,14 @@ const Resume = () => {
   const [profile, setProfile] = useState(null)
   const [totalExperience, setTotalExperience] = useState(0);
   const [experience, setExperience] = useState(null)
+  const [education, setEducation] = useState(null)
+  const [skill, setSkill] = useState(null)
   
   useEffect(()=> {
       getProfile()
       getExperience()
+      getEducation()
+      getSkills()
   }, [])
   
   function getProfile() {
@@ -109,6 +115,35 @@ const Resume = () => {
       .catch(error => console.log(error.message));
   }
 
+  function getEducation() {
+    const educationCollectionRef = collection(db, 'education');
+      
+      getDocs(query(educationCollectionRef, orderBy('createdAt', 'desc')))
+      .then(response => {
+          const getEdu = response.docs.map(doc => ({
+              data: doc.data(),
+              id: doc.id
+          }));
+
+          setEducation(getEdu);
+      })
+      .catch(error => console.log(error.message));
+  }
+
+  function getSkills() {
+    const skillsCollectionRef = collection(db, 'skill')
+    
+    getDocs(query(skillsCollectionRef, orderBy('createdAt')))
+    .then(response => {
+        const getSki = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+        }))
+        setSkill(getSki)
+    })
+    .catch(error => console.log(error.message))
+}
+
   function getFormattedDate(dateString) {
     const options = { year: 'numeric' };
     const date = new Date(dateString);
@@ -137,8 +172,10 @@ const Resume = () => {
                   <Text style={styles.textMuted}>{prof.data.email} | {prof.data.phone}</Text>
                   <Text style={styles.textMuted}>{prof.data.city}, {prof.data.state} | www.johndoe.com</Text>
                 </View>
-                <View style={{marginTop: '5px'}}>
-                  <Text style={styles.textMuted}>Creative task-driven Web Developer with over {totalExperience.years} years of experience in web design and development. Equipped with knowledge in HTML, CSS, JavaScript and other programming languages apart from expertise in testing, UI/UX interface designing, market research, and troubleshooting complex issues. Received 90%+ experience scores on every web application built for Softwares.</Text>
+                <View style={{marginTop: '10px'}}>
+                  <Text style={styles.textMuted}>
+                    Creative task-driven Web Developer with over {totalExperience.years} years of experience in web design and development. Proficient with HTML, CSS and JS Frameworks, with extensive knowledge of UI/UX interface designing and user psychology. Received 90%+ experience scores on every web application built for Softwares.
+                  </Text>
                 </View>
               </View>
             ))}
@@ -148,9 +185,46 @@ const Resume = () => {
                 <View key={exp.id} style={{marginBottom: '20px'}}>
                   <Text style={styles.title}>{exp.data.organization}</Text>
                   <Text style={styles.textMuted}>{exp.data.designation} | {getFormattedDate(exp.data.joinDate)} - {exp.data.relieveDate ? getFormattedDate(exp.data.relieveDate) : 'Present'}</Text>
-                  <Text style={{marginTop: '5px'}}>Leading the future Creation tools on YouTube Shorts</Text>
+                  <Text style={{textTransform: 'capitalize'}}>{exp.data.city}, {exp.data.state}</Text>
+                  <View>
+                    <ul style={{marginTop: '5px'}}>
+                      {exp.data.roles.map((role, index)=> (
+                        <li key={index}>
+                          <View style={{flexDirection: "column"}}>
+                            <View style={{ flexDirection: "row"}}>
+                              <Text style={{ marginRight: 8 }}>•</Text>
+                              <Text>{role}</Text>
+                            </View>
+                          </View>
+                        </li>
+                      ))}
+                    </ul>
+                  </View>
                 </View>
               ))}
+            </View>
+            <View>
+              <Text style={styles.heading}>Education</Text>
+              {education.map((edu, id)=> (
+                <View key={edu} style={{marginBottom: '20px'}}>
+                  <Text style={styles.title}>{edu.data.university}</Text>
+                  <Text style={styles.textMuted}>{edu.data.course} | {getFormattedDate(edu.data.relieveDate)}</Text>
+                  <Text style={{textTransform: 'capitalize'}}>{edu.data.city}, {edu.data.state}</Text>
+                </View>
+              ))}
+            </View>
+            <View>
+              <Text style={styles.heading}>Skills</Text>
+              <View style={{marginBottom: '20px'}}>
+                <View style={{ flexDirection: "row" }}>
+                  {skill.map((ski, id)=> (
+                    <View style={{width: '33%', paddingRight: '10px', flexDirection: "row"}} key={ski.id}>
+                      <Text style={{ marginRight: 8 }}>•</Text>
+                      <Text style={{textTransform: 'capitalize'}}>{ski.data.skill}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
             </View>
           </View>              
         </Page>

@@ -51,8 +51,8 @@ const Language = () => {
                                         <div className="d-flex align-items-center">
                                             <div className='icon text-capitalize me-3'>{lan.data.code}</div>
                                             <div>
-                                                <div className='fw-semibold'>{lan.data.language}</div>
-                                                <div className='text-muted small'>
+                                                <div className='fw-semibold text-capitalize'>{lan.data.language}</div>
+                                                <div className='text-muted small text-capitalize'>
                                                     {
                                                         (lan.data.read && lan.data.write && lan.data.listen && lan.data.speak) === true ? 'Native' : 
                                                         (lan.data.read && lan.data.write && lan.data.listen) === true && lan.data.speak === false ? 'Advanced' : 'Beginner'

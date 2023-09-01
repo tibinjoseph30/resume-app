@@ -53,8 +53,8 @@ const AllProjects = () => {
                                 <Col lg="4" key={proj.id}>
                                     <Card>
                                         <CardBody>
-                                            <div className='fw-semibold h5 mb-2'>{proj.data.project}</div>
-                                            <div>{proj.data.client}</div>
+                                            <div className='fw-semibold text-capitalize h5 mb-2'>{proj.data.project}</div>
+                                            <div className='text-capitalize'>{proj.data.client}</div>
                                             <div className="d-flex justify-content-end">
                                                 <a href="https://www.geeksforgeeks.org/" target='_' className='btn btn-primary-light mt-4 rounded-pill px-5'>View</a>
                                             </div>

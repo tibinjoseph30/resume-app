@@ -45,7 +45,7 @@ const Hobbies = () => {
                         </div> :
                         <ul className='hobbies-list list-unstyled mb-0'>
                             {hobbies.map((hob, id)=> (
-                                <li key={hob.id}>{hob.data.interest}</li>
+                                <li className='text-capitalize' key={hob.id}>{hob.data.interest}</li>
                             ))}
                         </ul>
                     )

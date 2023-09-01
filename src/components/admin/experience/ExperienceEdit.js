@@ -31,6 +31,25 @@ const ExperienceEdit = () => {
   const options = useMemo(()=>countryList().getData(), []);
   const navigate = useNavigate();
 
+  const [textareaCount, setTextareaCount] = useState(1);
+
+  const handleTextareaChange = (e, index) => {
+    const { value } = e.target;
+    const updatedRoles = [...newFormValues.roles];
+    updatedRoles[index] = value;
+    setNewFormValues({ ...newFormValues, roles: updatedRoles });
+  };
+
+  const handleAddTextarea = () => {
+    setNewFormValues({ ...newFormValues, roles: [...newFormValues.roles, ''] });
+  };
+
+  const handleRemoveTextarea = (index) => {
+    const updatedRoles = [...newFormValues.roles];
+    updatedRoles.splice(index, 1);
+    setNewFormValues({ ...newFormValues, roles: updatedRoles });
+  };
+
   const handleChange = (event) => {
     setNewFormValues({
       ...newFormValues,
@@ -52,6 +71,17 @@ const ExperienceEdit = () => {
       // Update the array field in the fetched document
       const updatedFormValues = { ...newFormValues };
       delete updatedFormValues.logo;
+
+      // Update the roles field in the document
+      updatedFormValues.roles = newFormValues.roles;
+
+      if (isChecked) {
+        // If the checkbox is checked, set relieveDate to null or remove it
+        delete updatedFormValues.relieveDate;
+      } else {
+        // If the checkbox is not checked, set relieveDate to the selected date
+        updatedFormValues.relieveDate = newRelievingDate;
+      }
   
       // Update the document with the new data (excluding the logo field)
       await setDoc(experienceCollectionRef, updatedFormValues);
@@ -177,45 +207,6 @@ const ExperienceEdit = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col xl="4" sm="6" style={newFormValues.relieveDate ? {'display':'none'} : {'display': 'block'}}>
-                  <FormGroup>
-                    <Label>
-                      Currently Working Here
-                    </Label>
-                    <div className="d-flex">
-                      <div className="form-checkbox">
-                        <Input 
-                          type='checkbox' 
-                          id='currentlyWork'
-                          checked={isChecked}
-                          onChange={() => {
-                              setIsChecked(!isChecked)
-                              setNewFormValues({...newFormValues, working: isChecked})
-                          }}
-                        />
-                        <Label htmlFor='currentlyWork'></Label>
-                      </div>
-                    </div>
-                  </FormGroup>
-                </Col>
-                <Col xl="4" sm="6" style={isChecked ? {'display': 'none'}: {'display': 'block'}}>
-                  <FormGroup>
-                    <Label>
-                      Date of Relieve
-                    </Label>
-                    <Datepicker
-                      selected={Date.parse(newRelievingDate)} 
-                      placeholderText='Select date' 
-                      className='form-control'
-                      dateFormat="dd-MM-yyyy"
-                      onChange={(date)=> {
-                        setNewRelievingDate(date)
-                        setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
-                      }}
-                      required={isChecked}
-                    />
-                  </FormGroup>
-                </Col>
                 <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
@@ -267,22 +258,103 @@ const ExperienceEdit = () => {
                 <Col xl="4" sm="6">
                   <FormGroup>
                     <Label>
-                        Logo
+                      Currently Working Here
                     </Label>
-                    <div class="file-preview-box">
-                    <img src={file ? URL.createObjectURL(file) : newFormValues.logo || 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
-                        <div className="upload">
-                            <FiCamera/>
-                            <Input
-                                type="file"
-                                name="logo"
-                                accept='image/jpeg, image/png'
-                                onChange={(e)=> setFile(e.target.files[0])}
-                            />
-                        </div>
+                    <div className="d-flex">
+                      <div className="form-checkbox">
+                        <Input 
+                          type='checkbox' 
+                          id='currentlyWork'
+                          checked={isChecked}
+                          onChange={() => {
+                              setIsChecked(!isChecked)
+                              setNewFormValues({...newFormValues, working: !isChecked})
+                          }}
+                        />
+                        <Label htmlFor='currentlyWork'></Label>
+                      </div>
                     </div>
                   </FormGroup>
                 </Col>
+                <Col xl="4" sm="6" style={isChecked ? {'display': 'none'}: {'display': 'block'}}>
+                  <FormGroup>
+                    <Label>
+                      Date of Relieve
+                    </Label>
+                    <Datepicker
+                      selected={Date.parse(newRelievingDate)} 
+                      placeholderText='Select date' 
+                      className='form-control'
+                      dateFormat="dd-MM-yyyy"
+                      onChange={(date)=> {
+                        setNewRelievingDate(date)
+                        setNewFormValues({...newFormValues, relieveDate: date.toLocaleDateString()})
+                      }}
+                      required={!isChecked}
+                    />
+                  </FormGroup>
+                </Col>
+            </Row>
+            <Label className='mt-5'>Key Roles</Label>
+            <Row>
+              <Col lg="8">
+                {newFormValues.roles.map((role, index) => (
+                  <FormGroup key={index}>
+                    <div className='d-flex align-items-center'>
+                      <Input
+                        type='textarea'
+                        name={`textarea-${index}`}
+                        value={role}
+                        placeholder="Enter a role"
+                        onChange={(e) => handleTextareaChange(e, index)}
+                        required
+                      />
+                      <Button
+                        color='danger'
+                        className='ms-3 btn-sm'
+                        style={newFormValues.roles.length > 1 ? {
+                          display: 'inline-block',
+                          width: '30px',
+                          height: '30px'
+                        } : {
+                          display: 'none'
+                        }}
+                        onClick={() => handleRemoveTextarea(index)} // Pass the index as an argument
+                      >
+                        -
+                      </Button>
+                    </div>
+                  </FormGroup>
+                ))}
+                <Button 
+                  color='primary' 
+                  className='btn-sm' 
+                  style={{width: '30px', height: '30px'}} 
+                  onClick={handleAddTextarea}>
+                    +
+                </Button>
+              </Col>
+            </Row>
+            <Row className='mt-5'>
+              <Col xl="4" sm="6">
+                <FormGroup>
+                  <Label>
+                      Logo
+                  </Label>
+                  <div class="file-preview-box">
+                  <img src={file ? URL.createObjectURL(file) : newFormValues.logo || 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fno-image.svg?alt=media&token=2dd03c2f-43a4-4456-b3c8-8972b6370074'} alt="user" />
+                      <div className="upload">
+                          <FiCamera/>
+                          <Input
+                              type="file"
+                              name="logo"
+                              accept='image/jpeg, image/png'
+                              onChange={(e)=> setFile(e.target.files[0])}
+                          />
+                      </div>
+                  </div>
+                </FormGroup>
+              </Col>
             </Row>
             <div className='form-action'>
             <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>
