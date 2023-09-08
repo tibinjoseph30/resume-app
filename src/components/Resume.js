@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Container } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { Document, Page, Text, View, StyleSheet, pdf, Font } from '@react-pdf/renderer';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
 import { calculateTotalExperience } from '../utils/experienceUtils';
-import Skills from './Skills';
+import { FiArrowDown } from 'react-icons/fi';
 
 // Register font
 Font.register({ family: 'Poppins', src: '../../fonts/Poppins-Regular.ttf' });
@@ -62,6 +62,13 @@ const styles = StyleSheet.create({
     fontSize: '12px',
     letterSpacing: '1px'
   },
+  skillBox: {
+    backgroundColor: '#e5e5e5',
+    padding: '3px 8px',
+    marginRight: '5px',
+    marginBottom: '5px',
+    borderRadius: '2px',
+  },
   textMuted: {
     color: '#818689'
   }
@@ -74,12 +81,16 @@ const Resume = () => {
   const [experience, setExperience] = useState(null)
   const [education, setEducation] = useState(null)
   const [skill, setSkill] = useState(null)
+  const [language, setLanguage] = useState(null)
+  const [certification, setCertification] = useState(null)
   
   useEffect(()=> {
       getProfile()
       getExperience()
       getEducation()
       getSkills()
+      getLanguage()
+      getCertification()
   }, [])
   
   function getProfile() {
@@ -144,6 +155,35 @@ const Resume = () => {
     .catch(error => console.log(error.message))
 }
 
+function getLanguage() {
+  const languageCollectionRef = collection(db, 'language')
+
+  getDocs(query(languageCollectionRef, orderBy('createdAt')))
+  .then(response => {
+      const getLan = response.docs.map(doc => ({
+          data: doc.data(),
+          id: doc.id,
+      }))
+      setLanguage(getLan)
+      console.log(getLan);
+  })
+  .catch(error => console.log(error.message))
+}
+
+function getCertification() {
+  const certificationCollectionRef = collection(db, 'certification')
+  getDocs(certificationCollectionRef)
+  .then(response => {
+      const getCer = response.docs.map(doc => ({
+          data: doc.data(),
+          id: doc.id,
+      }))
+      setCertification(getCer)
+      console.log(getCer);
+  })
+  .catch(error => console.log(error.message))
+}
+
   function getFormattedDate(dateString) {
     const options = { year: 'numeric' };
     const date = new Date(dateString);
@@ -170,7 +210,7 @@ const Resume = () => {
                 </View>
                 <View style={{marginTop: '5px'}}>
                   <Text style={styles.textMuted}>{prof.data.email} | {prof.data.phone}</Text>
-                  <Text style={styles.textMuted}>{prof.data.city}, {prof.data.state} | www.johndoe.com</Text>
+                  <Text style={styles.textMuted}>{prof.data.city}, {prof.data.state} | <Text><a href={prof.data.weburl}><Text>{prof.data.web}</Text></a></Text></Text>
                 </View>
                 <View style={{marginTop: '10px'}}>
                   <Text style={styles.textMuted}>
@@ -204,9 +244,31 @@ const Resume = () => {
               ))}
             </View>
             <View>
+              <Text style={styles.heading}>Skills</Text>
+              <View style={{marginBottom: '20px'}}>
+                <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
+                  {skill.map((ski, id)=> (
+                    <View style={styles.skillBox} key={ski.id}>
+                      <Text style={{textTransform: 'capitalize'}}>{ski.data.skill}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.heading}>Certification</Text>
+              {certification.map((cer, id)=> (
+                <View key={cer.id} style={{marginBottom: '20px'}}>
+                  <Text style={styles.title}>{cer.data.course}</Text>
+                  <Text style={styles.textMuted}>{cer.data.institute} | {getFormattedDate(cer.data.relieveDate)}</Text>
+                  <Text style={{textTransform: 'capitalize'}}>{cer.data.city}, {cer.data.state}</Text>
+                </View>
+              ))}
+            </View>
+            <View>
               <Text style={styles.heading}>Education</Text>
               {education.map((edu, id)=> (
-                <View key={edu} style={{marginBottom: '20px'}}>
+                <View key={edu.id} style={{marginBottom: '20px'}}>
                   <Text style={styles.title}>{edu.data.university}</Text>
                   <Text style={styles.textMuted}>{edu.data.course} | {getFormattedDate(edu.data.relieveDate)}</Text>
                   <Text style={{textTransform: 'capitalize'}}>{edu.data.city}, {edu.data.state}</Text>
@@ -214,16 +276,37 @@ const Resume = () => {
               ))}
             </View>
             <View>
-              <Text style={styles.heading}>Skills</Text>
-              <View style={{marginBottom: '20px'}}>
-                <View style={{ flexDirection: "row" }}>
-                  {skill.map((ski, id)=> (
-                    <View style={{width: '33%', paddingRight: '10px', flexDirection: "row"}} key={ski.id}>
-                      <Text style={{ marginRight: 8 }}>•</Text>
-                      <Text style={{textTransform: 'capitalize'}}>{ski.data.skill}</Text>
-                    </View>
+              <Text style={styles.heading}>Language</Text>
+              <View>
+                <ul style={{marginTop: '5px'}}>
+                  {language.map((lan, id)=> (
+                    <li key={lan.id}>
+                      <View style={{flexDirection: "column"}}>
+                        <View style={{ flexDirection: "row"}}>
+                          <Text style={{ marginRight: 8 }}>•</Text>
+                          <Text>{lan.data.language}</Text>
+                        </View>
+                      </View>
+                    </li>
                   ))}
-                </View>
+                </ul>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.heading}>Interest</Text>
+              <View>
+                <ul style={{marginTop: '5px'}}>
+                  {language.map((lan, id)=> (
+                    <li key={lan.id}>
+                      <View style={{flexDirection: "column"}}>
+                        <View style={{ flexDirection: "row"}}>
+                          <Text style={{ marginRight: 8 }}>•</Text>
+                          <Text>{lan.data.language}</Text>
+                        </View>
+                      </View>
+                    </li>
+                  ))}
+                </ul>
               </View>
             </View>
           </View>              
@@ -241,20 +324,14 @@ const Resume = () => {
     URL.revokeObjectURL(url);
   };
 
-  return (
-    <main>
-      <Container>
-        <div className='section section-resume'>
-          <Card>
-            <CardBody>
-              <Button color='primary' className='mt-5' onClick={generatePDF}>
-                Download
-              </Button>
-            </CardBody>
-          </Card>
-        </div>
-      </Container>
-    </main>
+  return(
+    <Button 
+      color='primary' 
+      className='rounded-pill ms-auto d-flex align-items-center' 
+      onClick={generatePDF}
+    >
+      Resume <FiArrowDown className='ms-1'/>
+    </Button>
   );
 };
 

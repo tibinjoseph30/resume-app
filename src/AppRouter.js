@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./components/admin/dashboard/Dashboard";
 import Login from "./components/auth/Login";
 import Home from "./components/Home";
@@ -26,8 +26,20 @@ import SocialAccountList from "./components/admin/social/SocialAccountList";
 import SocialAccountAdd from "./components/admin/social/SocialAccountAdd";
 import AllProjects from "./components/AllProjects";
 import Resume from "./components/Resume";
+import CertificationEdit from "./components/admin/cerification/CertificationEdit";
+import CertificationAdd from "./components/admin/cerification/CertificationAdd";
+import CertificationList from "./components/admin/cerification/CertificationList";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function AppRouter() {
+
+    const {currentUser} = useContext(AuthContext)
+
+    const RequireAuth = ({children}) => {
+        return currentUser ? children : <Navigate to="/login"/>
+    }
+
     return(
         <Router>
             <Routes>
@@ -35,7 +47,7 @@ function AppRouter() {
                 <Route path="/all-projects" element={<AllProjects/>} />
                 <Route path="/resume" element={<Resume/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/admin" element={<AdminLayout/>}>
+                <Route path="/admin" element={<RequireAuth><AdminLayout/></RequireAuth>}>
                     <Route index path="dashboard" element={<Dashboard/>} />
                     <Route path="experience" element={<ExperienceList/>} />
                     <Route path="add-experience" element={<ExperienceAdd/>} />
@@ -43,6 +55,9 @@ function AppRouter() {
                     <Route path="education" element={<EducationList/>} />
                     <Route path="add-education" element={<EducationAdd/>} />
                     <Route path="edit-education/:id" element={<EducationEdit/>} />
+                    <Route path="certification" element={<CertificationList/>} />
+                    <Route path="add-certification" element={<CertificationAdd/>} />
+                    <Route path="edit-certification/:id" element={<CertificationEdit/>} />
                     <Route path="project" element={<ProjectList/>} />
                     <Route path="add-project" element={<ProjectAdd/>} />
                     <Route path="edit-project/:id" element={<ProjectEdit/>} />

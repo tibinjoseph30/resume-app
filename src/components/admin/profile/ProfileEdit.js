@@ -280,6 +280,32 @@ const ProfileEdit = () => {
                             />
                         </FormGroup>
                     </Col>
+                    <Col lg="4" sm="6">
+                        <FormGroup>
+                            <Label>Web Name</Label>
+                            <Input
+                                type="text"
+                                name="web"
+                                value={newFormValues.web}
+                                placeholder="Enter web name"
+                                onChange={handleChange}
+                                required
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col lg="4" sm="6">
+                        <FormGroup>
+                            <Label>Web Url</Label>
+                            <Input
+                                type="text"
+                                name="weburl"
+                                value={newFormValues.weburl}
+                                placeholder="Enter web url"
+                                onChange={handleChange}
+                                required
+                            />
+                        </FormGroup>
+                    </Col>
                 </Row>
                 <div className='form-action'>
                 <Button onClick={handleCancel} color='secondary' outline className='me-3'>Cancel</Button>

@@ -50,7 +50,7 @@ body {
             padding-right: 0;
             position: relative;
             color: $primaryColor;
-            font-weight: bold;
+            font-weight: 600;
             &:focus {
                 @include box-shadow(none);
                 border-color: $primaryColor;

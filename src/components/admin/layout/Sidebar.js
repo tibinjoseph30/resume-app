@@ -1,6 +1,6 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom';
-import { FiHome, FiBriefcase, FiAward, FiStar, FiFlag, FiHeart, FiBook, FiFolder } from 'react-icons/fi' 
+import { FiHome, FiBriefcase, FiAward, FiStar, FiFlag, FiHeart, FiBook, FiFolder, FiClipboard } from 'react-icons/fi' 
 
 
 const Sidebar = () => {
@@ -18,7 +18,10 @@ const Sidebar = () => {
                         <NavLink tag={Link} to='experience' activeclassname="active"><FiBriefcase className='db-icon'/>Experience</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to='education' activeclassname="active"><FiAward className='db-icon'/>Education</NavLink>
+                        <NavLink tag={Link} to='education' activeclassname="active"><FiClipboard className='db-icon'/>Education</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink tag={Link} to='certification' activeclassname="active"><FiAward className='db-icon'/>Certification</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink tag={Link} to='project' activeclassname="active"><FiFolder className='db-icon'/>Project</NavLink>
