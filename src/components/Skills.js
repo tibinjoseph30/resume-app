@@ -6,7 +6,7 @@ import { db } from '../config/firebase-config';
 
 const Skills = () => {
 
-    const [skill, setSkill] = useState(null)
+    const [skillsByCategory, setSkillsByCategory] = useState({});
     const [isLoading, setIsLoading] = useState(null)
     
     useEffect(()=> {
@@ -22,8 +22,18 @@ const Skills = () => {
                 data: doc.data(),
                 id: doc.id,
             }))
-            setSkill(getSki)
-            console.log(getSki);
+            // Group skills by category
+            const groupedSkills = getSki.reduce((acc, skill) => {
+                const { category } = skill.data;
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(skill);
+                return acc;
+            }, {});
+
+            setSkillsByCategory(groupedSkills);
+            // console.log(getSki);
             setIsLoading(true)
         })
         .catch(error => console.log(error.message))
@@ -40,33 +50,39 @@ const Skills = () => {
                     <div className="text-center">
                         <Spinner color='primary'/>
                     </div> :
-                    (skill.length === 0 ?
+                    (skillsByCategory.length === 0 ?
                         <div className="text-center">
                             There is nothing added yet !!
-                        </div>:
-                        <Table className='align-middle'>
-                            <tbody>
-                                {skill.map((ski, id)=> (
-                                    <tr key={ski.id}>
-                                        <td className='text-capitalize'>{ski.data.skill}</td>
-                                        <td width="100">
-                                            <div className={"rating "+ (
-                                                ski.data.profficiency >=90 ? 'expert' :
-                                                ski.data.profficiency >=70 ? 'professional' :
-                                                ski.data.profficiency >=50 ? 'advanced' :
-                                                ski.data.profficiency >=30 ? 'intermediate' : 'beginner'
-                                            )}>
-                                                <MdStarRate/>
-                                                <MdStarRate/>
-                                                <MdStarRate/>
-                                                <MdStarRate/>
-                                                <MdStarRate/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        </div>: (
+                            Object.keys(skillsByCategory).map(category => (
+                                <div className='skillset' key={category}>
+                                    <div className='text-capitalize fw-semibold mb-3'>{category}</div>
+                                    <Table className='align-middle'>
+                                        <tbody className='no-border'>
+                                            {skillsByCategory[category].map((ski, id)=> (
+                                                <tr key={ski.id}>
+                                                    <td className='text-capitalize'>{ski.data.skill}</td>
+                                                    <td width="100">
+                                                        <div className={"rating "+ (
+                                                            ski.data.profficiency >=90 ? 'expert' :
+                                                            ski.data.profficiency >=70 ? 'professional' :
+                                                            ski.data.profficiency >=50 ? 'advanced' :
+                                                            ski.data.profficiency >=30 ? 'intermediate' : 'beginner'
+                                                        )}>
+                                                            <MdStarRate/>
+                                                            <MdStarRate/>
+                                                            <MdStarRate/>
+                                                            <MdStarRate/>
+                                                            <MdStarRate/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            ))
+                        )
                     )
                 }
             </CardBody>

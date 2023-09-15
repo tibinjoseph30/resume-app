@@ -72,7 +72,7 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{prof.data.phone}</div>
+                  <div className='fw-medium'>{prof.data.phoneCode} {prof.data.phone}</div>
                   <div className='text-muted small'>Office Number</div>
                 </div>
               </div>

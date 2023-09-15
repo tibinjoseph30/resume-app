@@ -115,8 +115,17 @@ main {
   }
 }
 .section-skill {
+  .skillset {
+    &:not(:last-child) {
+      // border-bottom: 1px solid $borderLight;
+      margin-bottom: 2rem;
+      // padding-bottom: 1rem;
+    }
+  }
   table {
+    // margin-bottom: 0;
     td {
+      // border: none;
       &:first-child {
         padding-left: 0;
       }

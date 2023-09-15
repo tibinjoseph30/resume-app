@@ -1,11 +1,12 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 import { NavLink as Link } from 'react-router-dom';
-import { FiHome, FiBriefcase, FiAward, FiStar, FiFlag, FiHeart, FiBook, FiFolder, FiClipboard } from 'react-icons/fi' 
+import { FiHome, FiBriefcase, FiAward, FiStar, FiFlag, FiHeart, FiBook, FiFolder, FiClipboard } from 'react-icons/fi'
 
 
-const Sidebar = () => {
+const Sidebar = ({isMenuOpen}) => {
+
     return (
-        <div className="left-block">
+        <div className={`left-block ${isMenuOpen ? 'open' : ''}`}>
             <div className="sidebar">
                 <div className="logo-block">
                     <h3 className='logo'>My Admin</h3>

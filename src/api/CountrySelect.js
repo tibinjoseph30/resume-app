@@ -5,8 +5,8 @@ class CountrySelect {
       this.valueMap = {}
   
       this.data.forEach(country => {
-        this.labelMap[country.label.toLowerCase()] = country.code
         this.valueMap[country.code.toLowerCase()] = country.label
+        this.labelMap[country.label.toLowerCase()] = country.code
       })
     }
   

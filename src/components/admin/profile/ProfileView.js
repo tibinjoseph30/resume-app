@@ -59,7 +59,7 @@ const ProfileView = () => {
                                     <div className='text-muted'>Phone:</div>
                                 </Col>
                                 <Col lg="9">
-                                    <div className='mb-3'>{prof.data.phone}</div>
+                                    <div className='mb-3'>{prof.data.phoneCode} {prof.data.phone}</div>
                                 </Col>
                             </Row>
                             <Row>

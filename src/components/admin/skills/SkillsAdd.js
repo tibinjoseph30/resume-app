@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
 const SkillsAdd = () => {
     const initialValues = {
         skill: "",
-        profficiency: ""
+        profficiency: "",
+        category: ""
     }
     const options = [
         {value: "100", label: "100"},
@@ -76,6 +77,21 @@ const SkillsAdd = () => {
                                     name="skill"
                                     value={formValues.skill}
                                     placeholder="Enter a skill"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xl="4" sm="6">
+                            <FormGroup>
+                                <Label>
+                                    Category
+                                </Label>
+                                <Input
+                                    type="text"
+                                    name="category"
+                                    value={formValues.category}
+                                    placeholder="Enter category name"
                                     onChange={handleChange}
                                     required
                                 />

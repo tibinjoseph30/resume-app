@@ -18,6 +18,7 @@ const ProfileEdit = () => {
     const [newFormValues, setNewFormValues] = useState(location.state.state);
     const [newDob, setNewDob] = useState(newFormValues.dob)
     const [selectValue, setSelectValue] = useState('')
+    const [selectedCountryCode, setSelectedCountryCode] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState(null)
 
@@ -48,9 +49,6 @@ const ProfileEdit = () => {
         console.log(newFormValues)
     }
       
-      
-    
-
     const handleSubmit = (event)=> {
         event.preventDefault();
         const profileCollectionRef = doc(db, 'profile', newId)
@@ -93,8 +91,11 @@ const ProfileEdit = () => {
                 console.log(error);
             },
             () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                setNewFormValues((prev) => ({ ...prev, avatar: downloadURL }));
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setNewFormValues((prev) => ({ 
+                        ...prev, 
+                        avatar: downloadURL
+                    }));
                 });
             }
         );
@@ -200,23 +201,36 @@ const ProfileEdit = () => {
                                 placeholder="Select country"
                                 className='selectpicker'
                                 onChange={(selectedValue) => {
-                                    setSelectValue(selectValue)
-                                    setNewFormValues({...newFormValues, country: selectedValue.label})
+                                    setSelectedCountryCode(selectedValue.code)
+                                    setNewFormValues({
+                                        ...newFormValues, 
+                                        country: selectedValue.label,
+                                        phoneCode: selectedValue.code
+                                    })
                                 }}
                             />
                         </FormGroup>
                     </Col>
                     <Col lg="4" sm="6">
                         <FormGroup>
-                            <Label>Phone</Label>
-                            <Input
-                                type="text"
-                                name="phone"
-                                value={newFormValues.phone}
-                                placeholder="Enter phone number"
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label>Phone Number</Label>
+                            <div className='d-flex'>
+                                <Input
+                                    type="text"
+                                    name="phoneCode"
+                                    style={{width: '80px'}}
+                                    className='me-2'
+                                    value={selectedCountryCode ? selectedCountryCode : newFormValues.phoneCode}
+                                />
+                                <Input
+                                    type="text"
+                                    name="phone"
+                                    value={newFormValues.phone}
+                                    placeholder="Enter phone number"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
                         </FormGroup>
                     </Col>
                     <Col lg="4" sm="6">
@@ -282,7 +296,7 @@ const ProfileEdit = () => {
                     </Col>
                     <Col lg="4" sm="6">
                         <FormGroup>
-                            <Label>Web Name</Label>
+                            <Label>Website Name</Label>
                             <Input
                                 type="text"
                                 name="web"
@@ -295,7 +309,7 @@ const ProfileEdit = () => {
                     </Col>
                     <Col lg="4" sm="6">
                         <FormGroup>
-                            <Label>Web Url</Label>
+                            <Label>Website Url</Label>
                             <Input
                                 type="text"
                                 name="weburl"
