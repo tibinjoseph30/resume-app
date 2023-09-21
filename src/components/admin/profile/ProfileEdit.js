@@ -296,19 +296,6 @@ const ProfileEdit = () => {
                     </Col>
                     <Col lg="4" sm="6">
                         <FormGroup>
-                            <Label>Website Name</Label>
-                            <Input
-                                type="text"
-                                name="web"
-                                value={newFormValues.web}
-                                placeholder="Enter web name"
-                                onChange={handleChange}
-                                required
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col lg="4" sm="6">
-                        <FormGroup>
                             <Label>Website Url</Label>
                             <Input
                                 type="text"

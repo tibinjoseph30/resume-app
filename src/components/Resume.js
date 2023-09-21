@@ -256,7 +256,7 @@ function getHobbies() {
                 </View>
                 <View>
                   <Text>{prof.data.email} | +{prof.data.phoneCode} {prof.data.phone}</Text>
-                  <Text>{prof.data.city}, {prof.data.state} | <Text><a href={prof.data.weburl}><Text>{prof.data.web}</Text></a></Text></Text>
+                  <Text>{prof.data.city}, {prof.data.state} | <Text><a href={prof.data.weburl}><Text>{prof.data.weburl.replace(/^https:\/\//, '')}</Text></a></Text></Text>
                 </View>
                 <View style={{marginTop: '10px'}}>
                   <Text style={styles.textMuted}>

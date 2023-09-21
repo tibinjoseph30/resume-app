@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { FiMenu } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { 
     Nav, 
     UncontrolledDropdown,
@@ -8,8 +8,25 @@ import {
     DropdownMenu,
     DropdownItem, 
 } from 'reactstrap'
+import { AuthContext } from '../../../context/AuthContext'
+import { auth } from '../../../config/firebase-config'
+import { signOut } from 'firebase/auth'
 
 const Header = ({isMenuOpen, mobMenuClick}) => {
+
+    const { dispatch } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        signOut(auth)
+        .then(()=> {
+            dispatch({type: 'LOGOUT'})
+            navigate('/login')
+        })
+        .catch((error)=> {
+            console.error(error);
+        })
+    }
 
   return (
     <div>
@@ -30,7 +47,7 @@ const Header = ({isMenuOpen, mobMenuClick}) => {
                     </DropdownToggle>
                     <DropdownMenu dark>
                         <DropdownItem tag={Link} to="profile">My Profile</DropdownItem>
-                        <DropdownItem>Logout</DropdownItem>
+                        <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </Nav>
