@@ -8,7 +8,7 @@ import {
     DropdownMenu,
     DropdownItem, 
 } from 'reactstrap'
-import { AuthContext } from '../../../context/AuthContext'
+import { AuthContext } from '../../../services/AuthContext'
 import { auth } from '../../../config/firebase-config'
 import { signOut } from 'firebase/auth'
 
@@ -47,6 +47,7 @@ const Header = ({isMenuOpen, mobMenuClick}) => {
                     </DropdownToggle>
                     <DropdownMenu dark>
                         <DropdownItem tag={Link} to="profile">My Profile</DropdownItem>
+                        <DropdownItem tag={Link} to="settings">Settings</DropdownItem>
                         <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>

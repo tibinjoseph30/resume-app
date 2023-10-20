@@ -3,91 +3,12 @@ import { Button } from 'reactstrap';
 import { Document, Page, Text, View, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
-import { calculateTotalExperience } from '../utils/experienceUtils';
+import { calculateTotalExperience } from '../utils/experienceCalculation';
 import { FiArrowDown } from 'react-icons/fi';
 
 // Register font
 Font.register({ family: 'Poppins', src: '../../fonts/Poppins-Regular.ttf' });
 Font.register({ family: 'PoppinsSB', src: '../../fonts/Poppins-SemiBold.ttf' });
-
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    padding: '50px 100px 50px 100px',
-    fontSize: '10px',
-    color: '#444444',
-    fontFamily: 'Poppins'
-    
-  },
-  brand: {
-    borderColor: '#3b6bda',
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    fontWeight: 'bold',
-    fontSize: '12px',
-    textTransform: 'uppercase',
-    color: '#3b6bda',
-    width: '30px',
-    height: '40px',
-    marginRight: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'PoppinsSB',
-    position: 'absolute',
-    left: '-55px'
-  },
-  avatar: {
-    width: '40px',
-    height: '40px',
-    backgroundColor: '#e5e5e5',
-    borderRadius: '100px',
-    overflow: 'hidden',
-    position: 'absolute',
-    left: '-55px'
-  },
-  user: {
-    fontSize: '20px',
-    textTransform: 'uppercase',
-    marginTop: '7px',
-    fontFamily: 'PoppinsSB',
-    letterSpacing: '1px'
-  },
-  heading: {
-    textTransform: 'uppercase',
-    marginTop: '30px',
-    marginBottom: '20px',
-    fontFamily: 'PoppinsSB',
-    fontSize: '9px',
-    letterSpacing: '1px'
-  },
-  underline: {
-    height: '2px',
-    width: '25px',
-    backgroundColor: '#f3bc1b',
-    marginTop: '3px'
-  },
-  title: {
-    fontFamily: 'PoppinsSB',
-    fontSize: '12px',
-    letterSpacing: '1px'
-  },
-  skillBox: {
-    backgroundColor: '#e5e5e5',
-    padding: '3px 8px',
-    marginRight: '5px',
-    marginBottom: '5px',
-    borderRadius: '2px',
-  },
-  textMuted: {
-    color: '#818689'
-  },
-  fwMedium: {
-    fontFamily: 'PoppinsSB',
-  }
-});
 
 const Resume = () => {
 
@@ -99,6 +20,8 @@ const Resume = () => {
   const [language, setLanguage] = useState(null)
   const [hobbies, setHobbies] = useState(null)
   const [certification, setCertification] = useState(null)
+  const [settings, setSettings] = useState(null)
+  const [primaryColor, setPrimaryColor] = useState('#000000')
   
   useEffect(()=> {
       getProfile()
@@ -108,6 +31,7 @@ const Resume = () => {
       getLanguage()
       getCertification()
       getHobbies()
+      getSettings()
   }, [])
   
   function getProfile() {
@@ -182,54 +106,151 @@ const Resume = () => {
     .catch(error => console.log(error.message))
   }
 
-function getLanguage() {
-  const languageCollectionRef = collection(db, 'language')
+  function getLanguage() {
+    const languageCollectionRef = collection(db, 'language')
 
-  getDocs(query(languageCollectionRef, orderBy('createdAt')))
-  .then(response => {
-      const getLan = response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-      }))
-      setLanguage(getLan)
-      console.log(getLan);
-  })
-  .catch(error => console.log(error.message))
-}
+    getDocs(query(languageCollectionRef, orderBy('createdAt')))
+    .then(response => {
+        const getLan = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+        }))
+        setLanguage(getLan)
+        console.log(getLan);
+    })
+    .catch(error => console.log(error.message))
+  }
 
-function getCertification() {
-  const certificationCollectionRef = collection(db, 'certification')
-  getDocs(certificationCollectionRef)
-  .then(response => {
-      const getCer = response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-      }))
-      setCertification(getCer)
-      console.log(getCer);
-  })
-  .catch(error => console.log(error.message))
-}
+  function getCertification() {
+    const certificationCollectionRef = collection(db, 'certification')
+    getDocs(certificationCollectionRef)
+    .then(response => {
+        const getCer = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+        }))
+        setCertification(getCer)
+        console.log(getCer);
+    })
+    .catch(error => console.log(error.message))
+  }
 
-function getHobbies() {
-  const hobbiesCollectionRef = collection(db, 'interest')
-  
-  getDocs(query(hobbiesCollectionRef, orderBy('createdAt')))
-  .then(response => {
-      const getHob = response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-      }))
-      setHobbies(getHob)
-  })
-  .catch(error => console.log(error.message))
-}
+  function getHobbies() {
+    const hobbiesCollectionRef = collection(db, 'interest')
+    
+    getDocs(query(hobbiesCollectionRef, orderBy('createdAt')))
+    .then(response => {
+        const getHob = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+        }))
+        setHobbies(getHob)
+    })
+    .catch(error => console.log(error.message))
+  }
+
+  function getSettings() {
+    const settingsCollectionRef = collection(db, 'settings')
+    getDocs(settingsCollectionRef)
+    .then(response => {
+        const getSet = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+        }))
+        setSettings(getSet)
+        console.log(getSet);
+
+        if(getSet.length > 0) {
+          setPrimaryColor(getSet[0].data.primaryColor) 
+        }
+    })
+    .catch(error => console.log(error.message))
+  }
 
   function getFormattedDate(dateString) {
     const options = { year: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
   }
+
+  // Create styles
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#ffffff',
+      padding: '50px 100px 50px 100px',
+      fontSize: '10px',
+      color: '#444444',
+      fontFamily: 'Poppins'
+      
+    },
+    brand: {
+      borderColor: primaryColor,
+      borderStyle: 'solid',
+      borderWidth: '1px',
+      fontWeight: 'bold',
+      fontSize: '12px',
+      textTransform: 'uppercase',
+      color: primaryColor,
+      width: '30px',
+      height: '40px',
+      marginRight: '30px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'PoppinsSB',
+      position: 'absolute',
+      left: '-55px'
+    },
+    avatar: {
+      width: '40px',
+      height: '40px',
+      backgroundColor: '#e5e5e5',
+      borderRadius: '100px',
+      overflow: 'hidden',
+      position: 'absolute',
+      left: '-55px'
+    },
+    user: {
+      fontSize: '20px',
+      textTransform: 'uppercase',
+      marginTop: '7px',
+      fontFamily: 'PoppinsSB',
+      letterSpacing: '1px'
+    },
+    heading: {
+      textTransform: 'uppercase',
+      marginTop: '30px',
+      marginBottom: '20px',
+      fontFamily: 'PoppinsSB',
+      fontSize: '9px',
+      letterSpacing: '1px',
+    },
+    underline: {
+      height: '2px',
+      width: '25px',
+      backgroundColor: primaryColor,
+      marginTop: '3px'
+    },
+    title: {
+      fontFamily: 'PoppinsSB',
+      fontSize: '12px',
+      letterSpacing: '1px'
+    },
+    skillBox: {
+      backgroundColor: '#e5e5e5',
+      padding: '3px 8px',
+      marginRight: '5px',
+      marginBottom: '5px',
+      borderRadius: '2px',
+    },
+    textMuted: {
+      color: '#818689'
+    },
+    fwMedium: {
+      fontFamily: 'PoppinsSB',
+    }
+  });
 
   const generatePDF = async () => {
     // Define your PDF content
@@ -240,15 +261,19 @@ function getHobbies() {
             {profile.map((prof, id)=> (
               <View key={prof.id}>
                 <View>
-                  {prof.data.url ? 
+                  {/* {prof.data.avatar !== null && prof.data.avatar !== undefined ? 
                   <View style={styles.avatar}>
-                    <Image src={prof.data.url} alt="" />
+                    <Image src={prof.data.avatar} alt="" />
                   </View> : 
                   <View style={styles.brand}>
                     <Text>{prof.data.firstName.substring(0, 1)}</Text>
                     <Text>{prof.data.lastName.substring(0, 1)}</Text>
                   </View>
-                  }
+                  } */}
+                  <View style={styles.brand}>
+                    <Text>{prof.data.firstName.substring(0, 1)}</Text>
+                    <Text>{prof.data.lastName.substring(0, 1)}</Text>
+                  </View>
                 </View> 
                 <Text style={styles.user}>{prof.data.firstName} {prof.data.lastName}</Text>
                 <View style={{marginTop: '20px'}}>
@@ -377,7 +402,7 @@ function getHobbies() {
   return(
     <Button 
       color='primary' 
-      className='rounded-pill ms-auto d-flex align-items-center' 
+      className='rounded-pill d-sm-flex align-items-center w-100' 
       onClick={generatePDF}
     >
       Resume <FiArrowDown className='ms-1'/>

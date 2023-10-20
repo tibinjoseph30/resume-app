@@ -1,11 +1,20 @@
+import { useEffect } from "react";
 import AppRouter from "./AppRouter";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./services/AuthContext";
+import { customizeColors } from "./utils/customColors";
 
 function App() {
+
+  useEffect(()=> {
+    customizeColors()
+  })
+
   return (
-    <AuthProvider>
-      <AppRouter/> 
-    </AuthProvider>
+    <div className="app">
+      <AuthProvider>
+        <AppRouter/>
+      </AuthProvider>
+    </div> 
   )
 }
 

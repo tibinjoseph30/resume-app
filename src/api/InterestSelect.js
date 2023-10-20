@@ -63,4 +63,4 @@ const interestList = () => {
   if (!(this instanceof interestSelect)) return new interestSelect()
 }
 
-module.exports = interestList
+export default interestList

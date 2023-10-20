@@ -13,7 +13,6 @@ import Hobbies from './Hobbies';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
 import Certification from './Certification';
-import Resume from './Resume';
 
 const Home = () => {
 

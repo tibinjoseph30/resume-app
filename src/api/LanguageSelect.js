@@ -65,4 +65,4 @@ class LanguageSelect {
     if (!(this instanceof LanguageSelect)) return new LanguageSelect()
   }
   
-  module.exports = languageList
+  export default languageList

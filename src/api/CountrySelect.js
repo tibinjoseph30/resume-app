@@ -65,4 +65,4 @@ class CountrySelect {
     if (!(this instanceof CountrySelect)) return new CountrySelect()
   }
   
-  module.exports = countryList
+  export default countryList

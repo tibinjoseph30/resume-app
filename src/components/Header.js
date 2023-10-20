@@ -41,15 +41,19 @@ const Header = ({profile, isLoading}) => {
                     <div>
                         <div>
                             {profile.map((prof, id)=> (
-                                <div className='d-flex align-items-center' key={prof.id}>
-                                    <div className='avatar me-4'>
-                                        <img src={profile ? prof.data.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="" />
+                                <div className='d-sm-flex align-items-center' key={prof.id}>
+                                    <div className='d-flex align-items-center'>
+                                        <div className='avatar me-4'>
+                                            <img src={profile ? prof.data.avatar : 'https://firebasestorage.googleapis.com/v0/b/resume-app-c31bf.appspot.com/o/images%2Fuser.svg?alt=media&token=713af566-6e07-411a-8872-16fbfabc8fca'} alt="" />
+                                        </div>
+                                        <div>
+                                            <h3 className='text-capitalize'>{prof.data.firstName} {prof.data.lastName}</h3>
+                                            <div className='text-capitalize'>{prof.data.designation}</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className='text-capitalize'>{prof.data.firstName} {prof.data.lastName}</h3>
-                                        <div className='text-capitalize'>{prof.data.designation}</div>
+                                    <div className='ms-auto mt-sm-0 mt-4'>
+                                        <Resume/>
                                     </div>
-                                    <Resume/>
                                 </div>
                             ))}
                         </div> 

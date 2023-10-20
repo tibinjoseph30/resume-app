@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Col, Row, Spinner } from 'reactstrap'
 import ReactDatePicker from 'react-datepicker'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../config/firebase-config'
-import { calculateTotalExperience } from '../utils/experienceUtils'
+import { calculateTotalExperience } from '../utils/experienceCalculation'
 
 const Profile = ({profile, isLoading }) => {
 
@@ -56,7 +56,7 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{prof.data.email}</div>
+                  <div>{prof.data.email}</div>
                   <div className='text-muted small'>Email Address</div>
                 </div>
               </div>
@@ -72,7 +72,7 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{prof.data.phoneCode} {prof.data.phone}</div>
+                  <div>{prof.data.phoneCode} {prof.data.phone}</div>
                   <div className='text-muted small'>Office Number</div>
                 </div>
               </div>
@@ -85,10 +85,10 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>
+                  <div>
                     <ReactDatePicker
                       selected={new Date(prof.data.dob)}
-                      className='border-0 p-0 bg-white text-body fw-medium'
+                      className='border-0 p-0 bg-white text-body'
                       dateFormat="MMMM d, yyyy"
                       disabled
                     />
@@ -108,13 +108,13 @@ function getTotalExperience() {
                   </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{totalExperience.years}+ Years</div>
+                  <div>{totalExperience.years}+ Years</div>
                   <div className='text-muted small'>Total Experience</div>
                 </div>
               </div>
             </Col>
-            <Col>
-              <div className="d-flex">
+            <Col lg="6">
+              <div className="d-flex form-group mb-lg-0">
                 <div className='svg-icon me-3'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
                   <path fill='currentColor' d="M12.682,0.09c0.213,0.091,0.445,0.08,0.668,0.121c2.988,0.554,5.138,2.224,6.33,4.995    c1.116,2.594,0.899,5.176-0.545,7.613c-2.108,3.558-4.247,7.099-6.368,10.649c-0.124,0.207-0.294,0.342-0.504,0.443    c-0.124,0-0.248,0-0.372,0c-0.283-0.152-0.44-0.415-0.602-0.677c-2.106-3.399-4.211-6.798-6.326-10.192    C3.92,11.369,3.454,9.559,3.659,7.596c0.183-1.749,0.86-3.294,2.017-4.623C6.681,1.82,7.912,1.006,9.358,0.516    c0.573-0.195,1.165-0.307,1.765-0.381c0.042-0.005,0.096,0.017,0.116-0.045C11.72,0.09,12.201,0.09,12.682,0.09z M12.106,21.848    c1.966-3.286,3.934-6.57,5.897-9.858c0.577-0.967,0.906-2.021,0.949-3.144c0.086-2.218-0.672-4.11-2.339-5.585    c-1.799-1.593-3.912-2.13-6.246-1.577C7.43,2.377,5.352,4.784,5.038,7.767c-0.172,1.631,0.233,3.127,1.097,4.514    c1.943,3.119,3.877,6.244,5.816,9.366C11.994,21.716,12.02,21.802,12.106,21.848z"/>
@@ -122,12 +122,12 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{prof.data.country}</div>
+                  <div>{prof.data.country}</div>
                   <div className='text-muted small'>Location</div>
                 </div>
               </div>
             </Col>
-            <Col>
+            <Col lg="6">
               <div className="d-flex">
                 <div className='svg-icon me-3'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@ function getTotalExperience() {
                 </svg>
                 </div>
                 <div>
-                  <div className='fw-medium'>{prof.data.freelance}</div>
+                  <div>{prof.data.freelance}</div>
                   <div className='text-muted small'>Freelance</div>
                 </div>
               </div>

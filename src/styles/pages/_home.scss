@@ -7,9 +7,14 @@ html {
   padding: 0;
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f7f9fb;
+  background-color: $bg-light;
   font-size: 15px;
   color: $bodyColor;
+  .h1, .h2, .h3, .h4, .h5, .h6, 
+  h1, h2, h3, h4, h5, h6,
+  .card-body {
+      color: $bodyColor;   
+  }
 }
 
 main {
@@ -26,6 +31,11 @@ main {
       border: 0;
       padding: 1.75rem 2rem 0;
       background-color: transparent;
+      h5 {
+        @include breakpoint(mx575){
+          font-size: 1rem;
+        }
+      }
     }
     .card-body {
       padding: 1.75rem 2rem;
@@ -117,15 +127,11 @@ main {
 .section-skill {
   .skillset {
     &:not(:last-child) {
-      // border-bottom: 1px solid $borderLight;
       margin-bottom: 2rem;
-      // padding-bottom: 1rem;
     }
   }
   table {
-    // margin-bottom: 0;
     td {
-      // border: none;
       &:first-child {
         padding-left: 0;
       }
@@ -214,23 +220,22 @@ main {
         .lan-icon {
           width: 25px;
           height: 25px;
-          border: 1px solid #999;
+          background-color: #f6f6f6;
           @include border-radius(100px);
           @include flexbox;
           @include align-items(center);
           @include justify-content(center);
-          opacity: 0.4;
           svg {
             font-size: 13px;
-            color: #999;
+            color: $gray;
           }
         }
         &.active {
           .lan-icon {
-            opacity: 1;
-            // svg {
-            //   color: #666;
-            // }
+            background-color: $primaryColor;
+            svg {
+              color: $white;
+            }
           }
         }
       }
@@ -292,6 +297,35 @@ main {
       margin: 0;
       td, th {
         padding: 0;
+      }
+    }
+  }
+}
+
+.theme-togler {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  @include flexbox;
+  @include align-items(center);
+  ul {
+    width: 45px;
+    background-color: $white;
+    @include border-radius(10px 0 0 10px);
+    li {
+      display: block;
+      padding: 1rem;
+      cursor: pointer;
+      &:not(:last-child) {
+        border-bottom: 1px solid $borderLight;
+      }
+      .theme-icon {
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(center);
+        opacity: 0.5;
       }
     }
   }

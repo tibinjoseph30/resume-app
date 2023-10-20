@@ -138,7 +138,25 @@ textarea {
     }
 }
 
+.colorpicker {
+    position: relative;
+    .colorbox {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 100%;
+        input[type="color"] {
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+}
+
 body {
+    .react-datepicker-wrapper {
+        display: block;
+    }
     .react-datepicker {
         border-color: $borderColor;
         color: $bodyColor;
@@ -156,7 +174,7 @@ body {
                     .react-datepicker__year-text {
                         padding: 0.25rem;
                         &:hover {
-                            background-color: transparentize($primaryColor, 0.9);
+                            background-color: $primaryTransColor;
                         }
                         &.react-datepicker__year-text--selected {
                             background-color: $primaryColor;

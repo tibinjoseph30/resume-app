@@ -1,9 +1,14 @@
-$primaryColor:#3b6bda;
-$secondaryColor:#8d44c8;
+// $primaryColor:#f3bc1b;
+$primaryColor:var(--primaryColor);
+$primaryTransColor:var(--primaryColorTransparent);
+$secondaryColor:#3b6bda;
+$bg-light: #f7f9fb;
+$bg-dark: #414141;
 $black: #000000;
 $white: #ffffff;
 $gray: #afafaf;
 $bodyColor: #313131;
+$lightColor: #f3f3f3;
 $borderColor: #e3e3e3;
 $borderLight: #eff2f5;
 $border-gray-300: #e4e6ef;

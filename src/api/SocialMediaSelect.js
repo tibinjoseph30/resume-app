@@ -65,4 +65,4 @@ class SocialMediaSelect {
     if (!(this instanceof SocialMediaSelect)) return new SocialMediaSelect()
   }
   
-  module.exports = socialMediaList
+  export default socialMediaList

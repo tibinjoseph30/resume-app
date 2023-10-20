@@ -30,7 +30,8 @@ import CertificationEdit from "./components/admin/cerification/CertificationEdit
 import CertificationAdd from "./components/admin/cerification/CertificationAdd";
 import CertificationList from "./components/admin/cerification/CertificationList";
 import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./services/AuthContext";
+import Settings from "./components/admin/settings/Settings";
 
 function AppRouter() {
 
@@ -68,6 +69,7 @@ function AppRouter() {
                     <Route path="interest" element={<InterestList/>} />
                     <Route path="add-interest" element={<InterestAdd/>} />
                     <Route path="profile" element={<ProfileView/>} />
+                    <Route path="settings" element={<Settings/>} />
                     <Route path="edit-profile" element={<ProfileEdit/>} />
                     <Route path="knowledge" element={<KnowledgeList/>} />
                     <Route path="add-knowledge" element={<KnowledgeAdd/>} />

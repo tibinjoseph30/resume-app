@@ -3,7 +3,7 @@ import {Form, FormGroup, Input, Button, Label} from 'reactstrap';
 import { auth } from '../../config/firebase-config';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../services/AuthContext';
 
 const Login = () => {
 

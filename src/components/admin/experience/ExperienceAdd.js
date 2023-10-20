@@ -262,7 +262,7 @@ const ExperienceAdd = () => {
                       placeholder="Select country"
                       className='selectpicker'
                       onChange={(selectedValue) => {
-                        setSelectValue(selectValue)
+                        setSelectValue(selectedValue)
                         setFormValues({...formValues, country: selectedValue.label})
                       }}
                     />

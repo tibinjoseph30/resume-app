@@ -2,7 +2,7 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardHeader, Spinner } from 'reactstrap' 
 import { db } from '../config/firebase-config'
-import { calculateExperience, calculateTotalExperience } from '../utils/experienceUtils'
+import { calculateExperience, calculateTotalExperience } from '../utils/experienceCalculation'
 
 const Experience = () => {
 
